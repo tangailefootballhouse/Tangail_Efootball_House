@@ -8,7 +8,8 @@ body {
 }
 
 
-/* Logo Design */
+/* Logo */
+
 .logo {
     width: 150px;
     height: auto;
@@ -17,7 +18,8 @@ body {
 }
 
 
-/* Banner Design */
+/* Banner */
+
 .banner {
     width: 100%;
     max-width: 900px;
@@ -28,6 +30,7 @@ body {
 
 
 /* Hero Section */
+
 .hero {
     background: #0f172a;
     padding: 25px;
@@ -35,6 +38,165 @@ body {
     margin-bottom: 25px;
 }
 
+
+h1 {
+    color: #00ff88;
+    font-size: 36px;
+}
+
+
+h2 {
+    color: white;
+    margin-top: 30px;
+}
+
+
+p {
+    font-size: 17px;
+    line-height: 1.6;
+}
+
+
+
+/* Cards */
+
+.card {
+
+    background: #1e293b;
+
+    max-width: 350px;
+
+    margin: 15px auto;
+
+    padding: 20px;
+
+    border-radius: 18px;
+
+    border: 1px solid #334155;
+
+}
+
+
+.card h3 {
+
+    color: #00ff88;
+
+    font-size: 24px;
+
+}
+
+
+
+/* Buttons */
+
+button {
+
+    background: #00ff88;
+
+    color: #020617;
+
+    border: none;
+
+    padding: 15px 40px;
+
+    border-radius: 30px;
+
+    font-size: 18px;
+
+    font-weight: bold;
+
+    margin: 20px;
+
+    cursor: pointer;
+
+}
+
+
+button:hover {
+
+    opacity: 0.8;
+
+}
+
+
+
+/* Order Form Design */
+
+input,
+select,
+textarea {
+
+    width: 90%;
+
+    max-width: 300px;
+
+    padding: 12px;
+
+    border-radius: 10px;
+
+    border: none;
+
+    margin: 5px;
+
+    font-size: 16px;
+
+}
+
+
+textarea {
+
+    height: 100px;
+
+    resize: none;
+
+}
+
+
+form button {
+
+    margin-top: 15px;
+
+}
+
+
+
+/* Footer */
+
+footer {
+
+    margin-top: 30px;
+
+    color: #94a3b8;
+
+}
+
+
+
+/* Mobile Responsive */
+
+@media (max-width: 600px) {
+
+    h1 {
+
+        font-size: 28px;
+
+    }
+
+
+    h2 {
+
+        font-size: 22px;
+
+    }
+
+
+    .card {
+
+        width: 90%;
+
+    }
+
+}
 
 h1 {
     color: #00ff88;
