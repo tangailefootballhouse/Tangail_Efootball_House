@@ -1,168 +1,146 @@
 <!DOCTYPE html>
 <html lang="bn">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Admin Panel - Tangail eFootball House</title>
-    <link rel="stylesheet" href="style.css">
+    <title>Admin Dashboard - Tangail eFootball House</title>
     <style>
-        .order-card {
-            border: 1px solid #ddd;
-            padding: 15px;
-            margin-bottom: 15px;
-            border-radius: 8px;
-            text-align: left;
-            background-color: #ffffff;
-        }
-
-        .status-pending {
-            color: #d97706;
-            font-weight: bold;
-        }
-
-        .status-completed {
-            color: #16a34a;
-            font-weight: bold;
-        }
-
-        .btn-complete {
-            background-color: #16a34a;
-            color: white;
-            border: none;
-            padding: 8px 12px;
-            border-radius: 5px;
-            cursor: pointer;
-            margin-right: 5px;
-        }
-
-        .btn-delete {
-            background-color: #dc2626;
-            color: white;
-            border: none;
-            padding: 8px 12px;
-            border-radius: 5px;
-            cursor: pointer;
-        }
+        body { font-family: sans-serif; background: #f1f5f9; padding: 15px; margin: 0; }
+        .card { background: #fff; padding: 15px; border-radius: 8px; margin-bottom: 20px; box-shadow: 0 2px 4px rgba(0,0,0,0.1); }
+        h2 { margin-top: 0; color: #1e293b; font-size: 18px; }
+        input, select, button { width: 100%; padding: 8px; margin: 5px 0 10px; border: 1px solid #ccc; border-radius: 5px; box-sizing: border-box; }
+        button { background: #f59e0b; color: #fff; font-weight: bold; border: none; cursor: pointer; }
+        table { width: 100%; border-collapse: collapse; font-size: 12px; margin-top: 10px; }
+        th, td { border: 1px solid #ddd; padding: 8px; text-align: left; }
+        th { background: #f59e0b; color: white; }
+        .btn-del { background: #ef4444; padding: 4px 8px; font-size: 10px; width: auto; margin: 0; }
+        .btn-update { background: #10b981; padding: 4px 8px; font-size: 10px; width: auto; margin: 0; }
+        .flex { display: flex; gap: 5px; }
     </style>
 </head>
-
 <body>
 
-    <!-- Header -->
-    <div class="hero">
-        <h1>🔐 Admin Panel</h1>
-        <p>Tangail eFootball House Order Management</p>
+    <!-- Add New Coin Package -->
+    <div class="card">
+        <h2>➕ Add / Update Coin Package</h2>
+        <input type="text" id="pkgTitle" placeholder="Package Name (e.g. 550 Coins 😍)">
+        <input type="number" id="pkgPrice" placeholder="Price in BDT (e.g. 630)">
+        <button id="addPkgBtn">Add Package to Store</button>
     </div>
 
-    <!-- Admin Login Section -->
-    <div id="loginSection" class="card">
-        <h2>Admin Access Required</h2>
-        <input type="password" id="adminPass" placeholder="Enter Admin Password"><br><br>
-        <button id="loginBtn">Login</button>
+    <!-- Package List -->
+    <div class="card">
+        <h2>📦 Active Coin Packages</h2>
+        <div id="packageList">Loading packages...</div>
     </div>
 
-    <!-- Orders Dashboard (Initially Hidden) -->
-    <div id="dashboardSection" style="display: none;">
-        <h2>📦 Recent Customer Orders</h2>
-        <div id="ordersContainer">
-            <!-- ফায়ারবেস থেকে লাইভ অর্ডার এখানে জমা হবে -->
+    <!-- Manage Orders -->
+    <div class="card">
+        <h2>📋 Customer Orders</h2>
+        <div style="overflow-x:auto;">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Product</th>
+                        <th>Account</th>
+                        <th>Email/Pass</th>
+                        <th>WhatsApp</th>
+                        <th>Payment</th>
+                        <th>TrxID</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+                <tbody id="orderTable">
+                    <tr><td colspan="7">Loading orders...</td></tr>
+                </tbody>
+            </table>
         </div>
     </div>
 
-    <!-- Firebase SDK Setup -->
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
-        import { getFirestore, collection, onSnapshot, doc, updateDoc, deleteDoc } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
+        import { getFirestore, collection, addDoc, getDocs, deleteDoc, doc, updateDoc, onSnapshot } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
 
-        // Your Firebase Web Configuration
         const firebaseConfig = {
             apiKey: "AIzaSyDwhxDxu2DTIvJQ1uBs1Bl14FoL06Ws1KI",
             authDomain: "tangail-efootball-house.firebaseapp.com",
             projectId: "tangail-efootball-house",
             storageBucket: "tangail-efootball-house.firebasestorage.app",
             messagingSenderId: "774313430680",
-            appId: "1:774313430680:web:07d5af9f2abc31be4fcaed",
-            measurementId: "G-R2Q53LZLPL"
+            appId: "1:774313430680:web:07d5af9f2abc31be4fcaed"
         };
 
-        // Firebase Initialize
         const app = initializeApp(firebaseConfig);
         const db = getFirestore(app);
 
-        // অ্যাডমিন পাসওয়ার্ড (ডিফল্ট: 123456)
-        const ADMIN_PASSWORD = "123456";
+        // Simple Security Prompt
+        const pass = prompt("Enter Admin Password:");
+        if (pass !== "123456") {
+            alert("Wrong Password!");
+            document.body.innerHTML = "<h1>Access Denied</h1>";
+        }
 
-        // ১. লগইন হ্যান্ডলার
-        document.getElementById("loginBtn").addEventListener("click", () => {
-            const inputPass = document.getElementById("adminPass").value;
-            if (inputPass === ADMIN_PASSWORD) {
-                document.getElementById("loginSection").style.display = "none";
-                document.getElementById("dashboardSection").style.display = "block";
-                loadLiveOrders();
-            } else {
-                alert("ভুল পাসওয়ার্ড! সঠিক পাসওয়ার্ড দিন।");
-            }
+        // Add New Package
+        document.getElementById("addPkgBtn").addEventListener("click", async () => {
+            const title = document.getElementById("pkgTitle").value;
+            const price = document.getElementById("pkgPrice").value;
+
+            if(!title || !price) return alert("Fill all fields!");
+
+            await addDoc(collection(db, "products"), { title, price: Number(price) });
+            alert("Package added!");
+            document.getElementById("pkgTitle").value = "";
+            document.getElementById("pkgPrice").value = "";
         });
 
-        // ২. লাইভ অর্ডার ফেচ করা
-        function loadLiveOrders() {
-            onSnapshot(collection(db, "orders"), (snapshot) => {
-                const container = document.getElementById("ordersContainer");
-                container.innerHTML = "";
-
-                if (snapshot.empty) {
-                    container.innerHTML = "<p>এখনো কোনো অর্ডার আসেনি।</p>";
-                    return;
-                }
-
-                snapshot.forEach((docSnap) => {
-                    const data = docSnap.data();
-                    const orderId = docSnap.id;
-                    const statusClass = data.status === "Completed" ? "status-completed" : "status-pending";
-
-                    const orderCard = document.createElement("div");
-                    orderCard.className = "card order-card";
-                    orderCard.innerHTML = `
-                        <h3>👤 Name: ${data.name}</h3>
-                        <p>📞 <strong>Phone:</strong> <a href="tel:${data.phone}">${data.phone}</a></p>
-                        <p>🪙 <strong>Product:</strong> ${data.product}</p>
-                        <p>💬 <strong>Message:</strong> ${data.message || "N/A"}</p>
-                        <p>📌 <strong>Status:</strong> <span class="${statusClass}">${data.status}</span></p>
-                        <button class="btn-complete" id="complete-${orderId}">Mark Completed</button>
-                        <button class="btn-delete" id="delete-${orderId}">Delete Order</button>
-                    `;
-
-                    container.appendChild(orderCard);
-
-                    // বাটনের ইভেন্ট হ্যান্ডলার
-                    document.getElementById(`complete-${orderId}`).addEventListener("click", () => markAsCompleted(orderId));
-                    document.getElementById(`delete-${orderId}`).addEventListener("click", () => deleteOrder(orderId));
-                });
+        // Realtime Load Packages
+        onSnapshot(collection(db, "products"), (snapshot) => {
+            let html = "";
+            snapshot.forEach((docSnap) => {
+                const data = docSnap.data();
+                html += `
+                    <div style="display:flex; justify-content:space-between; align-items:center; border-bottom:1px solid #eee; padding:5px 0;">
+                        <span><b>${data.title}</b> - ৳${data.price}</span>
+                        <button class="btn-del" onclick="deletePkg('${docSnap.id}')">Delete</button>
+                    </div>
+                `;
             });
-        }
+            document.getElementById("packageList").innerHTML = html || "No packages added yet.";
+        });
 
-        // ৩. স্ট্যাটাস "Completed" করার ফনশন
-        async function markAsCompleted(orderId) {
-            try {
-                await updateDoc(doc(db, "orders", orderId), { status: "Completed" });
-            } catch (error) {
-                console.error("Error updating status:", error);
+        window.deletePkg = async (id) => {
+            if(confirm("Delete this package?")) {
+                await deleteDoc(doc(db, "products", id));
             }
-        }
+        };
 
-        // ৪. অর্ডার ডিলিট করার ফাংশন
-        async function deleteOrder(orderId) {
-            if (confirm("আপনি কি নিশ্চিত যে এই অর্ডারটি মুছে ফেলতে চান?")) {
-                try {
-                    await deleteDoc(doc(db, "orders", orderId));
-                } catch (error) {
-                    console.error("Error deleting order:", error);
-                }
+        // Realtime Load Orders
+        onSnapshot(collection(db, "orders"), (snapshot) => {
+            let html = "";
+            snapshot.forEach((docSnap) => {
+                const data = docSnap.data();
+                html += `
+                    <tr>
+                        <td><b>${data.product}</b></td>
+                        <td>${data.accType}</td>
+                        <td>${data.email}<br><small>${data.password}</small></td>
+                        <td>${data.whatsapp}</td>
+                        <td>${data.paymentMethod}<br><small>${data.senderNumber}</small></td>
+                        <td><b>${data.trxId}</b></td>
+                        <td>
+                            <button class="btn-del" onclick="deleteOrder('${docSnap.id}')">Delete</button>
+                        </td>
+                    </tr>
+                `;
+            });
+            document.getElementById("orderTable").innerHTML = html || "<tr><td colspan='7'>No orders found.</td></tr>";
+        });
+
+        window.deleteOrder = async (id) => {
+            if(confirm("Delete this order entry?")) {
+                await deleteDoc(doc(db, "orders", id));
             }
-        }
+        };
     </script>
-
 </body>
-
 </html>
