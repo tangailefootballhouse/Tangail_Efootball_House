@@ -4,9 +4,30 @@ body {
     color: white;
     text-align: center;
     margin: 0;
-    padding: 20px;
+    padding: 15px;
 }
 
+
+/* Logo Design */
+.logo {
+    width: 150px;
+    height: auto;
+    margin: 15px auto;
+    display: block;
+}
+
+
+/* Banner Design */
+.banner {
+    width: 100%;
+    max-width: 900px;
+    height: auto;
+    border-radius: 20px;
+    margin-bottom: 20px;
+}
+
+
+/* Hero Section */
 .hero {
     background: #0f172a;
     padding: 25px;
@@ -14,21 +35,26 @@ body {
     margin-bottom: 25px;
 }
 
+
 h1 {
     color: #00ff88;
-    font-size: 38px;
+    font-size: 36px;
 }
+
 
 h2 {
     color: white;
     margin-top: 30px;
 }
 
+
 p {
     font-size: 17px;
     line-height: 1.6;
 }
 
+
+/* Price & Service Cards */
 .card {
     background: #1e293b;
     max-width: 350px;
@@ -38,10 +64,14 @@ p {
     border: 1px solid #334155;
 }
 
+
 .card h3 {
     color: #00ff88;
     font-size: 24px;
 }
+
+
+/* Order Button */
 
 button {
     background: #00ff88;
@@ -51,9 +81,18 @@ button {
     border-radius: 30px;
     font-size: 18px;
     font-weight: bold;
-    margin: 20px;
+    margin: 25px;
 }
+
 
 button:hover {
     opacity: 0.8;
+}
+
+
+/* Footer */
+
+footer {
+    margin-top: 30px;
+    color: #94a3b8;
 }
