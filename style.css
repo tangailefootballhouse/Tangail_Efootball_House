@@ -12,8 +12,9 @@ body {
     color: #334155;
 }
 
+/* Navigation Header */
 .top-nav {
-    background: #fff;
+    background: #ffffff;
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -34,6 +35,239 @@ body {
 }
 
 .brand-title {
+    font-weight: 700;
+    font-size: 15px;
+    color: #f59e0b;
+}
+
+.brand-title span {
+    color: #0284c7;
+}
+
+.notice-btn {
+    background: #f59e0b;
+    color: #ffffff;
+    padding: 5px 12px;
+    border-radius: 20px;
+    text-decoration: none;
+    font-size: 11px;
+    font-weight: 600;
+}
+
+/* Notice Bar */
+.notice-bar {
+    background: #f59e0b;
+    color: #ffffff;
+    padding: 8px 12px;
+    font-size: 11px;
+    text-align: center;
+}
+
+/* Banner Container */
+.banner-container {
+    padding: 12px;
+    max-width: 550px;
+    margin: 0 auto;
+}
+
+.banner-img {
+    width: 100%;
+    border-radius: 10px;
+}
+
+/* Main Layout */
+.container {
+    max-width: 550px;
+    margin: 0 auto;
+    padding: 0 12px 20px;
+}
+
+.section-card {
+    background: #ffffff;
+    border-radius: 10px;
+    padding: 16px;
+    margin-bottom: 14px;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+}
+
+.selected-summary-card {
+    background: #fef3c7;
+    border: 1px solid #f59e0b;
+    color: #92400e;
+    padding: 10px;
+    border-radius: 8px;
+    margin-bottom: 14px;
+    font-size: 13px;
+    text-align: center;
+}
+
+.step-header {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 12px;
+}
+
+.step-num {
+    background: #f59e0b;
+    color: #ffffff;
+    width: 24px;
+    height: 24px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 700;
+    font-size: 12px;
+}
+
+.step-header h2 {
+    font-size: 15px;
+    color: #1e293b;
+}
+
+/* 2-Column Grid Layout */
+.coin-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
+}
+
+.coin-box {
+    border: 1px solid #e2e8f0;
+    border-radius: 8px;
+    padding: 10px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    cursor: pointer;
+    background: #fafafa;
+}
+
+.coin-box.active {
+    border-color: #f59e0b;
+    background: #fffbe0;
+}
+
+.coin-title {
+    font-size: 12px;
+    font-weight: 600;
+}
+
+.coin-price {
+    font-size: 12px;
+    font-weight: 700;
+    color: #dc2626;
+}
+
+/* Form inputs */
+.form-group {
+    margin-bottom: 10px;
+}
+
+.form-group label {
+    display: block;
+    font-size: 11px;
+    font-weight: 600;
+    margin-bottom: 4px;
+    color: #475569;
+}
+
+input, select {
+    width: 100%;
+    padding: 9px 10px;
+    border: 1px solid #cbd5e1;
+    border-radius: 6px;
+    font-size: 12px;
+    outline: none;
+    background: #f8fafc;
+}
+
+input:focus, select:focus {
+    border-color: #f59e0b;
+    background: #ffffff;
+}
+
+/* Payment Methods */
+.payment-methods {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
+    margin-bottom: 12px;
+}
+
+.pay-box {
+    border: 1px solid #e2e8f0;
+    border-radius: 8px;
+    padding: 10px;
+    text-align: center;
+    cursor: pointer;
+    background: #f8fafc;
+}
+
+.pay-box.active {
+    border-color: #e11d48;
+    background: #fff1f2;
+}
+
+.pay-title {
+    display: block;
+    font-weight: 700;
+    font-size: 14px;
+    color: #e11d48;
+}
+
+.pay-type {
+    font-size: 10px;
+    color: #64748b;
+}
+
+.payment-instruction {
+    background: #f1f5f9;
+    padding: 10px;
+    border-radius: 6px;
+    font-size: 12px;
+    margin-bottom: 12px;
+}
+
+.copy-num {
+    color: #0284c7;
+    font-weight: 700;
+}
+
+.pay-note {
+    font-size: 11px;
+    color: #64748b;
+    margin-top: 4px;
+}
+
+.buy-now-btn {
+    width: 100%;
+    background: #f59e0b;
+    color: #ffffff;
+    border: none;
+    padding: 11px;
+    font-size: 14px;
+    font-weight: 700;
+    border-radius: 6px;
+    cursor: pointer;
+    margin-top: 6px;
+}
+
+.rules-list {
+    list-style: none;
+    font-size: 12px;
+    line-height: 1.7;
+    color: #475569;
+}
+
+.footer-section {
+    background: #0f172a;
+    color: #94a3b8;
+    padding: 15px;
+    text-align: center;
+    font-size: 11px;
+}
     font-weight: 700;
     font-size: 15px;
     color: #f59e0b;
