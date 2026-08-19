@@ -10,30 +10,244 @@
 
 <body>
 
-    <!-- Top Header Navigation -->
+    <!-- Header -->
     <div class="top-nav">
         <div class="logo-box">
             <img src="logo.png" alt="Logo" class="nav-logo">
             <span class="brand-title">TANGAIL <span>eFOOTBALL</span></span>
         </div>
-        <a href="https://www.facebook.com/share/1CejXobCcz/" target="_blank" class="notice-btn">Contact Us</a>
+        <a href="https://www.facebook.com/share/1CejXobCcz/" target="_blank" class="notice-btn">Contact</a>
     </div>
 
-    <!-- Notice Bar -->
+    <!-- Notice -->
     <div class="notice-bar">
-        📢 <b>Notice:</b> অর্ডার করার পর যেকোনো প্রয়োজনে আমাদের মেসেঞ্জার বা হোয়াটসঅ্যাপে যোগাযোগ করুন!
+        📢 <b>Notice:</b> টাকা সেন্ড মানি করে TrxID দিয়ে অর্ডার সাবমিট করুন। ৫-১০ মিনিটে ডেলিভারি!
     </div>
 
     <!-- Banner -->
     <div class="banner-container">
-        <img src="banner.jpg" alt="Tangail eFootball House Banner" class="banner-img">
+        <img src="banner.jpg" alt="Banner" class="banner-img">
     </div>
 
     <div class="container">
-        <!-- Step 1: Select Package -->
+        <form id="topupForm">
+            <!-- Step 1: Select Package -->
+            <div class="section-card">
+                <div class="step-header">
+                    <span class="step-num">1</span>
+                    <h2>Select Recharge</h2>
+                </div>
+
+                <div class="coin-grid">
+                    <div class="coin-box" data-value="130 Coins" data-price="165">
+                        <span class="coin-title">130 Coins</span>
+                        <span class="coin-price">165 TK</span>
+                    </div>
+                    <div class="coin-box" data-value="300 Coins" data-price="360">
+                        <span class="coin-title">300 Coins</span>
+                        <span class="coin-price">360 TK</span>
+                    </div>
+                    <div class="coin-box" data-value="550 Coins" data-price="630">
+                        <span class="coin-title">550 Coins</span>
+                        <span class="coin-price">630 TK</span>
+                    </div>
+                    <div class="coin-box" data-value="840 Coins" data-price="950">
+                        <span class="coin-title">840 Coins 😍</span>
+                        <span class="coin-price">950 TK</span>
+                    </div>
+                    <div class="coin-box" data-value="1630 Coins" data-price="1850">
+                        <span class="coin-title">1630 Coins 😍</span>
+                        <span class="coin-price">1850 TK</span>
+                    </div>
+                    <div class="coin-box" data-value="5700 Coins" data-price="6200">
+                        <span class="coin-title">5700 Coins</span>
+                        <span class="coin-price">6200 TK</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Selected Package Overview Bar -->
+            <div class="selected-summary-card" id="summaryCard" style="display: none;">
+                📦 <b>Selected:</b> <span id="summaryText">None</span>
+            </div>
+
+            <!-- Step 2: Account Info -->
+            <div class="section-card">
+                <div class="step-header">
+                    <span class="step-num">2</span>
+                    <h2>Account Info</h2>
+                </div>
+
+                <div class="form-group">
+                    <label>Account Type</label>
+                    <select id="accType" required>
+                        <option value="Konami ID">Konami ID</option>
+                        <option value="Facebook">Facebook</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label>Konami / FB Email</label>
+                    <input type="email" id="accEmail" placeholder="Enter Email Address" required>
+                </div>
+
+                <div class="form-group">
+                    <label>Password</label>
+                    <input type="password" id="accPass" placeholder="Enter Account Password" required>
+                </div>
+
+                <div class="form-group">
+                    <label>WhatsApp Number (For 2FA / Backup Code)</label>
+                    <input type="tel" id="custWhatsapp" placeholder="e.g. 01700000000" required>
+                </div>
+            </div>
+
+            <!-- Step 3: Payment Method & TrxID -->
+            <div class="section-card">
+                <div class="step-header">
+                    <span class="step-num">3</span>
+                    <h2>Select Payment Method</h2>
+                </div>
+
+                <div class="payment-methods">
+                    <div class="pay-box active" data-method="bKash">
+                        <span class="pay-title">bKash</span>
+                        <span class="pay-type">Personal</span>
+                    </div>
+                    <div class="pay-box" data-method="Nagad">
+                        <span class="pay-title">Nagad</span>
+                        <span class="pay-type">Personal</span>
+                    </div>
+                </div>
+
+                <div class="payment-instruction">
+                    <p id="payNumberText"><b>bKash Personal Number:</b> <span class="copy-num">01700000000</span></p>
+                    <p class="pay-note">নিচের নাম্বারে <b>Send Money</b> করে TrxID দিয়ে অর্ডারটি কনফার্ম করুন।</p>
+                </div>
+
+                <div class="form-group">
+                    <label>Sender Mobile Number</label>
+                    <input type="tel" id="senderNum" placeholder="যে নাম্বার থেকে টাকা পাঠিয়েছেন" required>
+                </div>
+
+                <div class="form-group">
+                    <label>Transaction ID (TrxID)</label>
+                    <input type="text" id="trxId" placeholder="e.g. 9J87X1A2" required>
+                </div>
+
+                <button type="submit" class="buy-now-btn">Buy Now</button>
+            </div>
+        </form>
+
+        <!-- Rules & Conditions -->
         <div class="section-card">
             <div class="step-header">
-                <span class="step-num">1</span>
+                <span class="step-icon">📋</span>
+                <h2>Rules & Conditions</h2>
+            </div>
+            <ul class="rules-list">
+                <li>1. সঠিক Konami Email ও Password দিন।</li>
+                <li>2. WhatsApp নাম্বার দিন যাতে ২-স্টেপ কোড লাগলে নক দেওয়া যায়।</li>
+                <li>3. সেন্ড মানি শেষ করে TrxID দিন। ক্যাশ আউট গ্রহণযোগ্য নয়।</li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="footer-section">
+        <p>© 2026 Tangail eFootball House | Safe & Fast Topup</p>
+    </div>
+
+    <!-- Firebase SDK -->
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
+        import { getFirestore, collection, addDoc } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
+
+        const firebaseConfig = {
+            apiKey: "AIzaSyDwhxDxu2DTIvJQ1uBs1Bl14FoL06Ws1KI",
+            authDomain: "tangail-efootball-house.firebaseapp.com",
+            projectId: "tangail-efootball-house",
+            storageBucket: "tangail-efootball-house.firebasestorage.app",
+            messagingSenderId: "774313430680",
+            appId: "1:774313430680:web:07d5af9f2abc31be4fcaed"
+        };
+
+        const app = initializeApp(firebaseConfig);
+        const db = getFirestore(app);
+
+        // State Variables
+        let selectedProduct = "";
+        let selectedPayment = "bKash";
+
+        // Number Setup (আপনার নাম্বার দিন)
+        const bkashNumber = "01700000000";
+        const nagadNumber = "01800000000";
+
+        // Package Box Click Event
+        document.querySelectorAll('.coin-box').forEach(box => {
+            box.addEventListener('click', () => {
+                document.querySelectorAll('.coin-box').forEach(b => b.classList.remove('active'));
+                box.classList.add('active');
+                
+                const val = box.getAttribute('data-value');
+                const price = box.getAttribute('data-price');
+                selectedProduct = `${val} - ৳${price}`;
+                
+                document.getElementById('summaryCard').style.display = "block";
+                document.getElementById('summaryText').innerText = selectedProduct;
+            });
+        });
+
+        // Payment Method Click Event
+        document.querySelectorAll('.pay-box').forEach(pBox => {
+            pBox.addEventListener('click', () => {
+                document.querySelectorAll('.pay-box').forEach(b => b.classList.remove('active'));
+                pBox.classList.add('active');
+                selectedPayment = pBox.getAttribute('data-method');
+
+                const payText = document.getElementById('payNumberText');
+                if (selectedPayment === "bKash") {
+                    payText.innerHTML = `<b>bKash Personal Number:</b> <span class="copy-num">${bkashNumber}</span>`;
+                } else {
+                    payText.innerHTML = `<b>Nagad Personal Number:</b> <span class="copy-num">${nagadNumber}</span>`;
+                }
+            });
+        });
+
+        // Submit Form Event
+        document.getElementById("topupForm").addEventListener("submit", async (e) => {
+            e.preventDefault();
+
+            if (!selectedProduct) {
+                alert("অনুগ্রহ করে একটি কয়েন প্যাকেজ সিলেক্ট করুন!");
+                return;
+            }
+
+            try {
+                await addDoc(collection(db, "orders"), {
+                    product: selectedProduct,
+                    accType: document.getElementById("accType").value,
+                    email: document.getElementById("accEmail").value,
+                    password: document.getElementById("accPass").value,
+                    whatsapp: document.getElementById("custWhatsapp").value,
+                    paymentMethod: selectedPayment,
+                    senderNumber: document.getElementById("senderNum").value,
+                    trxId: document.getElementById("trxId").value,
+                    status: "Pending",
+                    date: new Date()
+                });
+
+                alert("অর্ডার সফলভাবে জমা হয়েছে! আমরা ট্রানজেকশন যাচাই করে দ্রুত কয়েন পাঠিয়ে দেব।");
+                document.getElementById("topupForm").reset();
+                document.getElementById('summaryCard').style.display = "none";
+                document.querySelectorAll('.coin-box').forEach(b => b.classList.remove('active'));
+                selectedProduct = "";
+            } catch (error) {
+                alert("সমস্যা হয়েছে! আবার চেষ্টা করুন।");
+            }
+        });
+    </script>
+</body>
+</html>
                 <h2>Select Recharge</h2>
             </div>
 
