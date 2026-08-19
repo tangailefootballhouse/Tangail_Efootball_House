@@ -66,6 +66,183 @@
         <p>🤝 Friendly Support</p>
     </div>
 
+    <!-- Order Form -->
+    <h2>🛒 Place Your Order</h2>
+    <div class="card">
+        <form id="orderForm">
+            <input type="text" id="ordName" placeholder="Your Name" required><br><br>
+            <input type="text" id="ordPhone" placeholder="Mobile Number" required><br><br>
+            <select id="ordProduct" required>
+                <option value="">Select Product</option>
+                <option value="130 Coins - ৳165">130 Coins - ৳165</option>
+                <option value="300 Coins - ৳360">300 Coins - ৳360</option>
+                <option value="550 Coins - ৳630">550 Coins - ৳630</option>
+                <option value="840 Coins - Special Offer">840 Coins - Special Offer</option>
+                <option value="1630 Coins - ৳1160">1630 Coins - ৳1160</option>
+                <option value="5700 Coins - Friday Offer">5700 Coins - Friday Offer</option>
+            </select><br><br>
+            <textarea id="ordMessage" placeholder="Your Message"></textarea><br><br>
+            <button type="submit">Submit Order</button>
+        </form>
+    </div>
+
+    <!-- Write a Review Form -->
+    <h2>✍️ Leave a Review</h2>
+    <div class="card">
+        <form id="reviewForm">
+            <input type="text" id="custName" placeholder="Your Name" required><br><br>
+            <textarea id="custReview" placeholder="Write your review here..." required></textarea><br><br>
+            <button type="submit">Submit Review</button>
+        </form>
+    </div>
+
+    <!-- Live Customer Reviews -->
+    <h2>⭐ Real Customer Reviews</h2>
+    <div id="reviews-container">
+        <!-- ফায়ারবেস থেকে লাইভ রিভিউ এসে জমা হবে -->
+    </div>
+
+    <!-- Facebook Button -->
+    <a href="https://www.facebook.com/share/1CejXobCcz/" target="_blank">
+        <button>📘 Visit Our Facebook Page</button>
+    </a>
+
+    <!-- Why Choose Us -->
+    <h2>❤️ Why Choose Us?</h2>
+    <div class="card">
+        <p>
+            ✅ Trusted eFootball Service<br>
+            ✅ Fast Response<br>
+            ✅ Competitive Price<br>
+            ✅ Customer Satisfaction
+        </p>
+    </div>
+
+    <!-- Contact -->
+    <h2>📞 Contact Us</h2>
+    <p>Facebook Page: Tangail eFootball House</p>
+
+    <footer>
+        © 2026 Tangail eFootball House
+    </footer>
+
+    <!-- Firebase SDK Setup -->
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
+        import { getFirestore, collection, addDoc, onSnapshot } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
+
+        // Your Firebase Web Configuration
+        const firebaseConfig = {
+            apiKey: "AIzaSyDwhxDxu2DTIvJQ1uBs1Bl14FoL06Ws1KI",
+            authDomain: "tangail-efootball-house.firebaseapp.com",
+            projectId: "tangail-efootball-house",
+            storageBucket: "tangail-efootball-house.firebasestorage.app",
+            messagingSenderId: "774313430680",
+            appId: "1:774313430680:web:07d5af9f2abc31be4fcaed",
+            measurementId: "G-R2Q53LZLPL"
+        };
+
+        // Firebase Initialize
+        const app = initializeApp(firebaseConfig);
+        const db = getFirestore(app);
+
+        // ১. অর্ডার Firestore-এ সেভ করা
+        document.getElementById("orderForm").addEventListener("submit", async (e) => {
+            e.preventDefault();
+            const name = document.getElementById("ordName").value;
+            const phone = document.getElementById("ordPhone").value;
+            const product = document.getElementById("ordProduct").value;
+            const message = document.getElementById("ordMessage").value;
+
+            try {
+                await addDoc(collection(db, "orders"), {
+                    name: name,
+                    phone: phone,
+                    product: product,
+                    message: message,
+                    status: "Pending",
+                    date: new Date()
+                });
+                alert("অর্ডার সফলভাবে জমা হয়েছে! আমরা খুব দ্রুত যোগাযোগ করব।");
+                document.getElementById("orderForm").reset();
+            } catch (error) {
+                console.error("Error adding order: ", error);
+                alert("অর্ডার সাবমিট করতে সমস্যা হয়েছে, আবার চেষ্টা করুন।");
+            }
+        });
+
+        // ২. রিভিউ Firestore-এ সেভ করা
+        document.getElementById("reviewForm").addEventListener("submit", async (e) => {
+            e.preventDefault();
+            const name = document.getElementById("custName").value;
+            const review = document.getElementById("custReview").value;
+
+            try {
+                await addDoc(collection(db, "reviews"), {
+                    name: name,
+                    review: review,
+                    date: new Date()
+                });
+                alert("ধন্যবাদ! আপনার রিভিউটি জমা হয়েছে।");
+                document.getElementById("reviewForm").reset();
+            } catch (error) {
+                console.error("Error adding review: ", error);
+                alert("রিভিউ জমা করতে সমস্যা হয়েছে!");
+            }
+        });
+
+        // ৩. রিয়েল-টাইম রিভিউ ফেচ করে ওয়েবসাইটে দেখানো
+        onSnapshot(collection(db, "reviews"), (snapshot) => {
+            const container = document.getElementById("reviews-container");
+            container.innerHTML = "";
+
+            snapshot.forEach((doc) => {
+                const data = doc.data();
+                container.innerHTML += `
+                    <div class="card">
+                        <h3>${data.name}</h3>
+                        <p>"${data.review}"</p>
+                    </div>
+                `;
+            });
+        });
+    </script>
+
+</body>
+
+</html>
+    </div>
+
+    <div class="card">
+        <h3>550 Coins</h3>
+        <p>৳630</p>
+    </div>
+
+    <div class="card">
+        <h3>840 Coins</h3>
+        <p>🔥 Special Offer</p>
+    </div>
+
+    <div class="card">
+        <h3>1630 Coins</h3>
+        <p>৳1160</p>
+    </div>
+
+    <div class="card">
+        <h3>5700 Coins</h3>
+        <p>🔥 Friday Offer</p>
+    </div>
+
+    <!-- Services -->
+    <h2>⭐ Our Services</h2>
+    <div class="card">
+        <p>🪙 eFootball Coin Purchase</p>
+        <p>⭐ Player Pack Purchase</p>
+        <p>🔒 100% Secure Service</p>
+        <p>⚡ 2-5 Minutes Delivery</p>
+        <p>🤝 Friendly Support</p>
+    </div>
+
     <!-- Order Button -->
     <a href="https://www.facebook.com/share/1CejXobCcz/" target="_blank">
         <button>🛒 Order Now</button>
