@@ -10,30 +10,249 @@
 
 <body>
 
-    <!-- Logo -->
-    <img src="logo.png" class="logo" alt="Tangail eFootball House Logo">
+    <!-- Top Header Navigation -->
+    <div class="top-nav">
+        <div class="logo-box">
+            <img src="logo.png" alt="Logo" class="nav-logo">
+            <span class="brand-title">TANGAIL <span>eFOOTBALL</span></span>
+        </div>
+        <a href="https://www.facebook.com/share/1CejXobCcz/" target="_blank" class="notice-btn">Contact Us</a>
+    </div>
+
+    <!-- Notice Bar -->
+    <div class="notice-bar">
+        📢 <b>Notice:</b> অর্ডার করার পর যেকোনো প্রয়োজনে আমাদের মেসেঞ্জার বা হোয়াটসঅ্যাপে যোগাযোগ করুন!
+    </div>
 
     <!-- Banner -->
-    <img src="banner.png" class="banner" alt="Tangail eFootball House Banner">
-
-    <!-- Hero Section -->
-    <div class="hero">
-        <h1>🔥 Tangail eFootball House 🔥</h1>
-        <h2>⚽ Trusted eFootball Coin & Player Purchase</h2>
-        <p>Safe • Fast • Reliable Service</p>
+    <div class="banner-container">
+        <img src="banner.jpg" alt="Tangail eFootball House Banner" class="banner-img">
     </div>
 
-    <!-- Coin Price -->
-    <h2>🪙 eFootball Coin Price</h2>
+    <div class="container">
+        <!-- Step 1: Select Package -->
+        <div class="section-card">
+            <div class="step-header">
+                <span class="step-num">1</span>
+                <h2>Select Recharge</h2>
+            </div>
 
-    <div class="card">
-        <h3>130 Coins</h3>
-        <p>৳165</p>
+            <div class="coin-grid" id="coinGrid">
+                <div class="coin-box" data-value="130 Coins - ৳165">
+                    <span class="coin-title">130 Coins</span>
+                    <span class="coin-price">165 TK</span>
+                </div>
+                <div class="coin-box" data-value="300 Coins - ৳360">
+                    <span class="coin-title">300 Coins</span>
+                    <span class="coin-price">360 TK</span>
+                </div>
+                <div class="coin-box" data-value="550 Coins - ৳630">
+                    <span class="coin-title">550 Coins</span>
+                    <span class="coin-price">630 TK</span>
+                </div>
+                <div class="coin-box" data-value="840 Coins - Special Offer">
+                    <span class="coin-title">840 Coins 😍</span>
+                    <span class="coin-price">Offer</span>
+                </div>
+                <div class="coin-box" data-value="1630 Coins - ৳1160">
+                    <span class="coin-title">1630 Coins 😍</span>
+                    <span class="coin-price">1160 TK</span>
+                </div>
+                <div class="coin-box" data-value="5700 Coins - Friday Offer">
+                    <span class="coin-title">5700 Coins</span>
+                    <span class="coin-price">Offer</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Step 2: Account Info Form -->
+        <div class="section-card">
+            <div class="step-header">
+                <span class="step-num">2</span>
+                <h2>Account Info</h2>
+            </div>
+
+            <form id="topupForm">
+                <!-- Selected Product Input (Hidden View) -->
+                <div class="form-group">
+                    <label>Selected Package</label>
+                    <input type="text" id="selectedProduct" placeholder="প্যাকেজ সিলেক্ট করুন (উপরে)" readonly required>
+                </div>
+
+                <div class="form-group">
+                    <label>Account Type</label>
+                    <select id="accType" required>
+                        <option value="Konami ID">Konami ID</option>
+                        <option value="Facebook">Facebook</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label>Your Name</label>
+                    <input type="text" id="custName" placeholder="Enter Your Name" required>
+                </div>
+
+                <div class="form-group">
+                    <label>Mobile Number / WhatsApp</label>
+                    <input type="text" id="custPhone" placeholder="Enter Phone Number" required>
+                </div>
+
+                <div class="form-group">
+                    <label>Konami Gmail / FB Email</label>
+                    <input type="text" id="accEmail" placeholder="Enter Email / Game ID" required>
+                </div>
+
+                <div class="form-group">
+                    <label>Password</label>
+                    <input type="password" id="accPass" placeholder="Enter Password" required>
+                </div>
+
+                <div class="form-group">
+                    <label>Backup Code / Message</label>
+                    <input type="text" id="custMsg" placeholder="Backup Code (Optional)">
+                </div>
+
+                <button type="submit" class="buy-now-btn">Buy Now</button>
+            </form>
+        </div>
+
+        <!-- Step 3: Rules & Conditions -->
+        <div class="section-card">
+            <div class="step-header">
+                <span class="step-icon">📋</span>
+                <h2>Rules & Conditions</h2>
+            </div>
+            <ul class="rules-list">
+                <li>1. Konami Gmail/Pass বা সঠিক ফেইসবুক লগইন ডাটা দিয়ে অর্ডার করুন।</li>
+                <li>2. ১০০% সেইফ এবং ট্রাস্টেড সার্ভিস।</li>
+                <li>3. সাধারণত ৫-১০ মিনিটের মধ্যে ডেলিভারি দেওয়া হয়।</li>
+                <li>4. সঠিক নাম্বার দিন যাতে প্রয়োজনে যোগাযোগ করা যায়।</li>
+            </ul>
+        </div>
+
+        <!-- Step 4: Write a Review -->
+        <div class="section-card">
+            <div class="step-header">
+                <span class="step-icon">✍️</span>
+                <h2>Leave a Review</h2>
+            </div>
+            <form id="reviewForm">
+                <div class="form-group">
+                    <input type="text" id="revName" placeholder="Your Name" required>
+                </div>
+                <div class="form-group">
+                    <textarea id="revText" placeholder="Write your feedback..." required></textarea>
+                </div>
+                <button type="submit" class="submit-btn">Submit Review</button>
+            </form>
+        </div>
+
+        <!-- Customer Reviews -->
+        <div class="section-card">
+            <div class="step-header">
+                <span class="step-icon">⭐</span>
+                <h2>Customer Reviews</h2>
+            </div>
+            <div id="reviews-container"></div>
+        </div>
     </div>
 
-    <div class="card">
-        <h3>300 Coins</h3>
-        <p>৳360</p>
+    <!-- Footer Section -->
+    <div class="footer-section">
+        <h3>STAY CONNECTED</h3>
+        <p>যেকোনো সমস্যায় আমাদের সাথে ফেইসবুকে যোগ দিন।</p>
+        <div class="social-links">
+            <a href="https://www.facebook.com/share/1CejXobCcz/" target="_blank">Facebook Page</a>
+        </div>
+        <p class="copyright">© 2026 Tangail eFootball House | All rights reserved.</p>
+    </div>
+
+    <!-- Firebase SDK Setup -->
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
+        import { getFirestore, collection, addDoc, onSnapshot } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
+
+        const firebaseConfig = {
+            apiKey: "AIzaSyDwhxDxu2DTIvJQ1uBs1Bl14FoL06Ws1KI",
+            authDomain: "tangail-efootball-house.firebaseapp.com",
+            projectId: "tangail-efootball-house",
+            storageBucket: "tangail-efootball-house.firebasestorage.app",
+            messagingSenderId: "774313430680",
+            appId: "1:774313430680:web:07d5af9f2abc31be4fcaed"
+        };
+
+        const app = initializeApp(firebaseConfig);
+        const db = getFirestore(app);
+
+        // Package Box Selection Script
+        const coinBoxes = document.querySelectorAll('.coin-box');
+        const selectedInput = document.getElementById('selectedProduct');
+
+        coinBoxes.forEach(box => {
+            box.addEventListener('click', () => {
+                coinBoxes.forEach(b => b.classList.remove('active'));
+                box.classList.add('active');
+                selectedInput.value = box.getAttribute('data-value');
+            });
+        });
+
+        // Submit Topup Order
+        document.getElementById("topupForm").addEventListener("submit", async (e) => {
+            e.preventDefault();
+            
+            try {
+                await addDoc(collection(db, "orders"), {
+                    product: document.getElementById("selectedProduct").value,
+                    accType: document.getElementById("accType").value,
+                    name: document.getElementById("custName").value,
+                    phone: document.getElementById("custPhone").value,
+                    email: document.getElementById("accEmail").value,
+                    password: document.getElementById("accPass").value,
+                    message: document.getElementById("custMsg").value || "N/A",
+                    status: "Pending",
+                    date: new Date()
+                });
+                alert("অর্ডার সফলভাবে জমা হয়েছে! খুব দ্রুত কয়েন পেয়ে যাবেন।");
+                document.getElementById("topupForm").reset();
+                coinBoxes.forEach(b => b.classList.remove('active'));
+            } catch (error) {
+                alert("সমস্যা হয়েছে! আবার চেষ্টা করুন।");
+            }
+        });
+
+        // Submit Review
+        document.getElementById("reviewForm").addEventListener("submit", async (e) => {
+            e.preventDefault();
+            try {
+                await addDoc(collection(db, "reviews"), {
+                    name: document.getElementById("revName").value,
+                    review: document.getElementById("revText").value,
+                    date: new Date()
+                });
+                alert("ধন্যবাদ! আপনার রিভিউ জমা হয়েছে।");
+                document.getElementById("reviewForm").reset();
+            } catch (error) {
+                alert("সমস্যা হয়েছে!");
+            }
+        });
+
+        // Load Reviews
+        onSnapshot(collection(db, "reviews"), (snapshot) => {
+            const container = document.getElementById("reviews-container");
+            container.innerHTML = "";
+            snapshot.forEach((doc) => {
+                const data = doc.data();
+                container.innerHTML += `
+                    <div class="review-box">
+                        <b>${data.name}</b>
+                        <p>"${data.review}"</p>
+                    </div>
+                `;
+            });
+        });
+    </script>
+</body>
+</html>
     </div>
 
     <div class="card">
