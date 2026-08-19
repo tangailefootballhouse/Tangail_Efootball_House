@@ -1,48 +1,59 @@
 body {
     font-family: Arial, sans-serif;
-    background: #0f172a;
+    background: #020617;
     color: white;
     text-align: center;
     margin: 0;
     padding: 20px;
 }
 
+.hero {
+    background: #0f172a;
+    padding: 25px;
+    border-radius: 20px;
+    margin-bottom: 25px;
+}
+
 h1 {
     color: #00ff88;
-    font-size: 35px;
+    font-size: 38px;
 }
 
 h2 {
-    color: #ffffff;
+    color: white;
+    margin-top: 30px;
 }
 
 p {
-    font-size: 18px;
-}
-
-hr {
-    border: 1px solid #334155;
+    font-size: 17px;
+    line-height: 1.6;
 }
 
 .card {
     background: #1e293b;
-    padding: 20px;
-    margin: 15px auto;
-    border-radius: 15px;
     max-width: 350px;
-    box-shadow: 0 0 10px #000;
+    margin: 15px auto;
+    padding: 20px;
+    border-radius: 18px;
+    border: 1px solid #334155;
 }
 
 .card h3 {
     color: #00ff88;
+    font-size: 24px;
 }
 
 button {
     background: #00ff88;
-    color: black;
+    color: #020617;
     border: none;
-    padding: 15px 35px;
+    padding: 15px 40px;
+    border-radius: 30px;
     font-size: 18px;
-    border-radius: 10px;
-    cursor: pointer;
+    font-weight: bold;
+    margin: 20px;
+}
+
+button:hover {
+    opacity: 0.8;
 }
