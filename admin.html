@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="bn">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Panel - Tangail eFootball House</title>
+    <link rel="stylesheet" href="style.css">
+    <style>
+        .order-card {
+            border: 1px solid #ddd;
+            padding: 15px;
+            margin-bottom: 15px;
+            border-radius: 8px;
+            text-align: left;
+            background-color: #ffffff;
+        }
+
+        .status-pending {
+            color: #d97706;
+            font-weight: bold;
+        }
+
+        .status-completed {
+            color: #16a34a;
+            font-weight: bold;
+        }
+
+        .btn-complete {
+            background-color: #16a34a;
+            color: white;
+            border: none;
+            padding: 8px 12px;
+            border-radius: 5px;
+            cursor: pointer;
+            margin-right: 5px;
+        }
+
+        .btn-delete {
+            background-color: #dc2626;
+            color: white;
+            border: none;
+            padding: 8px 12px;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- Header -->
+    <div class="hero">
+        <h1>🔐 Admin Panel</h1>
+        <p>Tangail eFootball House Order Management</p>
+    </div>
+
+    <!-- Admin Login Section -->
+    <div id="loginSection" class="card">
+        <h2>Admin Access Required</h2>
+        <input type="password" id="adminPass" placeholder="Enter Admin Password"><br><br>
+        <button id="loginBtn">Login</button>
+    </div>
+
+    <!-- Orders Dashboard (Initially Hidden) -->
+    <div id="dashboardSection" style="display: none;">
+        <h2>📦 Recent Customer Orders</h2>
+        <div id="ordersContainer">
+            <!-- ফায়ারবেস থেকে লাইভ অর্ডার এখানে জমা হবে -->
+        </div>
+    </div>
+
+    <!-- Firebase SDK Setup -->
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
+        import { getFirestore, collection, onSnapshot, doc, updateDoc, deleteDoc } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
+
+        // Your Firebase Web Configuration
+        const firebaseConfig = {
+            apiKey: "AIzaSyDwhxDxu2DTIvJQ1uBs1Bl14FoL06Ws1KI",
+            authDomain: "tangail-efootball-house.firebaseapp.com",
+            projectId: "tangail-efootball-house",
+            storageBucket: "tangail-efootball-house.firebasestorage.app",
+            messagingSenderId: "774313430680",
+            appId: "1:774313430680:web:07d5af9f2abc31be4fcaed",
+            measurementId: "G-R2Q53LZLPL"
+        };
+
+        // Firebase Initialize
+        const app = initializeApp(firebaseConfig);
+        const db = getFirestore(app);
+
+        // অ্যাডমিন পাসওয়ার্ড (ডিফল্ট: 123456)
+        const ADMIN_PASSWORD = "123456";
+
+        // ১. লগইন হ্যান্ডলার
+        document.getElementById("loginBtn").addEventListener("click", () => {
+            const inputPass = document.getElementById("adminPass").value;
+            if (inputPass === ADMIN_PASSWORD) {
+                document.getElementById("loginSection").style.display = "none";
+                document.getElementById("dashboardSection").style.display = "block";
+                loadLiveOrders();
+            } else {
+                alert("ভুল পাসওয়ার্ড! সঠিক পাসওয়ার্ড দিন।");
+            }
+        });
+
+        // ২. লাইভ অর্ডার ফেচ করা
+        function loadLiveOrders() {
+            onSnapshot(collection(db, "orders"), (snapshot) => {
+                const container = document.getElementById("ordersContainer");
+                container.innerHTML = "";
+
+                if (snapshot.empty) {
+                    container.innerHTML = "<p>এখনো কোনো অর্ডার আসেনি।</p>";
+                    return;
+                }
+
+                snapshot.forEach((docSnap) => {
+                    const data = docSnap.data();
+                    const orderId = docSnap.id;
+                    const statusClass = data.status === "Completed" ? "status-completed" : "status-pending";
+
+                    const orderCard = document.createElement("div");
+                    orderCard.className = "card order-card";
+                    orderCard.innerHTML = `
+                        <h3>👤 Name: ${data.name}</h3>
+                        <p>📞 <strong>Phone:</strong> <a href="tel:${data.phone}">${data.phone}</a></p>
+                        <p>🪙 <strong>Product:</strong> ${data.product}</p>
+                        <p>💬 <strong>Message:</strong> ${data.message || "N/A"}</p>
+                        <p>📌 <strong>Status:</strong> <span class="${statusClass}">${data.status}</span></p>
+                        <button class="btn-complete" id="complete-${orderId}">Mark Completed</button>
+                        <button class="btn-delete" id="delete-${orderId}">Delete Order</button>
+                    `;
+
+                    container.appendChild(orderCard);
+
+                    // বাটনের ইভেন্ট হ্যান্ডলার
+                    document.getElementById(`complete-${orderId}`).addEventListener("click", () => markAsCompleted(orderId));
+                    document.getElementById(`delete-${orderId}`).addEventListener("click", () => deleteOrder(orderId));
+                });
+            });
+        }
+
+        // ৩. স্ট্যাটাস "Completed" করার ফনশন
+        async function markAsCompleted(orderId) {
+            try {
+                await updateDoc(doc(db, "orders", orderId), { status: "Completed" });
+            } catch (error) {
+                console.error("Error updating status:", error);
+            }
+        }
+
+        // ৪. অর্ডার ডিলিট করার ফাংশন
+        async function deleteOrder(orderId) {
+            if (confirm("আপনি কি নিশ্চিত যে এই অর্ডারটি মুছে ফেলতে চান?")) {
+                try {
+                    await deleteDoc(doc(db, "orders", orderId));
+                } catch (error) {
+                    console.error("Error deleting order:", error);
+                }
+            }
+        }
+    </script>
+
+</body>
+
+</html>
