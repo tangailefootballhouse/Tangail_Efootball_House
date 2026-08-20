@@ -5,66 +5,49 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Super Admin Dashboard | Tangail eFootball House</title>
     <style>
-        :root {
-            --bg: #0f172a;
-            --card: #1e293b;
-            --accent: #38bdf8;
-            --text: #f8fafc;
-            --border: #334155;
-        }
+        :root { --bg: #0f172a; --card: #1e293b; --accent: #38bdf8; --text: #f8fafc; --border: #334155; }
         body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background: var(--bg); color: var(--text); padding: 20px; margin: 0; }
-        
-        /* Security Overlay */
         #authOverlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(15, 23, 42, 0.98); display: flex; justify-content: center; align-items: center; z-index: 9999; }
         .auth-box { background: var(--card); padding: 30px; border-radius: 12px; border: 1px solid var(--border); text-align: center; max-width: 350px; width: 90%; }
-        
         .admin-container { max-width: 1200px; margin: 0 auto; display: none; }
         h1, h2 { color: var(--accent); }
         .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 20px; margin-bottom: 30px; }
         .card { background: var(--card); padding: 20px; border-radius: 12px; border: 1px solid var(--border); margin-bottom: 25px; }
         input, select, button { width: 100%; padding: 10px; margin-top: 8px; margin-bottom: 15px; border-radius: 6px; border: 1px solid var(--border); background: #0f172a; color: #fff; box-sizing: border-box; }
         button { background: var(--accent); color: #000; font-weight: bold; cursor: pointer; border: none; }
-        button:hover { opacity: 0.9; }
         .btn-danger { background: #ef4444; color: #fff; padding: 6px 12px; width: auto; margin: 0; border-radius: 4px; font-size: 11px; }
-        .btn-reset { background: #eab308; color: #000; padding: 6px 12px; width: auto; margin: 0; border-radius: 4px; font-size: 11px; font-weight: bold; cursor: pointer; }
-        
+        .btn-reset { background: #eab308; color: #000; padding: 6px 12px; width: auto; margin: 0; border-radius: 4px; font-size: 11px; font-weight: bold; }
         .table-responsive { overflow-x: auto; }
         table { width: 100%; border-collapse: collapse; margin-top: 10px; background: var(--card); }
         th, td { border: 1px solid var(--border); padding: 10px; text-align: left; font-size: 12px; }
         th { background: #0f172a; color: var(--accent); }
-        .status-select { padding: 4px; margin: 0; font-weight: bold; border-radius: 4px; font-size: 11px; width: auto; }
-        .user-tag { background: rgba(56, 189, 248, 0.1); color: var(--accent); padding: 2px 6px; border-radius: 4px; font-size: 11px; display: inline-block; margin-bottom: 4px; }
+        .status-select { padding: 4px; font-weight: bold; border-radius: 4px; font-size: 11px; width: auto; }
     </style>
 </head>
 <body>
 
-    <!-- Security Auth Screen -->
     <div id="authOverlay">
         <div class="auth-box">
             <h2>🔒 Admin Security Lock</h2>
-            <p style="font-size: 12px; color: #94a3b8;">Enter Master Password to Access Panel</p>
+            <p style="font-size: 12px; color: #94a3b8;">Enter Master Password</p>
             <input type="password" id="adminPassInput" placeholder="Enter Password">
             <button id="loginAdminBtn">Unlock Dashboard</button>
         </div>
     </div>
 
-    <!-- Main Admin Dashboard -->
     <div class="admin-container" id="adminDashboard">
         <h1>Super Admin Control Panel</h1>
 
         <div class="grid">
-            <!-- 1. Manage Dynamic Banner -->
             <div class="card">
                 <h2>Update Store Banner</h2>
                 <form id="bannerForm">
-                    <label>Banner Image URL</label>
-                    <input type="url" id="bannerUrlInput" placeholder="https://example.com/banner.jpg" required>
+                    <label>Banner Link / File Name</label>
+                    <input type="text" id="bannerUrlInput" placeholder="starterpack.png or full URL" required>
                     <button type="submit">Update Banner Live</button>
                 </form>
-                <div id="currentBannerPreview" style="margin-top: 10px; font-size: 12px; color: #94a3b8;"></div>
             </div>
 
-            <!-- 2. Add New Package -->
             <div class="card">
                 <h2>Add Coin Package</h2>
                 <form id="pkgForm">
@@ -72,63 +55,43 @@
                     <input type="text" id="pkgTitle" placeholder="e.g. 520 Coins" required>
                     <label>Price (TK)</label>
                     <input type="number" id="pkgPrice" placeholder="e.g. 480" required>
+                    <label>Package Image Link / File Name</label>
+                    <input type="text" id="pkgImage" placeholder="starterpack.png or full URL">
                     <button type="submit">Add Package</button>
                 </form>
             </div>
 
-            <!-- 3. Active Packages List -->
             <div class="card">
                 <h2>Manage Active Packages</h2>
                 <div id="packageList">Loading packages...</div>
             </div>
         </div>
 
-        <!-- 4. Registered Users Database -->
         <div class="card">
             <h2>Registered Customers Database</h2>
             <div class="table-responsive">
                 <table>
                     <thead>
-                        <tr>
-                            <th>User Name</th>
-                            <th>Email Address</th>
-                            <th>Phone Number</th>
-                            <th>WhatsApp Number</th>
-                            <th>Action</th>
-                        </tr>
+                        <tr><th>User Name</th><th>Email</th><th>Phone</th><th>WhatsApp</th><th>Action</th></tr>
                     </thead>
-                    <tbody id="usersTableBody">
-                        <tr><td colspan="5" style="text-align:center;">Loading user records...</td></tr>
-                    </tbody>
+                    <tbody id="usersTableBody"></tbody>
                 </table>
             </div>
         </div>
 
-        <!-- 5. Orders Management Table -->
         <div class="card">
             <h2>Customer Orders List</h2>
             <div class="table-responsive">
                 <table>
                     <thead>
-                        <tr>
-                            <th>Date</th>
-                            <th>User Profile</th>
-                            <th>Game Account Details</th>
-                            <th>Package</th>
-                            <th>Payment & Sender</th>
-                            <th>Status Control</th>
-                            <th>Action</th>
-                        </tr>
+                        <tr><th>Date</th><th>User Profile</th><th>Game Account</th><th>Package</th><th>Payment</th><th>Status</th><th>Action</th></tr>
                     </thead>
-                    <tbody id="ordersTableBody">
-                        <tr><td colspan="7" style="text-align:center;">Loading orders...</td></tr>
-                    </tbody>
+                    <tbody id="ordersTableBody"></tbody>
                 </table>
             </div>
         </div>
     </div>
 
-    <!-- Firebase Logic -->
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
         import { getAuth, sendPasswordResetEmail } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
@@ -146,173 +109,74 @@
         const app = initializeApp(firebaseConfig);
         const auth = getAuth(app);
         const db = getFirestore(app);
-
-        // Security Password Verification (Master PIN)
-        const ADMIN_PIN = "admin1234"; 
+        const ADMIN_PIN = "admin1234";
 
         document.getElementById("loginAdminBtn").addEventListener("click", () => {
-            const input = document.getElementById("adminPassInput").value;
-            if (input === ADMIN_PIN) {
+            if (document.getElementById("adminPassInput").value === ADMIN_PIN) {
                 document.getElementById("authOverlay").style.display = "none";
                 document.getElementById("adminDashboard").style.display = "block";
                 loadDashboardData();
-            } else {
-                alert("ভুল পাসওয়ার্ড! আবার চেষ্টা করুন।");
-            }
+            } else { alert("ভুল পাসওয়ার্ড!"); }
         });
 
         function loadDashboardData() {
-            // 1. Live Banner Management
-            const bannerRef = doc(db, "settings", "banner");
-            onSnapshot(bannerRef, (docSnap) => {
-                if (docSnap.exists()) {
-                    const data = docSnap.data();
-                    document.getElementById("currentBannerPreview").innerHTML = `Current: <a href="${data.url}" target="_blank" style="color:#38bdf8">View Image</a>`;
-                }
-            });
-
             document.getElementById("bannerForm").addEventListener("submit", async (e) => {
                 e.preventDefault();
-                const url = document.getElementById("bannerUrlInput").value;
-                try {
-                    await setDoc(doc(db, "settings", "banner"), { url: url });
-                    alert("ব্যানার সফলভাবে আপডেট করা হয়েছে!");
-                    document.getElementById("bannerForm").reset();
-                } catch(e) { alert("Error updating banner"); }
+                await setDoc(doc(db, "settings", "banner"), { url: document.getElementById("bannerUrlInput").value });
+                alert("ব্যানার আপডেট করা হয়েছে!");
             });
 
-            // 2. Add Package
             document.getElementById("pkgForm").addEventListener("submit", async (e) => {
                 e.preventDefault();
-                const title = document.getElementById("pkgTitle").value;
-                const price = document.getElementById("pkgPrice").value;
-
-                try {
-                    await addDoc(collection(db, "products"), { title, price: Number(price) });
-                    alert("প্যাকেজ যোগ করা হয়েছে!");
-                    document.getElementById("pkgForm").reset();
-                } catch (err) { alert("Error adding package"); }
+                await addDoc(collection(db, "products"), {
+                    title: document.getElementById("pkgTitle").value,
+                    price: Number(document.getElementById("pkgPrice").value),
+                    image: document.getElementById("pkgImage").value || 'starterpack.png'
+                });
+                alert("প্যাকেজ যোগ করা হয়েছে!");
+                document.getElementById("pkgForm").reset();
             });
 
-            // 3. Manage Active Packages
             onSnapshot(collection(db, "products"), (snapshot) => {
                 const list = document.getElementById("packageList");
                 list.innerHTML = "";
                 snapshot.forEach((docSnap) => {
                     const item = docSnap.data();
-                    const id = docSnap.id;
                     const div = document.createElement("div");
                     div.style.cssText = "display:flex; justify-content:space-between; align-items:center; margin-bottom:8px; background:#0f172a; padding:8px; border-radius:6px;";
-                    div.innerHTML = `
-                        <span><b>${item.title}</b> - ৳${item.price}</span>
-                        <button class="btn-danger" onclick="deletePackage('${id}')">Delete</button>
-                    `;
+                    div.innerHTML = `<span><b>${item.title}</b> - ৳${item.price}</span> <button class="btn-danger" onclick="deletePackage('${docSnap.id}')">Delete</button>`;
                     list.appendChild(div);
                 });
             });
 
-            // 4. Load Registered Users Database with Reset Password Button
             onSnapshot(collection(db, "users"), (snapshot) => {
                 const usersTable = document.getElementById("usersTableBody");
                 usersTable.innerHTML = "";
-
-                if(snapshot.empty) {
-                    usersTable.innerHTML = "<tr><td colspan='5' style='text-align:center;'>No registered users found.</td></tr>";
-                    return;
-                }
-
                 snapshot.forEach((docSnap) => {
                     const user = docSnap.data();
-                    const userId = docSnap.id;
-
                     const tr = document.createElement("tr");
-                    tr.innerHTML = `
-                        <td><b>${user.name || 'N/A'}</b></td>
-                        <td>${user.email || 'N/A'}</td>
-                        <td>${user.phone || 'N/A'}</td>
-                        <td><a href="https://wa.me/88${user.whatsapp}" target="_blank" style="color:#22c55e; font-weight:bold; text-decoration:none;">${user.whatsapp || 'N/A'}</a></td>
-                        <td>
-                            <button class="btn-reset" onclick="resetUserPassword('${user.email}')">Reset Pass</button>
-                            <button class="btn-danger" onclick="deleteUser('${userId}')">Remove</button>
-                        </td>
-                    `;
+                    tr.innerHTML = `<td>${user.name || 'N/A'}</td><td>${user.email || 'N/A'}</td><td>${user.phone || 'N/A'}</td><td>${user.whatsapp || 'N/A'}</td><td><button class="btn-reset" onclick="resetUserPassword('${user.email}')">Reset Pass</button> <button class="btn-danger" onclick="deleteUser('${docSnap.id}')">Remove</button></td>`;
                     usersTable.appendChild(tr);
                 });
             });
 
-            // 5. Load Customer Orders
             onSnapshot(collection(db, "orders"), async (snapshot) => {
                 const tableBody = document.getElementById("ordersTableBody");
                 tableBody.innerHTML = "";
-
-                if(snapshot.empty) {
-                    tableBody.innerHTML = "<tr><td colspan='7' style='text-align:center;'>No orders received yet.</td></tr>";
-                    return;
-                }
-
                 for (const docSnap of snapshot.docs) {
                     const order = docSnap.data();
-                    const orderId = docSnap.id;
-                    const dateStr = order.date ? new Date(order.date.seconds * 1000).toLocaleDateString() : 'N/A';
-
-                    let userInfoHtml = `<span class="user-tag">Guest</span>`;
-                    if (order.userId && order.userId !== "Guest") {
-                        try {
-                            const userDoc = await getDoc(doc(db, "users", order.userId));
-                            if (userDoc.exists()) {
-                                const u = userDoc.data();
-                                userInfoHtml = `<b>Name:</b> ${u.name || 'N/A'}<br><b>Phone:</b> ${u.phone || 'N/A'}<br><b>WA:</b> ${u.whatsapp || order.whatsapp}`;
-                            }
-                        } catch(e) {}
-                    }
-
                     const tr = document.createElement("tr");
-                    tr.innerHTML = `
-                        <td>${dateStr}</td>
-                        <td>${userInfoHtml}</td>
-                        <td><b>Type:</b> ${order.accType}<br><b>Email:</b> ${order.email}<br><b>Game Pass:</b> <span style="color:#fbbf24">${order.password}</span></td>
-                        <td><b>${order.product}</b></td>
-                        <td><b>Method:</b> ${order.paymentMethod}<br><b>Sender:</b> ${order.senderNumber}<br><b>TrxID:</b> <span style="color:#38bdf8;">${order.trxId}</span></td>
-                        <td>
-                            <select class="status-select" onchange="updateOrderStatus('${orderId}', this.value)">
-                                <option value="Pending" ${order.status === 'Pending' ? 'selected' : ''}>🟡 Pending</option>
-                                <option value="Payment Received" ${order.status === 'Payment Received' ? 'selected' : ''}>🔵 Payment Received</option>
-                                <option value="In Progress" ${order.status === 'In Progress' ? 'selected' : ''}>🟣 In Progress</option>
-                                <option value="Completed" ${order.status === 'Completed' ? 'selected' : ''}>🟢 Completed</option>
-                            </select>
-                        </td>
-                        <td><button class="btn-danger" onclick="deleteOrder('${orderId}')">Delete</button></td>
-                    `;
+                    tr.innerHTML = `<td>N/A</td><td>${order.userId || 'Guest'}</td><td>${order.email}<br>${order.password}</td><td>${order.product}</td><td>${order.paymentMethod}<br>Trx: ${order.trxId}</td><td><select class="status-select" onchange="updateOrderStatus('${docSnap.id}', this.value)"><option value="Pending" ${order.status === 'Pending' ? 'selected' : ''}>Pending</option><option value="Completed" ${order.status === 'Completed' ? 'selected' : ''}>Completed</option></select></td><td><button class="btn-danger" onclick="deleteOrder('${docSnap.id}')">Delete</button></td>`;
                     tableBody.appendChild(tr);
                 }
             });
         }
 
-        // Global Action Functions
-        window.resetUserPassword = (email) => {
-            if(!email) return alert("ইমেইল অ্যাড্রেস পাওয়া যায়নি!");
-            if(confirm(`${email} ঠিকানায় পাসওয়ার্ড রিসেট লিংক পাঠাতে চান?`)) {
-                sendPasswordResetEmail(auth, email)
-                    .then(() => alert("ইউজারের ইমেইলে পাসওয়ার্ড রিসেট লিংক পাঠানো হয়েছে!"))
-                    .catch((err) => alert("Error: " + err.message));
-            }
-        };
-
-        window.deletePackage = async (id) => {
-            if(confirm("প্যাকেজটি ডিলিট করতে চান?")) await deleteDoc(doc(db, "products", id));
-        };
-
-        window.deleteUser = async (userId) => {
-            if(confirm("এই ইউজারের প্রোফাইল ডিলিট করতে চান?")) await deleteDoc(doc(db, "users", userId));
-        };
-
-        window.updateOrderStatus = async (orderId, newStatus) => {
-            await updateDoc(doc(db, "orders", orderId), { status: newStatus });
-        };
-
-        window.deleteOrder = async (orderId) => {
-            if(confirm("অর্ডারটি মুছে ফেলতে চান?")) await deleteDoc(doc(db, "orders", orderId));
-        };
+        window.resetUserPassword = (email) => { sendPasswordResetEmail(auth, email).then(() => alert("ইমেইলে রিসেট লিঙ্ক পাঠানো হয়েছে!")); };
+        window.deletePackage = async (id) => { if(confirm("ডিলিট করতে চান?")) await deleteDoc(doc(db, "products", id)); };
+        window.deleteUser = async (id) => { if(confirm("ডিলিট করতে চান?")) await deleteDoc(doc(db, "users", id)); };
+        window.updateOrderStatus = async (id, status) => { await updateDoc(doc(db, "orders", id), { status }); };
+        window.deleteOrder = async (id) => { if(confirm("ডিলিট করতে চান?")) await deleteDoc(doc(db, "orders", id)); };
     </script>
 </body>
 </html>
