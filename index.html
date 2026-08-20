@@ -1,17 +1,225 @@
-// index.html - Product Render Script Section
-onSnapshot(collection(db, "products"), (snapshot) => {
-    const container = document.getElementById("productContainer");
-    container.innerHTML = "";
-    snapshot.forEach((docSnap) => {
-        const p = docSnap.data();
-        const imgPath = p.image ? p.image : 'starterpack.png';
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tangail eFootball House</title>
+    <style>
+        :root {
+            --bg: #0f172a;
+            --card: #1e293b;
+            --accent: #38bdf8;
+            --text: #f8fafc;
+            --border: #334155;
+        }
+        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background: var(--bg); color: var(--text); margin: 0; padding: 15px; }
+        .container { max-width: 600px; margin: 0 auto; }
         
-        container.innerHTML += `
-            <div class="product-card" onclick="selectProduct('${p.title}', ${p.price})">
-                <img src="${imgPath}" style="width: 50px; height: 50px; object-fit: contain; margin-bottom: 8px;" alt="Coin">
-                <div style="font-weight: bold; font-size: 14px;">${p.title}</div>
-                <div style="color: #38bdf8; font-weight: bold; margin-top: 5px;">৳ ${p.price}</div>
-            </div>
-        `;
-    });
-});
+        .header { display: flex; justify-content: space-between; align-items: center; padding: 10px 0; margin-bottom: 20px; }
+        .logo { font-size: 18px; font-weight: bold; color: var(--accent); display: flex; align-items: center; gap: 8px; }
+        .btn-auth { background: var(--accent); color: #000; padding: 8px 16px; border-radius: 20px; text-decoration: none; font-weight: bold; font-size: 13px; }
+        
+        .banner { width: 100%; max-height: 220px; border-radius: 12px; object-fit: cover; margin-bottom: 25px; border: 1px solid var(--border); }
+        
+        .section-title { font-size: 15px; font-weight: bold; color: var(--accent); margin-bottom: 12px; border-bottom: 1px solid var(--border); padding-bottom: 6px; }
+        
+        .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(130px, 1fr)); gap: 12px; margin-bottom: 25px; }
+        .product-card { background: var(--card); border: 1px solid var(--border); border-radius: 10px; padding: 15px 10px; text-align: center; cursor: pointer; transition: 0.2s; }
+        .product-card:hover, .product-card.active { border-color: var(--accent); background: #1e293b; box-shadow: 0 0 12px rgba(56, 189, 248, 0.25); }
+        .product-card img { width: 45px; height: 45px; object-fit: contain; margin-bottom: 8px; }
+        .price { color: var(--accent); font-weight: bold; margin-top: 5px; font-size: 14px; }
+        
+        .selected-box { background: rgba(56, 189, 248, 0.1); border: 1px dashed var(--accent); border-radius: 8px; padding: 12px; text-align: center; margin-bottom: 25px; font-size: 14px; }
+        
+        .form-card { background: var(--card); border: 1px solid var(--border); border-radius: 12px; padding: 20px; margin-bottom: 25px; }
+        .form-group { margin-bottom: 15px; }
+        label { display: block; font-size: 13px; margin-bottom: 6px; color: #94a3b8; }
+        input, select { width: 100%; padding: 11px; border-radius: 6px; border: 1px solid var(--border); background: #0f172a; color: #fff; box-sizing: border-box; outline: none; font-size: 14px; }
+        input:focus, select:focus { border-color: var(--accent); }
+        
+        button.btn-submit { width: 100%; padding: 13px; background: var(--accent); color: #000; border: none; border-radius: 6px; font-weight: bold; cursor: pointer; font-size: 16px; margin-top: 10px; }
+        button.btn-submit:hover { opacity: 0.9; }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <!-- Header Section -->
+        <div class="header">
+            <div class="logo">⚡ Tangail eFootball House</div>
+            <a href="auth.html" class="btn-auth">Login / Register</a>
+        </div>
+
+        <!-- Dynamic Store Banner -->
+        <img id="mainBanner" class="banner" src="starterpack.png" alt="Store Banner">
+
+        <!-- 1. Coin Packages Selection -->
+        <div class="section-title">1. Select Coin Package</div>
+        <div id="productContainer" class="grid">
+            <p style="color:#94a3b8; grid-column: 1/-1; text-align:center;">Loading packages...</p>
+        </div>
+
+        <!-- Selected Product Display Box -->
+        <div class="selected-box" id="selectedBox">
+            <span style="color:#94a3b8;">No Package Selected Yet</span>
+        </div>
+
+        <!-- 2. Account Details & Payment Form -->
+        <div class="form-card">
+            <form id="orderForm">
+                <div class="section-title">2. Account Details</div>
+
+                <div class="form-group">
+                    <label>Account Type</label>
+                    <select id="accType">
+                        <option value="Konami ID">Konami ID (Recommended)</option>
+                        <option value="Facebook">Facebook Account</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label>Game Email / Login ID</label>
+                    <input type="email" id="gameEmail" placeholder="example@gmail.com" required>
+                </div>
+
+                <div class="form-group">
+                    <label>Game Password</label>
+                    <input type="password" id="gamePassword" placeholder="••••••••" required>
+                </div>
+
+                <div class="form-group">
+                    <label>WhatsApp Number</label>
+                    <input type="tel" id="userWhatsapp" placeholder="017XXXXXXXX" required>
+                </div>
+
+                <div class="section-title" style="margin-top: 25px;">3. Payment Details</div>
+
+                <div class="form-group">
+                    <label>Select Payment Method</label>
+                    <select id="paymentMethod">
+                        <option value="bKash Personal">bKash (Send Money)</option>
+                        <option value="Nagad Personal">Nagad (Send Money)</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label>Sender Account Number</label>
+                    <input type="tel" id="senderNumber" placeholder="017XXXXXXXX" required>
+                </div>
+
+                <div class="form-group">
+                    <label>Transaction ID (TrxID)</label>
+                    <input type="text" id="trxId" placeholder="e.g. 9J82XXK3" required>
+                </div>
+
+                <button type="submit" class="btn-submit">Submit Order</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Firebase Integration -->
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
+        import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
+        import { getFirestore, collection, onSnapshot, doc, addDoc } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
+
+        const firebaseConfig = {
+            apiKey: "AIzaSyDwhxDxu2DTIvJQ1uBs1Bl14FoL06Ws1KI",
+            authDomain: "tangail-efootball-house.firebaseapp.com",
+            projectId: "tangail-efootball-house",
+            storageBucket: "tangail-efootball-house.firebasestorage.app",
+            messagingSenderId: "774313430680",
+            appId: "1:774313430680:web:07d5af9f2abc31be4fcaed"
+        };
+
+        const app = initializeApp(firebaseConfig);
+        const auth = getAuth(app);
+        const db = getFirestore(app);
+
+        let selectedProduct = null;
+        let currentUserId = "Guest";
+
+        // Check Login User
+        onAuthStateChanged(auth, (user) => {
+            if (user) {
+                currentUserId = user.uid;
+            }
+        });
+
+        // 1. Live Banner Realtime Sync
+        onSnapshot(doc(db, "settings", "banner"), (docSnap) => {
+            if (docSnap.exists() && docSnap.data().url) {
+                document.getElementById("mainBanner").src = docSnap.data().url;
+            }
+        });
+
+        // 2. Products List Auto Render
+        onSnapshot(collection(db, "products"), (snapshot) => {
+            const container = document.getElementById("productContainer");
+            container.innerHTML = "";
+
+            if(snapshot.empty) {
+                container.innerHTML = "<p style='color:#94a3b8; grid-column:1/-1; text-align:center;'>No packages added yet.</p>";
+                return;
+            }
+
+            snapshot.forEach((docSnap) => {
+                const p = docSnap.data();
+                const imgPath = p.image ? p.image : 'starterpack.png';
+                
+                const card = document.createElement("div");
+                card.className = "product-card";
+                card.innerHTML = `
+                    <img src="${imgPath}" alt="Coin">
+                    <div style="font-weight: bold; font-size: 13px;">${p.title}</div>
+                    <div class="price">৳ ${p.price}</div>
+                `;
+                
+                card.addEventListener("click", () => {
+                    document.querySelectorAll(".product-card").forEach(c => c.classList.remove("active"));
+                    card.classList.add("active");
+                    selectedProduct = `${p.title} - ৳${p.price}`;
+                    document.getElementById("selectedBox").innerHTML = `<b>Selected Package:</b> <span style="color:#38bdf8">${selectedProduct}</span>`;
+                });
+
+                container.appendChild(card);
+            });
+        });
+
+        // 3. Submit Order Action
+        document.getElementById("orderForm").addEventListener("submit", async (e) => {
+            e.preventDefault();
+
+            if (!selectedProduct) {
+                alert("দয়া করে যেকোনো একটি কয়েন প্যাকেজ ক্লিক করে সিলেক্ট করুন!");
+                return;
+            }
+
+            const orderData = {
+                userId: currentUserId,
+                product: selectedProduct,
+                accType: document.getElementById("accType").value,
+                email: document.getElementById("gameEmail").value.trim(),
+                password: document.getElementById("gamePassword").value,
+                whatsapp: document.getElementById("userWhatsapp").value.trim(),
+                paymentMethod: document.getElementById("paymentMethod").value,
+                senderNumber: document.getElementById("senderNumber").value.trim(),
+                trxId: document.getElementById("trxId").value.trim(),
+                status: "Pending",
+                date: new Date()
+            };
+
+            try {
+                await addDoc(collection(db, "orders"), orderData);
+                alert("আপনার অর্ডারটি সফলভাবে জমা হয়েছে!");
+                document.getElementById("orderForm").reset();
+                document.querySelectorAll(".product-card").forEach(c => c.classList.remove("active"));
+                selectedProduct = null;
+                document.getElementById("selectedBox").innerHTML = `<span style="color:#94a3b8;">No Package Selected Yet</span>`;
+            } catch (err) {
+                alert("Error: " + err.message);
+            }
+        });
+    </script>
+</body>
+</html>
