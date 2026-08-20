@@ -3,72 +3,72 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Login / Sign Up | Tangail eFootball House</title>
-    <link rel="stylesheet" href="style.css">
-    <link href="https://fonts.googleapis.com/css2?family=Hind+Siliguri:wght@400;600;700&display=swap" rel="stylesheet">
+    <title>Account | Tangail eFootball House</title>
     <style>
-        .auth-container { max-width: 420px; margin: 40px auto; padding: 0 14px; }
-        .tab-btn-group { display: flex; gap: 10px; margin-bottom: 20px; }
-        .tab-btn { flex: 1; padding: 10px; background: rgba(255,255,255,0.05); border: 1px solid var(--border-color); color: #fff; cursor: pointer; border-radius: 8px; font-weight: bold; }
-        .tab-btn.active { background: var(--primary-cyan); color: #000; }
-        .auth-form { display: none; }
-        .auth-form.active { display: block; }
+        :root {
+            --bg: #0f172a;
+            --card: #1e293b;
+            --accent: #38bdf8;
+            --text: #f8fafc;
+            --border: #334155;
+        }
+        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background: var(--bg); color: var(--text); display: flex; justify-content: center; align-items: center; min-height: 100vh; margin: 0; padding: 20px; box-sizing: border-box; }
+        .auth-card { background: var(--card); border: 1px solid var(--border); border-radius: 12px; padding: 30px; width: 100%; max-width: 400px; box-shadow: 0 10px 25px rgba(0,0,0,0.5); }
+        h2 { text-align: center; color: var(--accent); margin-bottom: 20px; margin-top: 0; }
+        .form-group { margin-bottom: 15px; }
+        label { display: block; font-size: 13px; margin-bottom: 5px; color: #94a3b8; }
+        input { width: 100%; padding: 10px; border-radius: 6px; border: 1px solid var(--border); background: #0f172a; color: #fff; box-sizing: border-box; outline: none; }
+        input:focus { border-color: var(--accent); }
+        button { width: 100%; padding: 12px; background: var(--accent); color: #000; border: none; border-radius: 6px; font-weight: bold; cursor: pointer; margin-top: 10px; font-size: 15px; }
+        button:hover { opacity: 0.9; }
+        .toggle-text { text-align: center; margin-top: 15px; font-size: 13px; color: #94a3b8; }
+        .toggle-text span { color: var(--accent); cursor: pointer; font-weight: bold; }
+        .forgot-link { text-align: right; display: block; font-size: 12px; color: var(--accent); margin-top: 5px; cursor: pointer; text-decoration: none; }
     </style>
 </head>
 <body>
 
-    <div class="auth-container">
-        <div class="section-card">
-            <div class="tab-btn-group">
-                <button class="tab-btn active" id="loginTabBtn">Login</button>
-                <button class="tab-btn" id="signupTabBtn">Sign Up</button>
+    <div class="auth-card">
+        <h2 id="formTitle">Sign In</h2>
+        
+        <form id="authForm">
+            <div class="form-group" id="nameGroup" style="display: none;">
+                <label>Full Name</label>
+                <input type="text" id="regName" placeholder="Enter full name">
             </div>
 
-            <!-- Login Form -->
-            <form id="loginForm" class="auth-form active">
-                <h2 style="margin-bottom:15px; font-size:18px;">Account Login</h2>
-                <div class="form-group">
-                    <label>Email Address</label>
-                    <input type="email" id="loginEmail" placeholder="Enter your email" required>
-                </div>
-                <div class="form-group">
-                    <label>Password</label>
-                    <input type="password" id="loginPass" placeholder="Enter password" required>
-                </div>
-                <button type="submit" class="buy-now-btn" id="loginSubmitBtn">Login</button>
-            </form>
+            <div class="form-group" id="phoneGroup" style="display: none;">
+                <label>Phone Number</label>
+                <input type="tel" id="regPhone" placeholder="017XXXXXXXX">
+            </div>
 
-            <!-- Sign Up Form -->
-            <form id="signupForm" class="auth-form">
-                <h2 style="margin-bottom:15px; font-size:18px;">Create New Account</h2>
-                <div class="form-group">
-                    <label>User Name / ID</label>
-                    <input type="text" id="signupName" placeholder="Your Name" required>
-                </div>
-                <div class="form-group">
-                    <label>Email Address</label>
-                    <input type="email" id="signupEmail" placeholder="Enter email" required>
-                </div>
-                <div class="form-group">
-                    <label>Phone Number</label>
-                    <input type="tel" id="signupPhone" placeholder="01700000000" required>
-                </div>
-                <div class="form-group">
-                    <label>WhatsApp Number</label>
-                    <input type="tel" id="signupWhatsapp" placeholder="01700000000" required>
-                </div>
-                <div class="form-group">
-                    <label>Password (At least 6 chars)</label>
-                    <input type="password" id="signupPass" placeholder="Create password" minlength="6" required>
-                </div>
-                <button type="submit" class="buy-now-btn" id="signupSubmitBtn">Create Account</button>
-            </form>
+            <div class="form-group" id="waGroup" style="display: none;">
+                <label>WhatsApp Number</label>
+                <input type="tel" id="regWhatsapp" placeholder="017XXXXXXXX">
+            </div>
+
+            <div class="form-group">
+                <label>Email Address</label>
+                <input type="email" id="authEmail" placeholder="example@gmail.com" required>
+            </div>
+
+            <div class="form-group">
+                <label>Password</label>
+                <input type="password" id="authPassword" placeholder="••••••••" required>
+                <a class="forgot-link" id="forgotPassBtn">Forgot Password?</a>
+            </div>
+
+            <button type="submit" id="submitBtn">Sign In</button>
+        </form>
+
+        <div class="toggle-text">
+            <span id="toggleText">Don't have an account? <b id="toggleBtn" style="color:var(--accent);">Register</b></span>
         </div>
     </div>
 
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
-        import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
+        import { getAuth, signInWithEmailAndPassword, createUserWithEmailAndPassword, sendPasswordResetEmail } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
         import { getFirestore, doc, setDoc } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
 
         const firebaseConfig = {
@@ -84,75 +84,78 @@
         const auth = getAuth(app);
         const db = getFirestore(app);
 
-        // Tab Switcher
-        document.getElementById('loginTabBtn').addEventListener('click', () => {
-            document.getElementById('loginTabBtn').classList.add('active');
-            document.getElementById('signupTabBtn').classList.remove('active');
-            document.getElementById('loginForm').classList.add('active');
-            document.getElementById('signupForm').classList.remove('active');
-        });
+        let isRegisterMode = false;
 
-        document.getElementById('signupTabBtn').addEventListener('click', () => {
-            document.getElementById('signupTabBtn').classList.add('active');
-            document.getElementById('loginTabBtn').classList.remove('active');
-            document.getElementById('signupForm').classList.add('active');
-            document.getElementById('loginForm').classList.remove('active');
-        });
+        const formTitle = document.getElementById("formTitle");
+        const submitBtn = document.getElementById("submitBtn");
+        const toggleBtn = document.getElementById("toggleBtn");
+        const nameGroup = document.getElementById("nameGroup");
+        const phoneGroup = document.getElementById("phoneGroup");
+        const waGroup = document.getElementById("waGroup");
+        const forgotPassBtn = document.getElementById("forgotPassBtn");
 
-        // Sign Up Execution
-        document.getElementById('signupForm').addEventListener('submit', async (e) => {
-            e.preventDefault();
-            const btn = document.getElementById('signupSubmitBtn');
-            btn.disabled = true; btn.innerText = "Creating Account...";
-
-            const email = document.getElementById('signupEmail').value;
-            const pass = document.getElementById('signupPass').value;
-            const name = document.getElementById('signupName').value;
-            const phone = document.getElementById('signupPhone').value;
-            const whatsapp = document.getElementById('signupWhatsapp').value;
-
-            try {
-                const userCredential = await createUserWithEmailAndPassword(auth, email, pass);
-                const user = userCredential.user;
-
-                await setDoc(doc(db, "users", user.uid), {
-                    uid: user.uid,
-                    name: name,
-                    email: email,
-                    phone: phone,
-                    whatsapp: whatsapp,
-                    createdAt: new Date()
-                });
-
-                alert("অ্যাকাউন্ট সফলভাবে তৈরি হয়েছে!");
-                window.location.href = "index.html";
-            } catch (error) {
-                alert("Error: " + error.message);
-            } finally {
-                btn.disabled = false; btn.innerText = "Create Account";
+        toggleBtn.addEventListener("click", () => {
+            isRegisterMode = !isRegisterMode;
+            if(isRegisterMode) {
+                formTitle.innerText = "Create Account";
+                submitBtn.innerText = "Register";
+                toggleBtn.innerText = "Sign In";
+                nameGroup.style.display = "block";
+                phoneGroup.style.display = "block";
+                waGroup.style.display = "block";
+                forgotPassBtn.style.display = "none";
+            } else {
+                formTitle.innerText = "Sign In";
+                submitBtn.innerText = "Sign In";
+                toggleBtn.innerText = "Register";
+                nameGroup.style.display = "none";
+                phoneGroup.style.display = "none";
+                waGroup.style.display = "none";
+                forgotPassBtn.style.display = "block";
             }
         });
 
-        // Login Execution
-        document.getElementById('loginForm').addEventListener('submit', async (e) => {
-            e.preventDefault();
-            const btn = document.getElementById('loginSubmitBtn');
-            btn.disabled = true; btn.innerText = "Logging in...";
+        // Forgot Password Action
+        forgotPassBtn.addEventListener("click", async () => {
+            const email = prompt("আপনার রেজিস্টার্ড ইমেইল এড্রেসটি লিখুন:");
+            if(email) {
+                try {
+                    await sendPasswordResetEmail(auth, email.trim());
+                    alert("পাসওয়ার্ড রিসেট লিংক আপনার ইমেইলে পাঠানো হয়েছে! ইনবক্স/স্প্যাম ফোল্ডার চেক করুন।");
+                } catch(e) {
+                    alert("এরর: " + e.message);
+                }
+            }
+        });
 
-            const email = document.getElementById('loginEmail').value;
-            const pass = document.getElementById('loginPass').value;
+        // Form Submit Login / Register
+        document.getElementById("authForm").addEventListener("submit", async (e) => {
+            e.preventDefault();
+            const email = document.getElementById("authEmail").value.trim();
+            const password = document.getElementById("authPassword").value;
 
             try {
-                await signInWithEmailAndPassword(auth, email, pass);
-                alert("লগইন সফল হয়েছে!");
-                window.location.href = "index.html";
-            } catch (error) {
-                alert("ইমেইল অথবা পাসওয়ার্ড ভুল হয়েছে!");
-            } finally {
-                btn.disabled = false; btn.innerText = "Login";
+                if(isRegisterMode) {
+                    const name = document.getElementById("regName").value;
+                    const phone = document.getElementById("regPhone").value;
+                    const whatsapp = document.getElementById("regWhatsapp").value;
+
+                    const res = await createUserWithEmailAndPassword(auth, email, password);
+                    await setDoc(doc(db, "users", res.user.uid), {
+                        name, phone, whatsapp, email,
+                        createdAt: new Date()
+                    });
+                    alert("অ্যাকাউন্ট তৈরি সফল হয়েছে!");
+                    window.location.href = "index.html";
+                } else {
+                    await signInWithEmailAndPassword(auth, email, password);
+                    alert("লগইন সফল হয়েছে!");
+                    window.location.href = "index.html";
+                }
+            } catch (err) {
+                alert("ব্যর্থ হয়েছে: " + err.message);
             }
         });
     </script>
 </body>
 </html>
-
