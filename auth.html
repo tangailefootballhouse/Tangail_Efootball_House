@@ -1,219 +1,39 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="bn">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Admin Portal V2 | Tangail Efootball House</title>
-    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-    <style>
-        :root {
-            --bg-color: #090d16;
-            --card-bg: rgba(22, 31, 49, 0.7);
-            --card-border: rgba(255, 255, 255, 0.08);
-            --accent-glow: #00d2ff;
-            --accent-gradient: linear-gradient(135deg, #00d2ff 0%, #3a7bd5 100%);
-            --text-primary: #ffffff;
-            --text-secondary: #94a3b8;
-            --danger: #ef4444;
-            --radius-lg: 16px;
-            --radius-md: 12px;
-            --radius-sm: 8px;
-        }
-
-        * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Plus Jakarta Sans', sans-serif; }
-        body {
-            background-color: var(--bg-color);
-            color: var(--text-primary);
-            min-height: 100vh;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            padding: 20px;
-        }
-
-        .auth-card {
-            background: var(--card-bg);
-            border: 1px solid var(--card-border);
-            border-radius: var(--radius-lg);
-            width: 100%;
-            max-width: 400px;
-            padding: 30px 24px;
-            backdrop-filter: blur(12px);
-            box-shadow: 0 20px 40px rgba(0,0,0,0.5);
-        }
-
-        .auth-header { text-align: center; margin-bottom: 24px; }
-        .auth-title {
-            font-size: 22px;
-            font-weight: 800;
-            background: var(--accent-gradient);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            margin-bottom: 6px;
-        }
-        .auth-subtitle { font-size: 13px; color: var(--text-secondary); }
-
-        /* Tabs */
-        .tab-group {
-            display: flex;
-            background: rgba(255, 255, 255, 0.04);
-            border: 1px solid var(--card-border);
-            border-radius: var(--radius-sm);
-            padding: 4px;
-            margin-bottom: 20px;
-        }
-        .tab-btn {
-            flex: 1;
-            padding: 8px;
-            background: none;
-            border: none;
-            color: var(--text-secondary);
-            font-size: 13px;
-            font-weight: 600;
-            cursor: pointer;
-            border-radius: var(--radius-sm);
-            transition: 0.2s;
-        }
-        .tab-btn.active {
-            background: rgba(0, 210, 255, 0.15);
-            color: var(--accent-glow);
-        }
-
-        label { font-size: 12px; font-weight: 600; color: var(--text-secondary); display: block; margin-top: 12px; }
-        input {
-            width: 100%;
-            padding: 12px 14px;
-            margin-top: 6px;
-            background: rgba(255,255,255,0.04);
-            border: 1px solid var(--card-border);
-            border-radius: var(--radius-sm);
-            color: #fff;
-            outline: none;
-            font-size: 14px;
-        }
-        input:focus { border-color: var(--accent-glow); }
-
-        .btn-auth {
-            width: 100%;
-            padding: 14px;
-            background: var(--accent-gradient);
-            border: none;
-            border-radius: var(--radius-sm);
-            color: #fff;
-            font-weight: 700;
-            font-size: 14px;
-            cursor: pointer;
-            margin-top: 20px;
-            box-shadow: 0 4px 12px rgba(0,210,255,0.3);
-            transition: 0.2s;
-        }
-        .btn-auth:active { transform: scale(0.98); }
-
-        .error-box {
-            background: rgba(239, 68, 68, 0.15);
-            border: 1px solid var(--danger);
-            color: var(--danger);
-            padding: 10px;
-            border-radius: var(--radius-sm);
-            font-size: 12px;
-            margin-top: 14px;
-            display: none;
-            text-align: center;
-        }
-    </style>
+    <title>Login - Tangail Efootball House</title>
+    <link rel="stylesheet" href="style.css">
+    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-auth.js"></script>
+    <script src="firebase-config.js"></script>
 </head>
 <body>
-
-    <div class="auth-card">
-        <div class="auth-header">
-            <div class="auth-title">Tangail Efootball</div>
-            <div class="auth-subtitle">Admin & Staff Control Access</div>
+    <div class="container">
+        <div class="card" style="max-width: 400px; margin: 50px auto;">
+            <h2>Admin Login</h2>
+            <input type="email" id="email" placeholder="Email">
+            <input type="password" id="password" placeholder="Password">
+            <button onclick="login()">Login</button>
         </div>
-
-        <div class="tab-group">
-            <button class="tab-btn active" id="tabLogin">Login</button>
-            <button class="tab-btn" id="tabRegister">Register Staff</button>
-        </div>
-
-        <form id="authForm">
-            <label>Admin Email</label>
-            <input type="email" id="authEmail" required placeholder="admin@domain.com">
-
-            <label>Password</label>
-            <input type="password" id="authPass" required placeholder="••••••••">
-
-            <button type="submit" class="btn-auth" id="btnSubmit">Login to Panel</button>
-        </form>
-
-        <div class="error-box" id="errorBox"></div>
     </div>
 
-    <script type="module">
-        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
-        import { getAuth, signInWithEmailAndPassword, createUserWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
-        import { getFirestore, doc, setDoc } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
+    <script>
+        const auth = firebase.auth();
 
-        const firebaseConfig = {
-            apiKey: "AIzaSyDwhxDxu2DTIvJQ1uBs1Bl14FoL06Ws1KI",
-            authDomain: "tangail-efootball-house.firebaseapp.com",
-            projectId: "tangail-efootball-house",
-            storageBucket: "tangail-efootball-house.firebasestorage.app",
-            messagingSenderId: "774313430680",
-            appId: "1:774313430680:web:07d5af9f2abc31be4fcaed"
-        };
+        function login() {
+            const email = document.getElementById("email").value;
+            const password = document.getElementById("password").value;
 
-        const app = initializeApp(firebaseConfig);
-        const auth = getAuth(app);
-        const db = getFirestore(app);
-
-        let isLoginMode = true;
-
-        const tabLogin = document.getElementById("tabLogin");
-        const tabRegister = document.getElementById("tabRegister");
-        const btnSubmit = document.getElementById("btnSubmit");
-        const errorBox = document.getElementById("errorBox");
-
-        tabLogin.onclick = () => {
-            isLoginMode = true;
-            tabLogin.classList.add("active");
-            tabRegister.classList.remove("active");
-            btnSubmit.innerText = "Login to Panel";
-            errorBox.style.display = "none";
-        };
-
-        tabRegister.onclick = () => {
-            isLoginMode = false;
-            tabRegister.classList.add("active");
-            tabLogin.classList.remove("active");
-            btnSubmit.innerText = "Create Admin Account";
-            errorBox.style.display = "none";
-        };
-
-        document.getElementById("authForm").onsubmit = async (e) => {
-            e.preventDefault();
-            errorBox.style.display = "none";
-            
-            const email = document.getElementById("authEmail").value.trim();
-            const pass = document.getElementById("authPass").value;
-
-            try {
-                if (isLoginMode) {
-                    await signInWithEmailAndPassword(auth, email, pass);
+            auth.signInWithEmailAndPassword(email, password)
+                .then(() => {
                     window.location.href = "admin.html";
-                } else {
-                    const res = await createUserWithEmailAndPassword(auth, email, pass);
-                    await setDoc(doc(db, "admins", res.user.uid), {
-                        email: email,
-                        role: "admin",
-                        createdAt: new Date()
-                    });
-                    window.location.href = "admin.html";
-                }
-            } catch (err) {
-                errorBox.innerText = err.message.replace("Firebase: ", "");
-                errorBox.style.display = "block";
-            }
-        };
+                })
+                .catch((error) => {
+                    alert("Error: " + error.message);
+                });
+        }
     </script>
 </body>
 </html>
