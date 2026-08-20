@@ -17,7 +17,9 @@
             <img src="logo.png" alt="Logo" class="nav-logo">
             <span class="brand-title">TANGAIL <span>eFOOTBALL</span></span>
         </div>
-        <a href="https://www.facebook.com/share/1CejXobCcz/" target="_blank" class="notice-btn">Contact Support</a>
+        <div id="userAuthArea">
+            <a href="auth.html" class="notice-btn" id="authBtn">Login / Register</a>
+        </div>
     </header>
 
     <!-- Notice Bar -->
@@ -154,7 +156,8 @@
     <!-- Firebase Logic -->
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
-        import { getFirestore, collection, addDoc, onSnapshot } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
+        import { getAuth, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
+        import { getFirestore, collection, addDoc, onSnapshot, doc, getDoc } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
 
         const firebaseConfig = {
             apiKey: "AIzaSyDwhxDxu2DTIvJQ1uBs1Bl14FoL06Ws1KI",
@@ -166,11 +169,38 @@
         };
 
         const app = initializeApp(firebaseConfig);
+        const auth = getAuth(app);
         const db = getFirestore(app);
 
+        let currentUser = null;
         let selectedProduct = "";
         let selectedPayment = "bKash";
         const paymentNumber = "01603785413";
+
+        // Handle User Authentication State
+        onAuthStateChanged(auth, async (user) => {
+            const authArea = document.getElementById("userAuthArea");
+            if (user) {
+                currentUser = user;
+                // Auto-fill WhatsApp if user exists in Firestore database
+                try {
+                    const userDoc = await getDoc(doc(db, "users", user.uid));
+                    if (userDoc.exists() && userDoc.data().whatsapp) {
+                        document.getElementById("custWhatsapp").value = userDoc.data().whatsapp;
+                    }
+                } catch(e) {}
+
+                authArea.innerHTML = `
+                    <span style="font-size:12px; color:var(--primary-cyan); font-weight:bold; margin-right:8px;">Hi, ${user.email.split('@')[0]}</span>
+                    <button id="logoutBtn" style="padding:4px 10px; font-size:11px; background:#ef4444; color:#fff; border:none; border-radius:12px; cursor:pointer; font-weight:bold;">Logout</button>
+                `;
+                
+                document.getElementById("logoutBtn").addEventListener("click", () => signOut(auth));
+            } else {
+                currentUser = null;
+                authArea.innerHTML = `<a href="auth.html" class="notice-btn">Login / Register</a>`;
+            }
+        });
 
         // Dynamic Loading Packages
         onSnapshot(collection(db, "products"), (snapshot) => {
@@ -178,7 +208,7 @@
             grid.innerHTML = "";
 
             if(snapshot.empty) {
-                grid.innerHTML = "<p class='no-pkg'>No packages available at the moment. Check Admin Panel.</p>";
+                grid.innerHTML = "<p class='no-pkg' style='grid-column: 1/-1; text-align:center; color:#888; font-size:12px;'>No packages available at the moment. Check Admin Panel.</p>";
                 return;
             }
 
@@ -208,7 +238,7 @@
             });
         });
 
-        // 1-Click Copy Number Functionality
+        // 1-Click Copy Number
         document.getElementById('copyBtn').addEventListener('click', () => {
             navigator.clipboard.writeText(paymentNumber).then(() => {
                 const copyBtn = document.getElementById('copyBtn');
@@ -232,7 +262,7 @@
             });
         });
 
-        // Submit Form Event with Loading State
+        // Submit Form Event
         document.getElementById("topupForm").addEventListener("submit", async (e) => {
             e.preventDefault();
 
@@ -247,6 +277,8 @@
 
             try {
                 await addDoc(collection(db, "orders"), {
+                    userId: currentUser ? currentUser.uid : "Guest",
+                    userEmail: currentUser ? currentUser.email : document.getElementById("accEmail").value,
                     product: selectedProduct,
                     accType: document.getElementById("accType").value,
                     email: document.getElementById("accEmail").value,
@@ -273,5 +305,4 @@
         });
     </script>
 </body>
-                        </html>
-    
+</html>
