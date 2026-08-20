@@ -42,6 +42,8 @@
             width: 45px;
             height: 45px;
             border-radius: 50%;
+            object-fit: cover;
+            border: 2px solid var(--accent-color);
         }
 
         .site-title {
@@ -104,7 +106,10 @@
 
         .banner img {
             width: 100%;
+            max-height: 220px;
+            object-fit: cover;
             display: block;
+            border-radius: 10px;
         }
 
         .section-title {
@@ -125,7 +130,7 @@
             background-color: var(--card-bg);
             border: 2px solid transparent;
             border-radius: 10px;
-            padding: 12px;
+            padding: 15px 12px;
             text-align: center;
             cursor: pointer;
             transition: all 0.2s ease;
@@ -133,6 +138,7 @@
             flex-direction: column;
             justify-content: center;
             align-items: center;
+            min-height: 90px;
         }
 
         .product-card.active {
@@ -219,7 +225,7 @@
 
     <div class="header">
         <div class="logo-container">
-            <img src="https://i.ibb.co/L8xT0X1/logo.png" alt="Logo" onerror="this.src='https://via.placeholder.com/45'">
+            <img src="logo.png" alt="Logo" onerror="this.style.display='none'">
             <div class="site-title">
                 TANGAIL
                 <span>eFOOTBALL</span>
@@ -235,7 +241,7 @@
         </div>
 
         <div class="banner">
-            <img src="https://i.ibb.co/b3ySXX8/suarez-banner.jpg" alt="Banner" onerror="this.style.display='none'">
+            <img id="mainBanner" src="starterpack.png" alt="Banner" onerror="this.style.display='none'">
         </div>
 
         <div class="section-title">1. Select Coin Package</div>
@@ -295,7 +301,7 @@
 
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
-        import { getFirestore, collection, onSnapshot, addDoc } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
+        import { getFirestore, collection, onSnapshot, doc, addDoc } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
 
         const firebaseConfig = {
             apiKey: "AIzaSyDwhxDxu2DTIvJQ1uBs1Bl14FoL06Ws1KI",
@@ -311,7 +317,16 @@
 
         let selectedProduct = null;
 
-        // Fetch Products with PERMANENT IMAGE FIX
+        // Dynamic Banner Update
+        onSnapshot(doc(db, "settings", "banner"), (docSnap) => {
+            if (docSnap.exists() && docSnap.data().url) {
+                const bannerImg = document.getElementById("mainBanner");
+                bannerImg.src = docSnap.data().url;
+                bannerImg.style.display = "block";
+            }
+        });
+
+        // Dynamic Product Fetching (Only shows image if provided)
         onSnapshot(collection(db, "products"), (snapshot) => {
             const container = document.getElementById("productContainer");
             container.innerHTML = "";
@@ -326,7 +341,6 @@
                 const card = document.createElement("div");
                 card.className = "product-card";
 
-                // Permanent Fix: Image is shown ONLY if p.image exists and is not empty
                 const imageHTML = (p.image && p.image.trim() !== "") 
                     ? `<img src="${p.image}" alt="${p.title}" onerror="this.style.display='none'">` 
                     : "";
@@ -348,7 +362,7 @@
             });
         });
 
-        // Submit Order
+        // Submit Order Logic
         document.getElementById("orderForm").addEventListener("submit", async (e) => {
             e.preventDefault();
 
@@ -357,23 +371,16 @@
                 return;
             }
 
-            const accType = document.getElementById("accType").value;
-            const email = document.getElementById("email").value;
-            const password = document.getElementById("password").value;
-            const paymentMethod = document.getElementById("paymentMethod").value;
-            const senderNumber = document.getElementById("senderNumber").value;
-            const trxId = document.getElementById("trxId").value;
-
             try {
                 await addDoc(collection(db, "orders"), {
                     product: selectedProduct.title,
                     price: selectedProduct.price,
-                    accType: accType,
-                    email: email,
-                    password: password,
-                    paymentMethod: paymentMethod,
-                    senderNumber: senderNumber,
-                    trxId: trxId,
+                    accType: document.getElementById("accType").value,
+                    email: document.getElementById("email").value,
+                    password: document.getElementById("password").value,
+                    paymentMethod: document.getElementById("paymentMethod").value,
+                    senderNumber: document.getElementById("senderNumber").value,
+                    trxId: document.getElementById("trxId").value,
                     status: "Pending",
                     date: new Date()
                 });
@@ -390,4 +397,3 @@
     </script>
 </body>
 </html>
-
