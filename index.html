@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Tangail eFootball House</title>
+
     <style>
         :root {
             --bg: #0f172a;
@@ -12,59 +13,186 @@
             --text: #f8fafc;
             --border: #334155;
         }
-        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background: var(--bg); color: var(--text); margin: 0; padding: 15px; }
-        .container { max-width: 600px; margin: 0 auto; }
         
-        .header { display: flex; justify-content: space-between; align-items: center; padding: 10px 0; margin-bottom: 20px; }
-        .logo { font-size: 18px; font-weight: bold; color: var(--accent); display: flex; align-items: center; gap: 8px; }
-        .btn-auth { background: var(--accent); color: #000; padding: 8px 16px; border-radius: 20px; text-decoration: none; font-weight: bold; font-size: 13px; }
+        body { 
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; 
+            background: var(--bg); 
+            color: var(--text); 
+            margin: 0; 
+            padding: 15px; 
+        }
         
-        .banner { width: 100%; max-height: 220px; border-radius: 12px; object-fit: cover; margin-bottom: 25px; border: 1px solid var(--border); }
-        
-        .section-title { font-size: 15px; font-weight: bold; color: var(--accent); margin-bottom: 12px; border-bottom: 1px solid var(--border); padding-bottom: 6px; }
-        
-        .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(130px, 1fr)); gap: 12px; margin-bottom: 25px; }
-        .product-card { background: var(--card); border: 1px solid var(--border); border-radius: 10px; padding: 15px 10px; text-align: center; cursor: pointer; transition: 0.2s; }
-        .product-card:hover, .product-card.active { border-color: var(--accent); background: #1e293b; box-shadow: 0 0 12px rgba(56, 189, 248, 0.25); }
-        .product-card img { width: 50px; height: 50px; object-fit: contain; margin-bottom: 8px; }
-        .price { color: var(--accent); font-weight: bold; margin-top: 5px; font-size: 14px; }
-        
-        .selected-box { background: rgba(56, 189, 248, 0.1); border: 1px dashed var(--accent); border-radius: 8px; padding: 12px; text-align: center; margin-bottom: 25px; font-size: 14px; }
-        
-        .form-card { background: var(--card); border: 1px solid var(--border); border-radius: 12px; padding: 20px; margin-bottom: 25px; }
-        .form-group { margin-bottom: 15px; }
-        label { display: block; font-size: 13px; margin-bottom: 6px; color: #94a3b8; }
-        input, select { width: 100%; padding: 11px; border-radius: 6px; border: 1px solid var(--border); background: #0f172a; color: #fff; box-sizing: border-box; outline: none; font-size: 14px; }
-        input:focus, select:focus { border-color: var(--accent); }
-        
-        button.btn-submit { width: 100%; padding: 13px; background: var(--accent); color: #000; border: none; border-radius: 6px; font-weight: bold; cursor: pointer; font-size: 16px; margin-top: 10px; }
-        button.btn-submit:hover { opacity: 0.9; }
+        .container { 
+            max-width: 600px; 
+            margin: 0 auto; 
+        }
+
+        .header { 
+            display: flex; 
+            justify-content: space-between; 
+            align-items: center; 
+            padding: 10px 0; 
+            margin-bottom: 20px; 
+        }
+        .logo { 
+            font-size: 18px; 
+            font-weight: bold; 
+            color: var(--accent); 
+            display: flex; 
+            align-items: center; 
+            gap: 8px; 
+        }
+        .btn-auth { 
+            background: var(--accent); 
+            color: #000; 
+            padding: 8px 16px; 
+            border-radius: 20px; 
+            text-decoration: none; 
+            font-weight: bold; 
+            font-size: 13px; 
+        }
+
+        .banner { 
+            width: 100%; 
+            max-height: 220px; 
+            border-radius: 12px; 
+            object-fit: cover; 
+            margin-bottom: 25px; 
+            border: 1px solid var(--border); 
+        }
+
+        .section-title { 
+            font-size: 15px; 
+            font-weight: bold; 
+            color: var(--accent); 
+            margin-bottom: 12px; 
+            border-bottom: 1px solid var(--border); 
+            padding-bottom: 6px; 
+        }
+
+        .grid { 
+            display: grid; 
+            grid-template-columns: repeat(auto-fill, minmax(140px, 1fr)); 
+            gap: 12px; 
+            margin-bottom: 25px; 
+        }
+
+        .product-card { 
+            background: var(--card); 
+            border: 1px solid var(--border); 
+            border-radius: 10px; 
+            padding: 15px 10px; 
+            text-align: center; 
+            cursor: pointer; 
+            transition: all 0.2s ease-in-out; 
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 110px;
+            box-sizing: border-box;
+        }
+
+        .product-card:hover, .product-card.active { 
+            border-color: var(--accent); 
+            background: #1e293b; 
+            box-shadow: 0 0 12px rgba(56, 189, 248, 0.3); 
+            transform: translateY(-2px);
+        }
+
+        .product-card img { 
+            width: auto;
+            max-width: 90%; 
+            height: 50px; 
+            object-fit: contain; 
+            margin-bottom: 8px; 
+            display: block;
+        }
+
+        .price { 
+            color: var(--accent); 
+            font-weight: bold; 
+            margin-top: 5px; 
+            font-size: 14px; 
+        }
+
+        .selected-box { 
+            background: rgba(56, 189, 248, 0.1); 
+            border: 1px dashed var(--accent); 
+            border-radius: 8px; 
+            padding: 12px; 
+            text-align: center; 
+            margin-bottom: 25px; 
+            font-size: 14px; 
+        }
+
+        .form-card { 
+            background: var(--card); 
+            border: 1px solid var(--border); 
+            border-radius: 12px; 
+            padding: 20px; 
+            margin-bottom: 25px; 
+        }
+        .form-group { 
+            margin-bottom: 15px; 
+        }
+        label { 
+            display: block; 
+            font-size: 13px; 
+            margin-bottom: 6px; 
+            color: #94a3b8; 
+        }
+        input, select { 
+            width: 100%; 
+            padding: 11px; 
+            border-radius: 6px; 
+            border: 1px solid var(--border); 
+            background: #0f172a; 
+            color: #fff; 
+            box-sizing: border-box; 
+            outline: none; 
+            font-size: 14px; 
+        }
+        input:focus, select:focus { 
+            border-color: var(--accent); 
+        }
+
+        button.btn-submit { 
+            width: 100%; 
+            padding: 13px; 
+            background: var(--accent); 
+            color: #000; 
+            border: none; 
+            border-radius: 6px; 
+            font-weight: bold; 
+            cursor: pointer; 
+            font-size: 16px; 
+            margin-top: 10px; 
+        }
+        button.btn-submit:hover { 
+            opacity: 0.9; 
+        }
     </style>
 </head>
 <body>
 
     <div class="container">
-        <!-- Header -->
         <div class="header">
             <div class="logo">⚡ Tangail eFootball House</div>
             <a href="auth.html" class="btn-auth">Login / Register</a>
         </div>
 
-        <!-- Dynamic Store Banner -->
         <img id="mainBanner" class="banner" src="starterpack.png" alt="Store Banner">
 
-        <!-- 1. Coin Packages Selection -->
         <div class="section-title">1. Select Coin Package</div>
         <div id="productContainer" class="grid">
             <p style="color:#94a3b8; grid-column: 1/-1; text-align:center;">Loading packages...</p>
         </div>
 
-        <!-- Selected Product Display -->
         <div class="selected-box" id="selectedBox">
             <span style="color:#94a3b8;">No Package Selected Yet</span>
         </div>
 
-        <!-- 2. Account Details & Payment Form -->
         <div class="form-card">
             <form id="orderForm">
                 <div class="section-title">2. Account Details</div>
@@ -117,7 +245,6 @@
         </div>
     </div>
 
-    <!-- Firebase System Integration -->
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
         import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
@@ -139,21 +266,18 @@
         let selectedProduct = null;
         let currentUserId = "Guest";
 
-        // Login Status Monitor
         onAuthStateChanged(auth, (user) => {
             if (user) {
                 currentUserId = user.uid;
             }
         });
 
-        // 1. Live Banner Sync
         onSnapshot(doc(db, "settings", "banner"), (docSnap) => {
             if (docSnap.exists() && docSnap.data().url) {
                 document.getElementById("mainBanner").src = docSnap.data().url;
             }
         });
 
-        // 2. Dynamic Product Render (Per-item image logic)
         onSnapshot(collection(db, "products"), (snapshot) => {
             const container = document.getElementById("productContainer");
             container.innerHTML = "";
@@ -166,7 +290,6 @@
             snapshot.forEach((docSnap) => {
                 const p = docSnap.data();
                 
-                // Check if p.image exists and is not empty
                 const imgHTML = (p.image && p.image.trim() !== "") 
                     ? `<img src="${p.image}" alt="Pack">` 
                     : `<div style="font-size: 32px; margin-bottom: 6px;">🪙</div>`;
@@ -190,12 +313,11 @@
             });
         });
 
-        // 3. Submit Order Action
         document.getElementById("orderForm").addEventListener("submit", async (e) => {
             e.preventDefault();
 
             if (!selectedProduct) {
-                alert("দয়া করে যেকোনো একটি কয়েন প্যাকেজ ক্লিক করে সিলেক্ট করুন!");
+                alert("দয়া করে যেকোনো একটি কয়েন প্যাকেজ সিলেক্ট করুন!");
                 return;
             }
 
