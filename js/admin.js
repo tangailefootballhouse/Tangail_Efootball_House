@@ -1,4 +1,4 @@
-// js/admin.js - Admin Dashboard Functionality
+// js/admin.js - Clean Admin Dashboard Management
 import { auth, db } from "./firebase-config.js";
 import { onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
 import { 
@@ -8,31 +8,33 @@ import {
   updateDoc, 
   addDoc, 
   runTransaction, 
-  serverTimestamp,
-  query,
-  where 
+  serverTimestamp 
 } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
 
-// Check Admin Access
+// Check Auth Status
 onAuthStateChanged(auth, async (user) => {
   if (!user) {
+    alert("অ্যাডমিন প্যানেলে প্রবেশ করতে আগে লগইন করুন!");
     window.location.href = "auth.html";
     return;
   }
-  document.getElementById("admin-email").textContent = user.email;
+  
+  const adminEmailDisplay = document.getElementById("admin-email");
+  if (adminEmailDisplay) adminEmailDisplay.textContent = user.email;
 
-  await loadTopUpRequests();
-  await loadCustomerOrders();
+  loadTopUpRequests();
+  loadCustomerOrders();
 });
 
 // 1. LOAD TOPUP REQUESTS
 async function loadTopUpRequests() {
   const container = document.getElementById("admin-topup-list");
-  try {
-    const q = query(collection(db, "wallet_requests"), where("status", "==", "Pending"));
-    const snap = await getDocs(q);
+  if (!container) return;
 
-    document.getElementById("topup-count").textContent = snap.size;
+  try {
+    const snap = await getDocs(collection(db, "wallet_requests"));
+    const countEl = document.getElementById("topup-count");
+    if (countEl) countEl.textContent = snap.size;
 
     if (snap.empty) {
       container.innerHTML = `<div class="text-center py-3 text-gray-500 text-[11px]">কোনো পেন্ডিং টপ-আপ রিকোয়েস্ট নেই।</div>`;
@@ -42,36 +44,38 @@ async function loadTopUpRequests() {
     container.innerHTML = "";
     snap.forEach((docSnap) => {
       const item = docSnap.data();
-      const html = `
-        <div class="p-3 bg-[#07090e] rounded-xl border border-gray-800 space-y-2">
-          <div class="flex justify-between items-start">
-            <div>
-              <span class="font-bold text-white block">${item.userEmail}</span>
-              <span class="text-[10px] text-gray-400">TrxID: <strong class="text-amber-400">${item.trxId}</strong> (${item.senderNumber})</span>
+      if (item.status === "Pending") {
+        const html = `
+          <div class="p-3 bg-[#07090e] rounded-xl border border-gray-800 space-y-2">
+            <div class="flex justify-between items-start">
+              <div>
+                <span class="font-bold text-white block">${item.userEmail || "N/A"}</span>
+                <span class="text-[10px] text-gray-400">TrxID: <strong class="text-amber-400">${item.trxId || "N/A"}</strong> (${item.senderNumber || ""})</span>
+              </div>
+              <span class="font-black text-amber-400 text-sm">${item.amount || 0} Pts</span>
             </div>
-            <span class="font-black text-amber-400 text-sm">${item.amount} Pts</span>
+            <div class="flex gap-2">
+              <button onclick="approveTopUp('${docSnap.id}', '${item.userId}', ${item.amount})" class="flex-1 bg-green-500/20 text-green-400 border border-green-500/30 py-1 rounded font-bold text-[11px]">Approve</button>
+              <button onclick="rejectTopUp('${docSnap.id}')" class="flex-1 bg-red-500/20 text-red-400 border border-red-500/30 py-1 rounded font-bold text-[11px]">Reject</button>
+            </div>
           </div>
-          <div class="flex gap-2">
-            <button onclick="approveTopUp('${docSnap.id}', '${item.userId}', ${item.amount})" class="flex-1 bg-green-500/20 text-green-400 border border-green-500/30 py-1 rounded font-bold text-[11px]">Approve</button>
-            <button onclick="rejectTopUp('${docSnap.id}')" class="flex-1 bg-red-500/20 text-red-400 border border-red-500/30 py-1 rounded font-bold text-[11px]">Reject</button>
-          </div>
-        </div>
-      `;
-      container.innerHTML += html;
+        `;
+        container.innerHTML += html;
+      }
     });
   } catch (error) {
     console.error("Error loading topups:", error);
   }
 }
 
-// APPROVE TOPUP (Add points transactionally)
+// APPROVE TOPUP
 window.approveTopUp = async function(requestId, userId, pointsToAdd) {
   try {
     await runTransaction(db, async (transaction) => {
       const userRef = doc(db, "users", userId);
       const userSnap = await transaction.get(userRef);
 
-      if (!userSnap.exists()) throw new Error("ইউজার অ্যাকাউন্ট নেই!");
+      if (!userSnap.exists()) throw new Error("ইউজার অ্যাকাউন্ট পাওয়া যায়নি!");
 
       const currentPoints = userSnap.data().points || 0;
       transaction.update(userRef, { points: currentPoints + pointsToAdd });
@@ -80,10 +84,10 @@ window.approveTopUp = async function(requestId, userId, pointsToAdd) {
       transaction.update(reqRef, { status: "Approved" });
     });
 
-    alert("টপ-আপ এপ্রুভ হয়েছে এবং পয়েন্ট যোগ করা হয়েছে!");
-    await loadTopUpRequests();
+    alert("টপ-আপ এপ্রুভ করা হয়েছে এবং পয়েন্ট যোগ হয়েছে!");
+    loadTopUpRequests();
   } catch (error) {
-    alert(error.message || "এপ্রুভ করতে ব্যর্থ হয়েছে!");
+    alert(error.message || "এপ্রুভ করতে ব্যর্থ হয়েছে!");
   }
 };
 
@@ -91,19 +95,22 @@ window.approveTopUp = async function(requestId, userId, pointsToAdd) {
 window.rejectTopUp = async function(requestId) {
   try {
     await updateDoc(doc(db, "wallet_requests", requestId), { status: "Rejected" });
-    alert("রিকুয়েস্ট বাতিল করা হয়েছে!");
-    await loadTopUpRequests();
+    alert("রিকুয়েস্ট বাতিল করা হয়েছে!");
+    loadTopUpRequests();
   } catch (error) {
-    alert("বাতিল করতে সমস্যা হয়েছে!");
+    alert("বাতিল করতে সমস্যা হয়েছে!");
   }
 };
 
 // 2. LOAD CUSTOMER ORDERS
 async function loadCustomerOrders() {
   const container = document.getElementById("admin-orders-list");
+  if (!container) return;
+
   try {
     const snap = await getDocs(collection(db, "orders"));
-    document.getElementById("orders-count").textContent = snap.size;
+    const countEl = document.getElementById("orders-count");
+    if (countEl) countEl.textContent = snap.size;
 
     if (snap.empty) {
       container.innerHTML = `<div class="text-center py-3 text-gray-500 text-[11px]">কোনো কাস্টমার অর্ডার নেই।</div>`;
@@ -141,10 +148,10 @@ async function loadCustomerOrders() {
 window.updateOrderStatus = async function(orderId, newStatus) {
   try {
     await updateDoc(doc(db, "orders", orderId), { status: newStatus });
-    alert(`অর্ডার স্ট্যাটাস '${newStatus}' করা হয়েছে!`);
-    await loadCustomerOrders();
+    alert(`অর্ডার স্ট্যাটাস '${newStatus}' করা হয়েছে!`);
+    loadCustomerOrders();
   } catch (error) {
-    alert("স্ট্যাটাস আপডেট করতে ব্যর্থ হয়েছে!");
+    alert("স্ট্যাটাস আপডেট করতে ব্যর্থ হয়েছে!");
   }
 };
 
@@ -166,9 +173,9 @@ document.getElementById("form-add-package")?.addEventListener("submit", async (e
       createdAt: serverTimestamp()
     });
 
-    alert("প্যাকেজ সফলভাবে যুক্ত করা হয়েছে!");
+    alert("প্যাকেজ সফলভাবে যুক্ত করা হয়েছে!");
     document.getElementById("form-add-package").reset();
   } catch (error) {
-    alert("প্যাকেজ যোগ করতে সমস্যা হয়েছে!");
+    alert("প্যাকেজ যোগ করতে সমস্যা হয়েছে!");
   }
 });
