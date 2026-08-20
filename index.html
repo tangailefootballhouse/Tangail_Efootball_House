@@ -126,10 +126,8 @@
             margin-bottom: 25px;
         }
 
-        /* STRICT CLEAN CARD STYLING - NO AUTOMATIC BACKGROUND IMAGES */
         .product-card {
             background-color: var(--card-bg) !important;
-            background-image: none !important;
             border: 2px solid transparent;
             border-radius: 10px;
             padding: 15px 12px;
@@ -141,11 +139,6 @@
             justify-content: center;
             align-items: center;
             min-height: 90px;
-        }
-
-        .product-card::before, .product-card::after {
-            display: none !important;
-            content: none !important;
         }
 
         .product-card.active {
@@ -334,7 +327,7 @@
             }
         });
 
-        // Dynamic Product Fetching
+        // Dynamic Product Fetching (Shows Image ONLY if present in Admin Panel)
         onSnapshot(collection(db, "products"), (snapshot) => {
             const container = document.getElementById("productContainer");
             container.innerHTML = "";
@@ -349,11 +342,10 @@
                 const card = document.createElement("div");
                 card.className = "product-card";
 
-                // Checks if Image URL exists and is NOT starterpack.png
-                let imageHTML = "";
-                if (p.image && p.image.trim() !== "" && !p.image.includes("starterpack.png")) {
-                    imageHTML = `<img src="${p.image}" alt="${p.title}" onerror="this.style.display='none'">`;
-                }
+                // Clean logic: Displays image if provided in Admin
+                const imageHTML = (p.image && p.image.trim() !== "") 
+                    ? `<img src="${p.image}" alt="${p.title}" onerror="this.style.display='none'">` 
+                    : "";
 
                 card.innerHTML = `
                     ${imageHTML}
