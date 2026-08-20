@@ -26,7 +26,7 @@
         .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(130px, 1fr)); gap: 12px; margin-bottom: 25px; }
         .product-card { background: var(--card); border: 1px solid var(--border); border-radius: 10px; padding: 15px 10px; text-align: center; cursor: pointer; transition: 0.2s; }
         .product-card:hover, .product-card.active { border-color: var(--accent); background: #1e293b; box-shadow: 0 0 12px rgba(56, 189, 248, 0.25); }
-        .product-card img { width: 45px; height: 45px; object-fit: contain; margin-bottom: 8px; }
+        .product-card img { width: 50px; height: 50px; object-fit: contain; margin-bottom: 8px; }
         .price { color: var(--accent); font-weight: bold; margin-top: 5px; font-size: 14px; }
         
         .selected-box { background: rgba(56, 189, 248, 0.1); border: 1px dashed var(--accent); border-radius: 8px; padding: 12px; text-align: center; margin-bottom: 25px; font-size: 14px; }
@@ -44,7 +44,7 @@
 <body>
 
     <div class="container">
-        <!-- Header Section -->
+        <!-- Header -->
         <div class="header">
             <div class="logo">⚡ Tangail eFootball House</div>
             <a href="auth.html" class="btn-auth">Login / Register</a>
@@ -59,7 +59,7 @@
             <p style="color:#94a3b8; grid-column: 1/-1; text-align:center;">Loading packages...</p>
         </div>
 
-        <!-- Selected Product Display Box -->
+        <!-- Selected Product Display -->
         <div class="selected-box" id="selectedBox">
             <span style="color:#94a3b8;">No Package Selected Yet</span>
         </div>
@@ -117,7 +117,7 @@
         </div>
     </div>
 
-    <!-- Firebase Integration -->
+    <!-- Firebase System Integration -->
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
         import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
@@ -139,21 +139,21 @@
         let selectedProduct = null;
         let currentUserId = "Guest";
 
-        // Check Login User
+        // Login Status Monitor
         onAuthStateChanged(auth, (user) => {
             if (user) {
                 currentUserId = user.uid;
             }
         });
 
-        // 1. Live Banner Realtime Sync
+        // 1. Live Banner Sync
         onSnapshot(doc(db, "settings", "banner"), (docSnap) => {
             if (docSnap.exists() && docSnap.data().url) {
                 document.getElementById("mainBanner").src = docSnap.data().url;
             }
         });
 
-        // 2. Products List Auto Render
+        // 2. Dynamic Product Render (Per-item image logic)
         onSnapshot(collection(db, "products"), (snapshot) => {
             const container = document.getElementById("productContainer");
             container.innerHTML = "";
@@ -165,12 +165,16 @@
 
             snapshot.forEach((docSnap) => {
                 const p = docSnap.data();
-                const imgPath = p.image ? p.image : 'starterpack.png';
+                
+                // Check if p.image exists and is not empty
+                const imgHTML = (p.image && p.image.trim() !== "") 
+                    ? `<img src="${p.image}" alt="Pack">` 
+                    : `<div style="font-size: 32px; margin-bottom: 6px;">🪙</div>`;
                 
                 const card = document.createElement("div");
                 card.className = "product-card";
                 card.innerHTML = `
-                    <img src="${imgPath}" alt="Coin">
+                    ${imgHTML}
                     <div style="font-weight: bold; font-size: 13px;">${p.title}</div>
                     <div class="price">৳ ${p.price}</div>
                 `;
