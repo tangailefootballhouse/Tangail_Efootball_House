@@ -18,208 +18,80 @@
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             background-color: var(--bg-color);
             color: var(--text-color);
-            margin: 0;
-            padding: 0;
+            margin: 0; padding: 0;
             box-sizing: border-box;
         }
 
         .header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 15px 20px;
-            background-color: #080d1d;
-            border-bottom: 1px solid #1e293b;
+            display: flex; justify-content: space-between; align-items: center;
+            padding: 15px 20px; background-color: #080d1d; border-bottom: 1px solid #1e293b;
         }
 
-        .logo-container {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
-
-        .logo-container img {
-            width: 45px;
-            height: 45px;
-            border-radius: 50%;
-            object-fit: cover;
-            border: 2px solid var(--accent-color);
-        }
-
-        .site-title {
-            font-size: 18px;
-            font-weight: bold;
-            color: var(--accent-color);
-            line-height: 1.2;
-        }
-
-        .site-title span {
-            color: #fff;
-            display: block;
-            font-size: 14px;
-        }
+        .logo-container { display: flex; align-items: center; gap: 10px; }
+        .logo-container img { width: 45px; height: 45px; border-radius: 50%; border: 2px solid var(--accent-color); }
+        .site-title { font-size: 18px; font-weight: bold; color: var(--accent-color); }
+        .site-title span { color: #fff; display: block; font-size: 14px; }
 
         .btn-auth {
             background: linear-gradient(135deg, #38bdf8, #0284c7);
-            color: white;
-            border: none;
-            padding: 10px 18px;
-            border-radius: 20px;
-            font-weight: bold;
-            cursor: pointer;
-            font-size: 14px;
+            color: white; border: none; padding: 10px 18px; border-radius: 20px;
+            font-weight: bold; cursor: pointer; font-size: 14px;
         }
 
-        .container {
-            max-width: 600px;
-            margin: 0 auto;
-            padding: 15px;
-        }
-
+        .container { max-width: 600px; margin: 0 auto; padding: 15px; }
         .notice-board {
-            background: rgba(56, 189, 248, 0.1);
-            border-left: 4px solid var(--accent-color);
-            padding: 10px 15px;
-            border-radius: 4px;
-            font-size: 13px;
-            margin-bottom: 20px;
-            display: flex;
-            align-items: center;
-            gap: 10px;
+            background: rgba(56, 189, 248, 0.1); border-left: 4px solid var(--accent-color);
+            padding: 10px 15px; border-radius: 4px; font-size: 13px; margin-bottom: 20px;
         }
 
-        .notice-tag {
-            background: #f59e0b;
-            color: #000;
-            font-weight: bold;
-            padding: 2px 6px;
-            border-radius: 3px;
-            font-size: 11px;
-        }
+        .banner img { width: 100%; border-radius: 10px; margin-bottom: 20px; }
+        .section-title { font-size: 16px; color: var(--accent-color); margin-bottom: 15px; font-weight: bold; }
 
-        .banner {
-            width: 100%;
-            border-radius: 10px;
-            overflow: hidden;
-            margin-bottom: 20px;
-        }
-
-        .banner img {
-            width: 100%;
-            max-height: 220px;
-            object-fit: cover;
-            display: block;
-            border-radius: 10px;
-        }
-
-        .section-title {
-            font-size: 16px;
-            color: var(--accent-color);
-            margin-bottom: 15px;
-            font-weight: bold;
-        }
-
-        .product-grid {
-            display: grid;
-            grid-template-columns: repeat(2, 1fr);
-            gap: 12px;
-            margin-bottom: 25px;
-        }
-
+        .product-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px; margin-bottom: 25px; }
         .product-card {
-            background-color: var(--card-bg) !important;
-            border: 2px solid transparent;
-            border-radius: 10px;
-            padding: 15px 12px;
-            text-align: center;
-            cursor: pointer;
-            transition: all 0.2s ease;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            min-height: 90px;
+            background-color: var(--card-bg) !important; border: 2px solid transparent;
+            border-radius: 10px; padding: 15px 12px; text-align: center; cursor: pointer;
+            display: flex; flex-direction: column; align-items: center; justify-content: center; min-height: 90px;
         }
-
-        .product-card.active {
-            border-color: var(--accent-color);
-            background-color: #1a2f63 !important;
-        }
-
-        .product-card img {
-            max-width: 100%;
-            height: 55px;
-            object-fit: contain;
-            margin-bottom: 8px;
-            display: block;
-        }
-
-        .product-title {
-            font-size: 14px;
-            font-weight: bold;
-            margin-bottom: 5px;
-        }
-
-        .product-price {
-            font-size: 13px;
-            color: var(--accent-color);
-            font-weight: bold;
-        }
+        .product-card.active { border-color: var(--accent-color); background-color: #1a2f63 !important; }
+        .product-card img { max-width: 100%; height: 55px; margin-bottom: 8px; }
 
         .selected-package-box {
-            background-color: var(--card-bg);
-            border: 1px dashed var(--accent-color);
-            border-radius: 8px;
-            padding: 12px;
-            text-align: center;
-            font-size: 14px;
-            color: var(--text-secondary);
-            margin-bottom: 25px;
+            background-color: var(--card-bg); border: 1px dashed var(--accent-color);
+            border-radius: 8px; padding: 12px; text-align: center; font-size: 14px; margin-bottom: 25px;
         }
 
-        .selected-package-box strong {
-            color: #fff;
-        }
-
-        .form-group {
-            margin-bottom: 15px;
-        }
-
-        .form-group label {
-            display: block;
-            font-size: 13px;
-            color: var(--text-secondary);
-            margin-bottom: 6px;
-        }
-
+        .form-group { margin-bottom: 15px; }
+        .form-group label { display: block; font-size: 13px; color: var(--text-secondary); margin-bottom: 6px; }
         .form-control {
-            width: 100%;
-            padding: 12px;
-            background-color: var(--card-bg);
-            border: 1px solid var(--border-color);
-            border-radius: 8px;
-            color: white;
-            font-size: 14px;
-            box-sizing: border-box;
-            outline: none;
-        }
-
-        .form-control:focus {
-            border-color: var(--accent-color);
+            width: 100%; padding: 12px; background-color: var(--card-bg);
+            border: 1px solid var(--border-color); border-radius: 8px; color: white; box-sizing: border-box;
         }
 
         .btn-submit {
-            width: 100%;
-            background: linear-gradient(135deg, #38bdf8, #0284c7);
-            color: white;
-            border: none;
-            padding: 14px;
-            border-radius: 8px;
-            font-size: 16px;
-            font-weight: bold;
-            cursor: pointer;
-            margin-top: 10px;
+            width: 100%; background: linear-gradient(135deg, #38bdf8, #0284c7);
+            color: white; border: none; padding: 14px; border-radius: 8px; font-weight: bold; cursor: pointer;
         }
+
+        /* Modal Box */
+        .modal { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.8); justify-content: center; align-items: center; z-index: 100; }
+        .modal-content { background: var(--card-bg); padding: 25px; border-radius: 10px; width: 90%; max-width: 400px; position: relative; }
+        .close-btn { position: absolute; top: 10px; right: 15px; font-size: 20px; cursor: pointer; }
+
+        /* Order Tracking Card & Chat */
+        .order-card { background: #0f172a; border: 1px solid var(--border-color); border-radius: 8px; padding: 15px; margin-bottom: 15px; }
+        .badge { padding: 4px 8px; border-radius: 4px; font-size: 11px; font-weight: bold; }
+        .badge-pending { background: #f59e0b; color: #000; }
+        .badge-processing { background: #3b82f6; color: #fff; }
+        .badge-completed { background: #10b981; color: #fff; }
+
+        .chat-box { background: #080d1d; height: 120px; overflow-y: auto; padding: 8px; border-radius: 5px; margin-top: 10px; font-size: 12px; }
+        .chat-msg { margin-bottom: 5px; }
+        .chat-msg.user { color: #38bdf8; text-align: right; }
+        .chat-msg.admin { color: #10b981; text-align: left; }
+        .chat-input { display: flex; gap: 5px; margin-top: 5px; }
+        .chat-input input { flex: 1; padding: 6px; border-radius: 4px; border: 1px solid var(--border-color); background: #1e293b; color: #fff; }
+        .chat-input button { background: var(--accent-color); border: none; padding: 6px 12px; border-radius: 4px; cursor: pointer; }
     </style>
 </head>
 <body>
@@ -227,18 +99,14 @@
     <div class="header">
         <div class="logo-container">
             <img src="logo.png" alt="Logo" onerror="this.style.display='none'">
-            <div class="site-title">
-                TANGAIL
-                <span>eFOOTBALL</span>
-            </div>
+            <div class="site-title">TANGAIL <span>eFOOTBALL</span></div>
         </div>
-        <button class="btn-auth">Login / Register</button>
+        <button class="btn-auth" id="authBtn">Login / Register</button>
     </div>
 
     <div class="container">
         <div class="notice-board">
-            <span class="notice-tag">Notice:</span>
-            <span>টাকা সেন্ড মানি করে TrxID দিন। ৫-১০ মিনিটে ফাস্ট ডেলিভারি!</span>
+            <strong>Notice:</strong> টাকা সেন্ড মানি করে TrxID দিন। ৫-১০ মিনিটে ফাস্ট ডেলিভারি!
         </div>
 
         <div class="banner">
@@ -246,16 +114,11 @@
         </div>
 
         <div class="section-title">1. Select Coin Package</div>
-        <div class="product-grid" id="productContainer">
-            <div style="grid-column: span 2; text-align: center; color: var(--text-secondary);">Loading packages...</div>
-        </div>
+        <div class="product-grid" id="productContainer">Loading...</div>
 
-        <div class="selected-package-box" id="selectedBox">
-            No Package Selected Yet
-        </div>
+        <div class="selected-package-box" id="selectedBox">No Package Selected Yet</div>
 
-        <div class="section-title">2. Account Details</div>
-        
+        <div class="section-title">2. Account & Payment Details</div>
         <form id="orderForm">
             <div class="form-group">
                 <label>Account Type</label>
@@ -264,45 +127,65 @@
                     <option value="Google Play">Google Play</option>
                 </select>
             </div>
-
             <div class="form-group">
                 <label>Game Email / Login ID</label>
-                <input type="text" class="form-control" id="email" placeholder="Enter Game Email" required>
+                <input type="text" class="form-control" id="email" placeholder="Enter Email" required>
             </div>
-
             <div class="form-group">
                 <label>Game Password</label>
-                <input type="password" class="form-control" id="password" placeholder="Enter Game Password" required>
+                <input type="password" class="form-control" id="password" placeholder="Enter Password" required>
             </div>
-
-            <div class="section-title" style="margin-top: 25px;">3. Payment Method</div>
-
             <div class="form-group">
                 <label>Select Payment Method</label>
                 <select class="form-control" id="paymentMethod">
                     <option value="bKash">bKash (Send Money)</option>
                     <option value="Nagad">Nagad (Send Money)</option>
-                    <option value="Rocket">Rocket (Send Money)</option>
                 </select>
             </div>
-
             <div class="form-group">
                 <label>Sender Number</label>
                 <input type="text" class="form-control" id="senderNumber" placeholder="017xxxxxxxx" required>
             </div>
-
             <div class="form-group">
                 <label>Transaction ID (TrxID)</label>
                 <input type="text" class="form-control" id="trxId" placeholder="e.g. 8N7A6D5E" required>
             </div>
-
             <button type="submit" class="btn-submit">Submit Order</button>
         </form>
+
+        <!-- Customer Order History & Status Section -->
+        <div id="userOrdersSection" style="display: none; margin-top: 40px;">
+            <div class="section-title">My Orders & Tracking</div>
+            <div id="ordersContainer">Loading your orders...</div>
+        </div>
+    </div>
+
+    <!-- Auth Modal -->
+    <div class="modal" id="authModal">
+        <div class="modal-content">
+            <span class="close-btn" id="closeModal">&times;</span>
+            <h3 style="text-align:center; color: var(--accent-color);" id="modalTitle">Login</h3>
+            <form id="authForm">
+                <div class="form-group">
+                    <label>Email</label>
+                    <input type="email" class="form-control" id="authEmail" required>
+                </div>
+                <div class="form-group">
+                    <label>Password</label>
+                    <input type="password" class="form-control" id="authPassword" required>
+                </div>
+                <button type="submit" class="btn-submit" id="authSubmitBtn">Login</button>
+            </form>
+            <p style="text-align: center; font-size: 12px; margin-top: 15px;">
+                <span id="toggleAuth" style="color: var(--accent-color); cursor: pointer;">Don't have an account? Register</span>
+            </p>
+        </div>
     </div>
 
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
-        import { getFirestore, collection, onSnapshot, doc, addDoc } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
+        import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
+        import { getFirestore, collection, onSnapshot, doc, addDoc, query, where, updateDoc, arrayUnion } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
 
         const firebaseConfig = {
             apiKey: "AIzaSyDwhxDxu2DTIvJQ1uBs1Bl14FoL06Ws1KI",
@@ -314,88 +197,155 @@
         };
 
         const app = initializeApp(firebaseConfig);
+        const auth = getAuth(app);
         const db = getFirestore(app);
 
+        let currentUser = null;
         let selectedProduct = null;
+        let isRegister = false;
 
-        // Dynamic Banner Update
-        onSnapshot(doc(db, "settings", "banner"), (docSnap) => {
-            if (docSnap.exists() && docSnap.data().url) {
-                const bannerImg = document.getElementById("mainBanner");
-                bannerImg.src = docSnap.data().url;
-                bannerImg.style.display = "block";
+        // Modal Logic
+        const authModal = document.getElementById("authModal");
+        const authBtn = document.getElementById("authBtn");
+        document.getElementById("closeModal").onclick = () => authModal.style.display = "none";
+
+        authBtn.onclick = () => {
+            if (currentUser) {
+                signOut(auth);
+            } else {
+                authModal.style.display = "flex";
+            }
+        };
+
+        document.getElementById("toggleAuth").onclick = () => {
+            isRegister = !isRegister;
+            document.getElementById("modalTitle").innerText = isRegister ? "Register" : "Login";
+            document.getElementById("authSubmitBtn").innerText = isRegister ? "Register" : "Login";
+            document.getElementById("toggleAuth").innerText = isRegister ? "Already have an account? Login" : "Don't have an account? Register";
+        };
+
+        // Handle Auth Form
+        document.getElementById("authForm").addEventListener("submit", async (e) => {
+            e.preventDefault();
+            const email = document.getElementById("authEmail").value;
+            const pass = document.getElementById("authPassword").value;
+
+            try {
+                if (isRegister) {
+                    await createUserWithEmailAndPassword(auth, email, pass);
+                    alert("Account Created!");
+                } else {
+                    await signInWithEmailAndPassword(auth, email, pass);
+                    alert("Logged In!");
+                }
+                authModal.style.display = "none";
+            } catch (err) {
+                alert("Error: " + err.message);
             }
         });
 
-        // Dynamic Product Fetching (Shows Image ONLY if present in Admin Panel)
+        // Auth State Listener
+        onAuthStateChanged(auth, (user) => {
+            currentUser = user;
+            if (user) {
+                authBtn.innerText = "Logout";
+                document.getElementById("userOrdersSection").style.display = "block";
+                loadUserOrders(user.uid);
+            } else {
+                authBtn.innerText = "Login / Register";
+                document.getElementById("userOrdersSection").style.display = "none";
+            }
+        });
+
+        // Load Products
         onSnapshot(collection(db, "products"), (snapshot) => {
             const container = document.getElementById("productContainer");
             container.innerHTML = "";
-
-            if(snapshot.empty) {
-                container.innerHTML = `<div style="grid-column: span 2; text-align: center; color: var(--text-secondary);">No packages available</div>`;
-                return;
-            }
-
             snapshot.forEach((docSnap) => {
                 const p = docSnap.data();
                 const card = document.createElement("div");
                 card.className = "product-card";
-
-                // Clean logic: Displays image if provided in Admin
-                const imageHTML = (p.image && p.image.trim() !== "") 
-                    ? `<img src="${p.image}" alt="${p.title}" onerror="this.style.display='none'">` 
-                    : "";
-
-                card.innerHTML = `
-                    ${imageHTML}
-                    <div class="product-title">${p.title}</div>
-                    <div class="product-price">৳ ${p.price}</div>
-                `;
-
-                card.addEventListener("click", () => {
+                const imageHTML = (p.image && p.image.trim() !== "") ? `<img src="${p.image}">` : "";
+                card.innerHTML = `${imageHTML}<div style="font-weight:bold;">${p.title}</div><div style="color:#38bdf8;">৳ ${p.price}</div>`;
+                card.onclick = () => {
                     document.querySelectorAll(".product-card").forEach(c => c.classList.remove("active"));
                     card.classList.add("active");
                     selectedProduct = p;
                     document.getElementById("selectedBox").innerHTML = `Selected: <strong>${p.title}</strong> - ৳${p.price}`;
-                });
-
+                };
                 container.appendChild(card);
             });
         });
 
-        // Submit Order Logic
+        // Order Submit
         document.getElementById("orderForm").addEventListener("submit", async (e) => {
             e.preventDefault();
+            if (!currentUser) return alert("Please Login First to Place Order!");
+            if (!selectedProduct) return alert("Select a package first!");
 
-            if (!selectedProduct) {
-                alert("Please select a coin package first!");
-                return;
-            }
+            await addDoc(collection(db, "orders"), {
+                userId: currentUser.uid,
+                product: selectedProduct.title,
+                price: selectedProduct.price,
+                accType: document.getElementById("accType").value,
+                email: document.getElementById("email").value,
+                password: document.getElementById("password").value,
+                paymentMethod: document.getElementById("paymentMethod").value,
+                senderNumber: document.getElementById("senderNumber").value,
+                trxId: document.getElementById("trxId").value,
+                status: "Pending",
+                messages: [],
+                date: new Date()
+            });
 
-            try {
-                await addDoc(collection(db, "orders"), {
-                    product: selectedProduct.title,
-                    price: selectedProduct.price,
-                    accType: document.getElementById("accType").value,
-                    email: document.getElementById("email").value,
-                    password: document.getElementById("password").value,
-                    paymentMethod: document.getElementById("paymentMethod").value,
-                    senderNumber: document.getElementById("senderNumber").value,
-                    trxId: document.getElementById("trxId").value,
-                    status: "Pending",
-                    date: new Date()
-                });
-
-                alert("Order Placed Successfully!");
-                document.getElementById("orderForm").reset();
-                document.getElementById("selectedBox").innerHTML = "No Package Selected Yet";
-                document.querySelectorAll(".product-card").forEach(c => c.classList.remove("active"));
-                selectedProduct = null;
-            } catch (err) {
-                alert("Error placing order: " + err.message);
-            }
+            alert("Order Placed Successfully!");
+            document.getElementById("orderForm").reset();
         });
+
+        // Load User Orders with Live Chat
+        function loadUserOrders(uid) {
+            const q = query(collection(db, "orders"), where("userId", "==", uid));
+            onSnapshot(q, (snapshot) => {
+                const container = document.getElementById("ordersContainer");
+                container.innerHTML = "";
+                snapshot.forEach((docSnap) => {
+                    const o = docSnap.data();
+                    const orderId = docSnap.id;
+                    const badgeClass = o.status === "Completed" ? "badge-completed" : (o.status === "Processing" ? "badge-processing" : "badge-pending");
+                    
+                    let chatHTML = (o.messages || []).map(m => `<div class="chat-msg ${m.sender}">${m.sender === 'user' ? 'You' : 'Admin'}: ${m.text}</div>`).join('');
+
+                    const div = document.createElement("div");
+                    div.className = "order-card";
+                    div.innerHTML = `
+                        <div style="display:flex; justify-content:space-between; margin-bottom:8px;">
+                            <strong>${o.product} (৳${o.price})</strong>
+                            <span class="badge ${badgeClass}">${o.status}</span>
+                        </div>
+                        <div style="font-size:12px; color:#94a3b8;">TrxID: ${o.trxId}</div>
+                        
+                        <!-- Chat Box -->
+                        <div class="chat-box" id="chatBox-${orderId}">${chatHTML}</div>
+                        <div class="chat-input">
+                            <input type="text" id="chatIn-${orderId}" placeholder="Message admin...">
+                            <button onclick="window.sendChat('${orderId}')">Send</button>
+                        </div>
+                    `;
+                    container.appendChild(div);
+                });
+            });
+        }
+
+        // Global Chat Function
+        window.sendChat = async (orderId) => {
+            const input = document.getElementById(`chatIn-${orderId}`);
+            if (!input.value.trim()) return;
+
+            await updateDoc(doc(db, "orders", orderId), {
+                messages: arrayUnion({ sender: "user", text: input.value.trim(), time: new Date() })
+            });
+            input.value = "";
+        };
     </script>
 </body>
 </html>
