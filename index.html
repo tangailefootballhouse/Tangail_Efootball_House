@@ -35,9 +35,9 @@
             margin-bottom: 20px; 
         }
 
-        /* Logo Layout Fixed */
+        /* Circular Logo Display */
         .logo { 
-            font-size: 16px; 
+            font-size: 15px; 
             font-weight: bold; 
             color: var(--accent); 
             display: flex; 
@@ -45,9 +45,11 @@
             gap: 10px; 
         }
         .logo img {
-            height: 38px;
-            width: auto;
-            object-fit: contain;
+            height: 40px;
+            width: 40px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 1px solid var(--accent);
         }
 
         .btn-auth { 
@@ -185,10 +187,10 @@
 <body>
 
     <div class="container">
-        <!-- Top Header with Image Logo -->
+        <!-- Top Navigation with Logo Image -->
         <div class="header">
             <div class="logo">
-                <img src="logo.png" alt="Logo" onerror="this.style.display='none'">
+                <img src="logo.png" alt="Logo">
                 <span>Tangail eFootball House</span>
             </div>
             <a href="auth.html" class="btn-auth">Login / Register</a>
