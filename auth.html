@@ -4,158 +4,918 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Account | Tangail eFootball House</title>
+
     <style>
         :root {
-            --bg: #0f172a;
-            --card: #1e293b;
-            --accent: #38bdf8;
+            --bg: #0a0f1d;
+            --card: #171f33;
+            --accent: #00f2fe;
+            --accent2: #4facfe;
             --text: #f8fafc;
-            --border: #334155;
+            --muted: #94a3b8;
+            --border: rgba(255,255,255,0.1);
+            --danger: #ef4444;
         }
-        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background: var(--bg); color: var(--text); display: flex; justify-content: center; align-items: center; min-height: 100vh; margin: 0; padding: 20px; box-sizing: border-box; }
-        .auth-card { background: var(--card); border: 1px solid var(--border); border-radius: 12px; padding: 30px; width: 100%; max-width: 400px; box-shadow: 0 10px 25px rgba(0,0,0,0.5); }
-        h2 { text-align: center; color: var(--accent); margin-bottom: 20px; margin-top: 0; }
-        .form-group { margin-bottom: 15px; }
-        label { display: block; font-size: 13px; margin-bottom: 5px; color: #94a3b8; }
-        input { width: 100%; padding: 10px; border-radius: 6px; border: 1px solid var(--border); background: #0f172a; color: #fff; box-sizing: border-box; outline: none; }
-        input:focus { border-color: var(--accent); }
-        button { width: 100%; padding: 12px; background: var(--accent); color: #000; border: none; border-radius: 6px; font-weight: bold; cursor: pointer; margin-top: 10px; font-size: 15px; }
-        button:hover { opacity: 0.9; }
-        .toggle-text { text-align: center; margin-top: 15px; font-size: 13px; color: #94a3b8; }
-        .toggle-text span { color: var(--accent); cursor: pointer; font-weight: bold; }
-        .forgot-link { text-align: right; display: block; font-size: 12px; color: var(--accent); margin-top: 5px; cursor: pointer; text-decoration: none; }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            min-height: 100vh;
+            background:
+                radial-gradient(circle at top right, rgba(0,242,254,.10), transparent 40%),
+                radial-gradient(circle at bottom left, rgba(79,172,254,.10), transparent 40%),
+                var(--bg);
+            color: var(--text);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+
+        .auth-card {
+            width: 100%;
+            max-width: 420px;
+            background: rgba(23,31,51,.88);
+            backdrop-filter: blur(15px);
+            border: 1px solid var(--border);
+            border-radius: 18px;
+            padding: 28px;
+            box-shadow: 0 15px 45px rgba(0,0,0,.45);
+        }
+
+        .logo {
+            width: 55px;
+            height: 55px;
+            border-radius: 50%;
+            margin: 0 auto 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: linear-gradient(135deg,var(--accent),var(--accent2));
+            color: #000;
+            font-size: 24px;
+            font-weight: 900;
+        }
+
+        h2 {
+            text-align: center;
+            color: var(--accent);
+            margin-bottom: 5px;
+            font-size: 23px;
+        }
+
+        .subtitle {
+            text-align: center;
+            color: var(--muted);
+            font-size: 12px;
+            margin-bottom: 22px;
+        }
+
+        .form-group {
+            margin-bottom: 14px;
+        }
+
+        label {
+            display: block;
+            color: var(--muted);
+            font-size: 12px;
+            margin-bottom: 6px;
+        }
+
+        input {
+            width: 100%;
+            padding: 12px;
+            border-radius: 8px;
+            border: 1px solid var(--border);
+            background: rgba(10,15,29,.75);
+            color: #fff;
+            outline: none;
+            font-size: 13px;
+        }
+
+        input:focus {
+            border-color: var(--accent);
+            box-shadow: 0 0 8px rgba(0,242,254,.15);
+        }
+
+        .password-wrap {
+            position: relative;
+        }
+
+        .password-wrap input {
+            padding-right: 45px;
+        }
+
+        .show-pass {
+            position: absolute;
+            right: 12px;
+            top: 50%;
+            transform: translateY(-50%);
+            cursor: pointer;
+            color: var(--muted);
+            font-size: 14px;
+        }
+
+        .forgot-link {
+            display: block;
+            text-align: right;
+            color: var(--accent);
+            font-size: 11px;
+            margin-top: 6px;
+            cursor: pointer;
+        }
+
+        .main-btn {
+            width: 100%;
+            padding: 13px;
+            border: none;
+            border-radius: 9px;
+            background: linear-gradient(135deg,var(--accent),var(--accent2));
+            color: #000;
+            font-size: 14px;
+            font-weight: 800;
+            cursor: pointer;
+            margin-top: 8px;
+        }
+
+        .main-btn:disabled {
+            opacity: .6;
+            cursor: not-allowed;
+        }
+
+        .switch-text {
+            text-align: center;
+            color: var(--muted);
+            font-size: 12px;
+            margin-top: 18px;
+        }
+
+        .switch-btn {
+            color: var(--accent);
+            font-weight: 800;
+            cursor: pointer;
+            margin-left: 4px;
+        }
+
+        .message {
+            display: none;
+            padding: 10px;
+            border-radius: 7px;
+            font-size: 12px;
+            margin-bottom: 14px;
+            text-align: center;
+        }
+
+        .message.error {
+            display: block;
+            background: rgba(239,68,68,.12);
+            border: 1px solid rgba(239,68,68,.35);
+            color: #fca5a5;
+        }
+
+        .message.success {
+            display: block;
+            background: rgba(16,185,129,.12);
+            border: 1px solid rgba(16,185,129,.35);
+            color: #6ee7b7;
+        }
+
+        .register-only {
+            display: none;
+        }
+
+        .back-home {
+            display: block;
+            text-align: center;
+            margin-top: 15px;
+            color: var(--muted);
+            text-decoration: none;
+            font-size: 11px;
+        }
+
+        .back-home:hover {
+            color: var(--accent);
+        }
     </style>
 </head>
+
 <body>
 
-    <div class="auth-card">
-        <h2 id="formTitle">Sign In</h2>
-        
-        <form id="authForm">
-            <div class="form-group" id="nameGroup" style="display: none;">
-                <label>Full Name</label>
-                <input type="text" id="regName" placeholder="Enter full name">
-            </div>
+<div class="auth-card">
 
-            <div class="form-group" id="phoneGroup" style="display: none;">
-                <label>Phone Number</label>
-                <input type="tel" id="regPhone" placeholder="017XXXXXXXX">
-            </div>
+    <div class="logo">TE</div>
 
-            <div class="form-group" id="waGroup" style="display: none;">
-                <label>WhatsApp Number</label>
-                <input type="tel" id="regWhatsapp" placeholder="017XXXXXXXX">
-            </div>
+    <h2 id="formTitle">Sign In</h2>
 
-            <div class="form-group">
-                <label>Email Address</label>
-                <input type="email" id="authEmail" placeholder="example@gmail.com" required>
-            </div>
+    <p class="subtitle" id="formSubtitle">
+        Sign in to access your Tangail eFootball House account
+    </p>
 
-            <div class="form-group">
-                <label>Password</label>
-                <input type="password" id="authPassword" placeholder="••••••••" required>
-                <a class="forgot-link" id="forgotPassBtn">Forgot Password?</a>
-            </div>
+    <div id="messageBox" class="message"></div>
 
-            <button type="submit" id="submitBtn">Sign In</button>
-        </form>
+    <form id="authForm">
 
-        <div class="toggle-text">
-            <span id="toggleText">Don't have an account? <b id="toggleBtn" style="color:var(--accent);">Register</b></span>
+        <!-- REGISTER ONLY -->
+        <div class="form-group register-only">
+            <label>Full Name *</label>
+            <input
+                type="text"
+                id="regName"
+                placeholder="Enter your full name"
+            >
         </div>
+
+        <!-- REGISTER ONLY -->
+        <div class="form-group register-only">
+            <label>Account ID *</label>
+            <input
+                type="text"
+                id="regId"
+                placeholder="Choose your account ID"
+            >
+        </div>
+
+        <!-- REGISTER ONLY -->
+        <div class="form-group register-only">
+            <label>WhatsApp Number *</label>
+            <input
+                type="tel"
+                id="regWhatsapp"
+                placeholder="016XXXXXXXX"
+            >
+        </div>
+
+        <!-- EMAIL -->
+        <div class="form-group">
+            <label>Email Address *</label>
+            <input
+                type="email"
+                id="authEmail"
+                placeholder="example@gmail.com"
+                required
+            >
+        </div>
+
+        <!-- PASSWORD -->
+        <div class="form-group">
+
+            <label>Password *</label>
+
+            <div class="password-wrap">
+
+                <input
+                    type="password"
+                    id="authPassword"
+                    placeholder="Enter password"
+                    required
+                    minlength="6"
+                >
+
+                <span
+                    class="show-pass"
+                    id="showPassword"
+                >👁</span>
+
+            </div>
+
+            <span
+                class="forgot-link"
+                id="forgotPassBtn"
+            >
+                Forgot Password?
+            </span>
+
+        </div>
+
+        <button
+            type="submit"
+            class="main-btn"
+            id="submitBtn"
+        >
+            Sign In
+        </button>
+
+    </form>
+
+    <div class="switch-text">
+        <span id="switchQuestion">
+            Don't have an account?
+        </span>
+
+        <span
+            class="switch-btn"
+            id="toggleBtn"
+        >
+            Sign Up
+        </span>
     </div>
 
-    <script type="module">
-        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
-        import { getAuth, signInWithEmailAndPassword, createUserWithEmailAndPassword, sendPasswordResetEmail } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
-        import { getFirestore, doc, setDoc } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
+    <a href="index.html" class="back-home">
+        ← Back to Website
+    </a>
 
-        const firebaseConfig = {
-            apiKey: "AIzaSyDwhxDxu2DTIvJQ1uBs1Bl14FoL06Ws1KI",
-            authDomain: "tangail-efootball-house.firebaseapp.com",
-            projectId: "tangail-efootball-house",
-            storageBucket: "tangail-efootball-house.firebasestorage.app",
-            messagingSenderId: "774313430680",
-            appId: "1:774313430680:web:07d5af9f2abc31be4fcaed"
-        };
+</div>
 
-        const app = initializeApp(firebaseConfig);
-        const auth = getAuth(app);
-        const db = getFirestore(app);
 
-        let isRegisterMode = false;
+<script type="module">
 
-        const formTitle = document.getElementById("formTitle");
-        const submitBtn = document.getElementById("submitBtn");
-        const toggleBtn = document.getElementById("toggleBtn");
-        const nameGroup = document.getElementById("nameGroup");
-        const phoneGroup = document.getElementById("phoneGroup");
-        const waGroup = document.getElementById("waGroup");
-        const forgotPassBtn = document.getElementById("forgotPassBtn");
+    import {
+        initializeApp
+    } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
 
-        toggleBtn.addEventListener("click", () => {
-            isRegisterMode = !isRegisterMode;
-            if(isRegisterMode) {
-                formTitle.innerText = "Create Account";
-                submitBtn.innerText = "Register";
-                toggleBtn.innerText = "Sign In";
-                nameGroup.style.display = "block";
-                phoneGroup.style.display = "block";
-                waGroup.style.display = "block";
-                forgotPassBtn.style.display = "none";
+    import {
+        getAuth,
+        signInWithEmailAndPassword,
+        createUserWithEmailAndPassword,
+        sendPasswordResetEmail,
+        onAuthStateChanged
+    } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
+
+    import {
+        getFirestore,
+        doc,
+        setDoc,
+        getDoc
+    } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
+
+
+    /* =========================
+       FIREBASE CONFIG
+    ========================= */
+
+    const firebaseConfig = {
+
+        apiKey: "AIzaSyDwhxDxu2DTIvJQ1uBs1Bl14FoL06Ws1KI",
+
+        authDomain:
+            "tangail-efootball-house.firebaseapp.com",
+
+        projectId:
+            "tangail-efootball-house",
+
+        storageBucket:
+            "tangail-efootball-house.firebasestorage.app",
+
+        messagingSenderId:
+            "774313430680",
+
+        appId:
+            "1:774313430680:web:07d5af9f2abc31be4fcaed"
+    };
+
+
+    const app = initializeApp(firebaseConfig);
+
+    const auth = getAuth(app);
+
+    const db = getFirestore(app);
+
+
+    /* =========================
+       ELEMENTS
+    ========================= */
+
+    const authForm =
+        document.getElementById("authForm");
+
+    const formTitle =
+        document.getElementById("formTitle");
+
+    const formSubtitle =
+        document.getElementById("formSubtitle");
+
+    const submitBtn =
+        document.getElementById("submitBtn");
+
+    const toggleBtn =
+        document.getElementById("toggleBtn");
+
+    const switchQuestion =
+        document.getElementById("switchQuestion");
+
+    const forgotPassBtn =
+        document.getElementById("forgotPassBtn");
+
+    const messageBox =
+        document.getElementById("messageBox");
+
+    const passwordInput =
+        document.getElementById("authPassword");
+
+    const showPassword =
+        document.getElementById("showPassword");
+
+
+    const registerFields =
+        document.querySelectorAll(".register-only");
+
+
+    let registerMode = false;
+
+
+    /* =========================
+       MESSAGE
+    ========================= */
+
+    function showMessage(text, type) {
+
+        messageBox.textContent = text;
+
+        messageBox.className =
+            "message " + type;
+
+    }
+
+
+    function clearMessage() {
+
+        messageBox.textContent = "";
+
+        messageBox.className =
+            "message";
+
+    }
+
+
+    /* =========================
+       SHOW / HIDE PASSWORD
+    ========================= */
+
+    showPassword.addEventListener(
+        "click",
+        () => {
+
+            if (
+                passwordInput.type ===
+                "password"
+            ) {
+
+                passwordInput.type =
+                    "text";
+
+                showPassword.textContent =
+                    "🙈";
+
             } else {
-                formTitle.innerText = "Sign In";
-                submitBtn.innerText = "Sign In";
-                toggleBtn.innerText = "Register";
-                nameGroup.style.display = "none";
-                phoneGroup.style.display = "none";
-                waGroup.style.display = "none";
-                forgotPassBtn.style.display = "block";
+
+                passwordInput.type =
+                    "password";
+
+                showPassword.textContent =
+                    "👁";
+
             }
+
+        }
+    );
+
+
+    /* =========================
+       SWITCH LOGIN / REGISTER
+    ========================= */
+
+    function setRegisterMode(value) {
+
+        registerMode = value;
+
+        clearMessage();
+
+        registerFields.forEach(field => {
+
+            field.style.display =
+                registerMode
+                    ? "block"
+                    : "none";
+
         });
 
-        // Forgot Password Action
-        forgotPassBtn.addEventListener("click", async () => {
-            const email = prompt("আপনার রেজিস্টার্ড ইমেইল এড্রেসটি লিখুন:");
-            if(email) {
-                try {
-                    await sendPasswordResetEmail(auth, email.trim());
-                    alert("পাসওয়ার্ড রিসেট লিংক আপনার ইমেইলে পাঠানো হয়েছে! ইনবক্স/স্প্যাম ফোল্ডার চেক করুন।");
-                } catch(e) {
-                    alert("এরর: " + e.message);
-                }
-            }
-        });
 
-        // Form Submit Login / Register
-        document.getElementById("authForm").addEventListener("submit", async (e) => {
-            e.preventDefault();
-            const email = document.getElementById("authEmail").value.trim();
-            const password = document.getElementById("authPassword").value;
+        if (registerMode) {
+
+            formTitle.textContent =
+                "Create Account";
+
+            formSubtitle.textContent =
+                "Create your Tangail eFootball House account";
+
+            submitBtn.textContent =
+                "Create Account";
+
+            switchQuestion.textContent =
+                "Already have an account?";
+
+            toggleBtn.textContent =
+                "Sign In";
+
+            forgotPassBtn.style.display =
+                "none";
+
+        } else {
+
+            formTitle.textContent =
+                "Sign In";
+
+            formSubtitle.textContent =
+                "Sign in to access your Tangail eFootball House account";
+
+            submitBtn.textContent =
+                "Sign In";
+
+            switchQuestion.textContent =
+                "Don't have an account?";
+
+            toggleBtn.textContent =
+                "Sign Up";
+
+            forgotPassBtn.style.display =
+                "block";
+        }
+    }
+
+
+    toggleBtn.addEventListener(
+        "click",
+        () => {
+
+            setRegisterMode(
+                !registerMode
+            );
+
+        }
+    );
+
+
+    /* =========================
+       FORGOT PASSWORD
+    ========================= */
+
+    forgotPassBtn.addEventListener(
+        "click",
+        async () => {
+
+            const email =
+                document.getElementById(
+                    "authEmail"
+                ).value.trim();
+
+
+            if (!email) {
+
+                showMessage(
+                    "Please enter your registered email first.",
+                    "error"
+                );
+
+                return;
+            }
+
 
             try {
-                if(isRegisterMode) {
-                    const name = document.getElementById("regName").value;
-                    const phone = document.getElementById("regPhone").value;
-                    const whatsapp = document.getElementById("regWhatsapp").value;
 
-                    const res = await createUserWithEmailAndPassword(auth, email, password);
-                    await setDoc(doc(db, "users", res.user.uid), {
-                        name, phone, whatsapp, email,
-                        createdAt: new Date()
-                    });
-                    alert("অ্যাকাউন্ট তৈরি সফল হয়েছে!");
-                    window.location.href = "index.html";
-                } else {
-                    await signInWithEmailAndPassword(auth, email, password);
-                    alert("লগইন সফল হয়েছে!");
-                    window.location.href = "index.html";
-                }
-            } catch (err) {
-                alert("ব্যর্থ হয়েছে: " + err.message);
+                forgotPassBtn.textContent =
+                    "Sending...";
+
+                await sendPasswordResetEmail(
+                    auth,
+                    email
+                );
+
+                showMessage(
+                    "Password reset link has been sent to your email. Please check Inbox/Spam.",
+                    "success"
+                );
+
+            } catch (error) {
+
+                showMessage(
+                    getFirebaseError(error),
+                    "error"
+                );
+
+            } finally {
+
+                forgotPassBtn.textContent =
+                    "Forgot Password?";
+
             }
-        });
-    </script>
-</body>
-</html>
+
+        }
+    );
+
+
+    /* =========================
+       FORM SUBMIT
+    ========================= */
+
+    authForm.addEventListener(
+        "submit",
+        async (event) => {
+
+            event.preventDefault();
+
+            clearMessage();
+
+            submitBtn.disabled = true;
+
+            submitBtn.textContent =
+                registerMode
+                    ? "Creating Account..."
+                    : "Signing In...";
+
+
+            try {
+
+                const email =
+                    document.getElementById(
+                        "authEmail"
+                    ).value.trim();
+
+                const password =
+                    passwordInput.value;
+
+
+                /* =====================
+                   REGISTER
+                ===================== */
+
+                if (registerMode) {
+
+                    const name =
+                        document.getElementById(
+                            "regName"
+                        ).value.trim();
+
+                    const accountId =
+                        document.getElementById(
+                            "regId"
+                        ).value.trim();
+
+                    const whatsapp =
+                        document.getElementById(
+                            "regWhatsapp"
+                        ).value.trim();
+
+
+                    if (!name) {
+
+                        throw new Error(
+                            "Please enter your full name."
+                        );
+
+                    }
+
+                    if (!accountId) {
+
+                        throw new Error(
+                            "Please choose an Account ID."
+                        );
+
+                    }
+
+                    if (!whatsapp) {
+
+                        throw new Error(
+                            "Please enter your WhatsApp number."
+                        );
+
+                    }
+
+
+                    if (password.length < 6) {
+
+                        throw new Error(
+                            "Password must contain at least 6 characters."
+                        );
+
+                    }
+
+
+                    const result =
+                        await createUserWithEmailAndPassword(
+                            auth,
+                            email,
+                            password
+                        );
+
+
+                    const user =
+                        result.user;
+
+
+                    /* =====================
+                       FIRESTORE USER PROFILE
+                    ===================== */
+
+                    await setDoc(
+                        doc(
+                            db,
+                            "users",
+                            user.uid
+                        ),
+                        {
+
+                            uid:
+                                user.uid,
+
+                            userId:
+                                accountId,
+
+                            name:
+                                name,
+
+                            email:
+                                email,
+
+                            whatsapp:
+                                whatsapp,
+
+                            createdAt:
+                                new Date(),
+
+                            accountStatus:
+                                "Active"
+
+                        }
+                    );
+
+
+                    showMessage(
+                        "Account created successfully! Redirecting...",
+                        "success"
+                    );
+
+
+                    setTimeout(
+                        () => {
+
+                            window.location.href =
+                                "index.html";
+
+                        },
+                        1000
+                    );
+
+
+                }
+
+                /* =====================
+                   LOGIN
+                ===================== */
+
+                else {
+
+                    await signInWithEmailAndPassword(
+                        auth,
+                        email,
+                        password
+                    );
+
+
+                    showMessage(
+                        "Login successful! Redirecting...",
+                        "success"
+                    );
+
+
+                    setTimeout(
+                        () => {
+
+                            window.location.href =
+                                "index.html";
+
+                        },
+                        700
+                    );
+
+                }
+
+
+            } catch (error) {
+
+                showMessage(
+                    getFirebaseError(error),
+                    "error"
+                );
+
+            } finally {
+
+                submitBtn.disabled =
+                    false;
+
+                submitBtn.textContent =
+                    registerMode
+                        ? "Create Account"
+                        : "Sign In";
+
+            }
+
+        }
+    );
+
+
+    /* =========================
+       FIREBASE ERROR HANDLER
+    ========================= */
+
+    function getFirebaseError(error) {
+
+        const code =
+            error.code || "";
+
+
+        if (
+            code ===
+            "auth/email-already-in-use"
+        ) {
+
+            return "This email is already registered. Please Sign In.";
+
+        }
+
+
+        if (
+            code ===
+            "auth/invalid-email"
+        ) {
+
+            return "Please enter a valid email address.";
+
+        }
+
+
+        if (
+            code ===
+            "auth/weak-password"
+        ) {
+
+            return "Password must contain at least 6 characters.";
+
+        }
+
+
+        if (
+            code ===
+            "auth/invalid-credential"
+        ) {
+
+            return "Incorrect email or password.";
+
+        }
+
+
+        if (
+            code ===
+            "auth/user-not-found"
+        ) {
+
+            return "No account was found with this email.";
+
+        }
+
+
+        if (
+            code ===
+            "auth/wrong-password"
+        ) {
+
+            return "Incorrect password.";
+
+        }
+
+
+        if (
+            code ===
+            "auth/too-many-requests"
+        ) {
+
+            return "Too many attempts. Please try again later.";
+
+        }
+
+
+        if (error.message) {
+
+            return error.message;
+
+        }
+
+
+        return "Something went wrong. Please try again.";
+
+    }
+
+
+    /* =========================
+       CHECK CURRENT LOGIN
+    ========================= */
+
+    onAuthStateChanged(
+        auth,
+        (user) => {
+
+        
