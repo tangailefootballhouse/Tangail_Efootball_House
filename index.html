@@ -3,903 +3,386 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-    <title>Tangail eFootball House</title>
-
-    <!-- Google Fonts -->
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Hind+Siliguri:wght@400;500;600;700&family=Orbitron:wght@500;700;800&display=swap" rel="stylesheet">
-
-    <!-- Your Main CSS -->
-    <link rel="stylesheet" href="style.css">
-
+    <title>Tangail Efootball House V2</title>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
     <style>
-        /* =====================================================
-           AUTH / PROFILE NAVIGATION
-        ===================================================== */
-
-        .auth-nav {
-            display: flex;
-            align-items: center;
-            gap: 8px;
+        :root {
+            --bg-color: #090d16;
+            --card-bg: rgba(22, 31, 49, 0.7);
+            --card-border: rgba(255, 255, 255, 0.08);
+            --accent-glow: #00d2ff;
+            --accent-gradient: linear-gradient(135deg, #00d2ff 0%, #3a7bd5 100%);
+            --text-primary: #ffffff;
+            --text-secondary: #94a3b8;
+            --success: #10b981;
+            --warning: #f59e0b;
+            --danger: #ef4444;
+            --radius-lg: 16px;
+            --radius-md: 12px;
+            --radius-sm: 8px;
         }
 
-        .auth-btn {
-            border: 1px solid var(--primary-cyan);
-            background: rgba(0, 242, 254, 0.08);
-            color: var(--primary-cyan);
-            padding: 7px 12px;
-            border-radius: 20px;
-            font-size: 11px;
-            font-weight: 700;
-            cursor: pointer;
-            text-decoration: none;
-            transition: 0.2s;
+        * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Plus Jakarta Sans', sans-serif; }
+        body { background-color: var(--bg-color); color: var(--text-primary); padding-bottom: 80px; min-height: 100vh; }
+
+        /* Header Navigation */
+        .header {
+            display: flex; justify-content: space-between; align-items: center;
+            padding: 16px 20px; background: rgba(9, 13, 22, 0.8);
+            backdrop-filter: blur(12px); border-bottom: 1px solid var(--card-border);
+            position: sticky; top: 0; z-index: 100;
+        }
+        .brand { font-size: 18px; font-weight: 800; background: var(--accent-gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+        .menu-btn { background: rgba(255,255,255,0.05); border: 1px solid var(--card-border); color: #fff; padding: 8px 12px; border-radius: var(--radius-sm); font-size: 18px; cursor: pointer; transition: 0.2s; }
+        .menu-btn:active { transform: scale(0.95); }
+
+        .container { max-width: 600px; margin: 0 auto; padding: 20px 16px; }
+
+        /* Live Banner & Notice */
+        .banner { width: 100%; border-radius: var(--radius-lg); margin-bottom: 16px; display: block; border: 1px solid var(--card-border); box-shadow: 0 8px 24px rgba(0,0,0,0.3); }
+        .notice-box {
+            background: rgba(0, 210, 255, 0.05); border: 1px solid rgba(0, 210, 255, 0.2);
+            color: var(--accent-glow); padding: 12px 16px; border-radius: var(--radius-md); font-size: 13px; font-weight: 500;
+            margin-bottom: 24px; text-align: center;
         }
 
-        .auth-btn:hover {
-            background: var(--primary-cyan);
-            color: #000;
+        /* Products Grid */
+        .section-title { font-size: 16px; font-weight: 700; margin-bottom: 14px; color: var(--text-primary); display: flex; align-items: center; gap: 8px; }
+        .section-title::before { content: ''; width: 4px; height: 16px; background: var(--accent-glow); border-radius: 2px; }
+        
+        .product-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(135px, 1fr)); gap: 12px; }
+        .product-card {
+            background: var(--card-bg); border: 1px solid var(--card-border); backdrop-filter: blur(8px);
+            border-radius: var(--radius-md); padding: 16px 12px; text-align: center; cursor: pointer; transition: all 0.25s ease;
+            position: relative; overflow: hidden;
         }
+        .product-card:hover { border-color: var(--accent-glow); transform: translateY(-3px); box-shadow: 0 8px 20px rgba(0,210,255,0.15); }
+        .product-card img { width: 55px; height: 55px; object-fit: contain; margin-bottom: 10px; filter: drop-shadow(0 4px 8px rgba(0,0,0,0.4)); }
+        .product-title { font-size: 13px; font-weight: 600; margin-bottom: 6px; color: var(--text-primary); }
+        .product-price { background: var(--accent-gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent; font-size: 15px; font-weight: 800; }
 
-        .signup-btn {
-            background: linear-gradient(
-                135deg,
-                var(--primary-cyan),
-                var(--primary-blue)
-            );
-            color: #000;
-            border: none;
+        /* Navigation Drawer */
+        .drawer-overlay {
+            position: fixed; inset: 0; background: rgba(0,0,0,0.75); backdrop-filter: blur(4px); z-index: 200;
+            display: none; justify-content: flex-end;
         }
-
-        /* Profile button */
-        .profile-btn {
-            width: 38px;
-            height: 38px;
-            border-radius: 50%;
-            border: 1px solid var(--primary-cyan);
-            background: rgba(0, 242, 254, 0.08);
-            color: var(--primary-cyan);
-            display: none;
-            align-items: center;
-            justify-content: center;
-            font-size: 18px;
-            cursor: pointer;
+        .drawer {
+            width: 82%; max-width: 320px; background: #111827; height: 100%;
+            padding: 24px 20px; display: flex; flex-direction: column; border-left: 1px solid var(--card-border);
         }
+        .drawer-header { display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid var(--card-border); padding-bottom: 16px; margin-bottom: 20px; }
+        .close-btn { background: none; border: none; color: var(--text-secondary); font-size: 20px; cursor: pointer; }
 
-        .profile-btn.active {
-            display: flex;
+        .profile-card { background: rgba(255,255,255,0.03); padding: 16px; border-radius: var(--radius-md); margin-bottom: 20px; border: 1px solid var(--card-border); font-size: 13px; }
+        .profile-card div { margin-bottom: 6px; display: flex; justify-content: space-between; }
+        .profile-card span { color: var(--text-secondary); }
+
+        .drawer-menu { list-style: none; }
+        .drawer-item {
+            padding: 14px 16px; border-radius: var(--radius-sm); margin-bottom: 10px; background: rgba(255,255,255,0.02);
+            cursor: pointer; font-size: 14px; font-weight: 500; border: 1px solid var(--card-border); transition: 0.2s;
         }
+        .drawer-item:hover { background: rgba(0, 210, 255, 0.08); border-color: var(--accent-glow); }
+        .drawer-item a { color: #fff; text-decoration: none; display: block; width: 100%; }
 
-        /* Profile Drawer */
-        .profile-overlay {
-            position: fixed;
-            inset: 0;
-            background: rgba(0, 0, 0, 0.65);
-            z-index: 999;
-            display: none;
+        /* Modal Overlays */
+        .modal {
+            position: fixed; inset: 0; background: rgba(0,0,0,0.8); backdrop-filter: blur(6px); z-index: 300;
+            display: none; justify-content: center; align-items: center; padding: 20px;
         }
-
-        .profile-overlay.show {
-            display: block;
+        .modal-content {
+            background: #111827; border-radius: var(--radius-lg); width: 100%; max-width: 440px;
+            padding: 24px; max-height: 85vh; overflow-y: auto; border: 1px solid var(--card-border);
+            box-shadow: 0 20px 40px rgba(0,0,0,0.5);
         }
-
-        .profile-drawer {
-            position: absolute;
-            right: 0;
-            top: 0;
-            height: 100%;
-            width: 86%;
-            max-width: 360px;
-            background: #111827;
-            border-left: 1px solid var(--border-color);
-            padding: 20px;
-            overflow-y: auto;
-            animation: slideProfile 0.25s ease;
+        
+        label { font-size: 12px; font-weight: 600; color: var(--text-secondary); display: block; margin-top: 10px; }
+        input, select {
+            width: 100%; padding: 12px 14px; margin-top: 6px; margin-bottom: 8px;
+            background: rgba(255,255,255,0.04); border: 1px solid var(--card-border); border-radius: var(--radius-sm); color: #fff; outline: none; font-size: 14px;
         }
-
-        @keyframes slideProfile {
-            from {
-                transform: translateX(100%);
-            }
-            to {
-                transform: translateX(0);
-            }
+        input:focus, select:focus { border-color: var(--accent-glow); }
+        
+        .btn-main {
+            width: 100%; padding: 14px; background: var(--accent-gradient); border: none;
+            border-radius: var(--radius-sm); color: #fff; font-weight: 700; font-size: 14px; cursor: pointer; margin-top: 14px;
+            box-shadow: 0 4px 12px rgba(0,210,255,0.3); transition: 0.2s;
         }
+        .btn-main:active { transform: scale(0.98); }
 
-        .profile-head {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            border-bottom: 1px solid var(--border-color);
-            padding-bottom: 15px;
-            margin-bottom: 15px;
-        }
-
-        .profile-head h3 {
-            color: var(--primary-cyan);
-            font-size: 17px;
-        }
-
-        .close-profile {
-            border: none;
-            background: none;
-            color: #94a3b8;
-            font-size: 22px;
-            cursor: pointer;
-        }
-
-        .profile-info-card {
-            background: rgba(10, 15, 29, 0.8);
-            border: 1px solid var(--border-color);
-            border-radius: 12px;
-            padding: 14px;
-            margin-bottom: 15px;
-        }
-
-        .profile-row {
-            margin-bottom: 9px;
-            font-size: 12px;
-            word-break: break-word;
-        }
-
-        .profile-row:last-child {
-            margin-bottom: 0;
-        }
-
-        .profile-label {
-            color: var(--text-gray);
-            display: block;
-            margin-bottom: 2px;
-        }
-
-        .profile-value {
-            color: #fff;
-            font-weight: 600;
-        }
-
-        .profile-menu-item {
-            width: 100%;
-            background: rgba(255,255,255,0.03);
-            border: 1px solid var(--border-color);
-            border-radius: 10px;
-            padding: 13px;
-            margin-bottom: 9px;
-            color: #fff;
-            text-align: left;
-            cursor: pointer;
-            font-family: inherit;
-            font-size: 13px;
-        }
-
-        .profile-menu-item:hover {
-            border-color: var(--primary-cyan);
-            background: rgba(0,242,254,0.06);
-        }
-
-        .logout-item {
-            color: #ef4444;
-        }
-
-        /* =====================================================
-           AUTH REQUIRED MESSAGE
-        ===================================================== */
-
-        .login-required-box {
-            display: none;
-            background: rgba(251, 191, 36, 0.08);
-            border: 1px solid rgba(251, 191, 36, 0.35);
-            border-radius: 12px;
-            padding: 14px;
-            margin-top: 15px;
-            text-align: center;
-        }
-
-        .login-required-box.show {
-            display: block;
-        }
-
-        .login-required-box p {
-            color: var(--text-gray);
-            font-size: 12px;
-            margin-bottom: 10px;
-        }
-
-        /* =====================================================
-           CHECKOUT MODAL
-        ===================================================== */
-
-        .custom-modal {
-            position: fixed;
-            inset: 0;
-            background: rgba(0,0,0,0.78);
-            z-index: 1000;
-            display: none;
-            align-items: center;
-            justify-content: center;
-            padding: 15px;
-        }
-
-        .custom-modal.show {
-            display: flex;
-        }
-
-        .custom-modal-card {
-            width: 100%;
-            max-width: 450px;
-            max-height: 92vh;
-            overflow-y: auto;
-            background: #111827;
-            border: 1px solid var(--border-color);
-            border-radius: 15px;
-            padding: 18px;
-        }
-
-        .modal-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 15px;
-        }
-
-        .modal-header h3 {
-            color: var(--primary-cyan);
-            font-size: 17px;
-        }
-
-        .modal-close {
-            background: none;
-            border: none;
-            color: #94a3b8;
-            font-size: 22px;
-            cursor: pointer;
-        }
-
-        .submit-order-btn {
-            width: 100%;
-            padding: 13px;
-            border: none;
-            border-radius: 9px;
-            background: linear-gradient(
-                135deg,
-                var(--primary-cyan),
-                var(--primary-blue)
-            );
-            color: #000;
-            font-size: 14px;
-            font-weight: 800;
-            cursor: pointer;
-        }
-
-        /* =====================================================
-           HISTORY
-        ===================================================== */
-
-        .history-card {
-            background: rgba(10,15,29,0.8);
-            border: 1px solid var(--border-color);
-            border-radius: 12px;
-            padding: 13px;
-            margin-bottom: 12px;
-        }
-
-        .history-top {
-            display: flex;
-            justify-content: space-between;
-            gap: 8px;
-            align-items: center;
-        }
-
-        .history-product {
-            font-size: 13px;
-            font-weight: 700;
-        }
-
-        .status {
-            padding: 3px 8px;
-            border-radius: 5px;
-            font-size: 10px;
-            font-weight: 700;
-        }
-
-        .status-Pending {
-            background: #eab308;
-            color: #000;
-        }
-
-        .status-Processing {
-            background: #3b82f6;
-            color: #fff;
-        }
-
-        .status-Completed {
-            background: #10b981;
-            color: #fff;
-        }
-
-        .history-small {
-            color: var(--text-gray);
-            font-size: 10px;
-            margin-top: 5px;
-        }
-
-        .chat-box {
-            background: #090d16;
-            border: 1px solid var(--border-color);
-            border-radius: 8px;
-            margin-top: 10px;
-            padding: 8px;
-        }
-
-        .chat-messages {
-            height: 100px;
-            overflow-y: auto;
-            font-size: 11px;
-            margin-bottom: 7px;
-        }
-
-        .chat-msg {
-            margin-bottom: 5px;
-        }
-
-        .chat-msg.user {
-            color: var(--primary-cyan);
-            text-align: right;
-        }
-
-        .chat-msg.admin {
-            color: #10b981;
-            text-align: left;
-        }
-
-        .chat-send-row {
-            display: flex;
-            gap: 6px;
-        }
-
-        .chat-send-row input {
-            margin: 0;
-        }
-
-        .chat-send-row button {
-            width: auto;
-            padding: 8px 12px;
-            border: none;
-            border-radius: 7px;
-            background: var(--primary-cyan);
-            color: #000;
-            font-weight: 700;
-            cursor: pointer;
-        }
-
-        /* =====================================================
-           MOBILE
-        ===================================================== */
-
-        @media (max-width: 420px) {
-            .brand-title {
-                font-size: 12px;
-            }
-
-            .auth-btn {
-                padding: 6px 9px;
-                font-size: 10px;
-            }
+        /* Purchase History */
+        .history-card { background: rgba(255,255,255,0.03); border-radius: var(--radius-md); padding: 14px; margin-bottom: 12px; border: 1px solid var(--card-border); }
+        .status-badge { padding: 3px 10px; border-radius: 20px; font-size: 10px; font-weight: 700; text-transform: uppercase; }
+        .status-Pending { background: rgba(245, 158, 11, 0.15); color: var(--warning); border: 1px solid var(--warning); }
+        .status-Completed { background: rgba(16, 185, 129, 0.15); color: var(--success); border: 1px solid var(--success); }
+        
+        .toast-msg {
+            position: fixed; bottom: 24px; left: 50%; transform: translateX(-50%);
+            background: var(--accent-gradient); color: #fff; padding: 12px 24px;
+            border-radius: 30px; font-size: 13px; font-weight: 700; display: none; z-index: 400;
+            box-shadow: 0 8px 20px rgba(0,0,0,0.4);
         }
     </style>
 </head>
-
 <body>
 
-<!-- =========================================================
-     TOP NAVIGATION
-========================================================= -->
+    <div class="toast-msg" id="toast">Notification</div>
 
-<header class="top-nav">
+    <!-- Header Navigation -->
+    <header class="header">
+        <div class="brand">Tangail Efootball House</div>
+        <button class="menu-btn" id="openDrawerBtn">☰</button>
+    </header>
 
-    <div class="logo-box">
+    <!-- Main Section -->
+    <div class="container">
+        <!-- Live Banner & Notice -->
+        <img id="mainBanner" class="banner" src="starterpack.png" alt="Banner" style="display:none;">
+        <div class="notice-box" id="noticeBox" style="display:none;"></div>
 
-        <img
-            src="logo.png"
-            class="nav-logo"
-            alt="Tangail eFootball House"
-            onerror="this.style.display='none'"
-        >
-
-        <div class="brand-title">
-            TANGAIL <span>eFOOTBALL</span> HOUSE
-        </div>
-
+        <!-- Coin Products Grid -->
+        <div class="section-title">Select Coin Package</div>
+        <div class="product-grid" id="productGrid">Loading Packages...</div>
     </div>
 
-    <!-- NOT LOGGED IN -->
-    <div class="auth-nav" id="guestNav">
+    <!-- Drawer Menu -->
+    <div class="drawer-overlay" id="drawerOverlay">
+        <div class="drawer">
+            <div class="drawer-header">
+                <h3 style="color:var(--text-primary); font-size: 16px;">User Profile</h3>
+                <button class="close-btn" id="closeDrawerBtn">✕</button>
+            </div>
 
-        <a href="auth.html" class="auth-btn">
-            Sign In
-        </a>
+            <div class="profile-card">
+                <div><span>User ID</span> <strong id="profId" style="color:#fff;">...</strong></div>
+                <div><span>Email</span> <strong id="profEmail" style="color:#fff;">...</strong></div>
+                <div><span>WhatsApp</span> <strong id="profWa" style="color:#fff;">...</strong></div>
+                <button id="btnEditProfile" style="background:none; border:none; color:var(--accent-glow); cursor:pointer; font-size:12px; margin-top:8px; text-decoration:underline; font-weight:600;">Edit Profile</button>
+            </div>
 
-        <a href="auth.html" class="auth-btn signup-btn">
-            Sign Up
-        </a>
-
+            <ul class="drawer-menu">
+                <li class="drawer-item" id="btnMyOrders">📦 Purchase History</li>
+                <li class="drawer-item">
+                    💬 <a href="https://wa.me/8801603785413" target="_blank">WhatsApp Support</a>
+                </li>
+                <li class="drawer-item">
+                    🌐 <a href="https://facebook.com" target="_blank">Facebook Page</a>
+                </li>
+            </ul>
+        </div>
     </div>
 
-    <!-- LOGGED IN -->
-    <button
-        class="profile-btn"
-        id="profileBtn"
-        title="Profile"
-    >
-        👤
-    </button>
+    <!-- User Profile Setup Modal -->
+    <div class="modal" id="accountModal">
+        <div class="modal-content">
+            <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:12px;">
+                <h3 style="color:var(--accent-glow); font-size: 16px;">Update Details</h3>
+                <button class="close-btn" onclick="document.getElementById('accountModal').style.display='none'">✕</button>
+            </div>
+            <form id="accountForm">
+                <label>Email Address</label>
+                <input type="email" id="regEmail" required placeholder="user@gmail.com">
 
-</header>
+                <label>WhatsApp Number</label>
+                <input type="tel" id="regWa" required placeholder="01603785413">
 
-
-<!-- =========================================================
-     NOTICE
-========================================================= -->
-
-<div
-    class="notice-bar"
-    id="noticeBar"
-    style="display:none;"
->
-
-    <span class="pulse-icon"></span>
-
-    <span id="noticeText"></span>
-
-</div>
-
-
-<!-- =========================================================
-     BANNER
-========================================================= -->
-
-<div
-    class="banner-container"
-    id="bannerContainer"
-    style="display:none;"
->
-
-    <div class="banner-card">
-
-        <img
-            id="mainBanner"
-            class="banner-img"
-            src=""
-            alt="Tangail eFootball House Banner"
-        >
-
+                <button type="submit" class="btn-main">Save Profile</button>
+            </form>
+        </div>
     </div>
 
-</div>
-
-
-<!-- =========================================================
-     MAIN CONTENT
-========================================================= -->
-
-<main class="container">
-
-    <!-- STEP 1 -->
-    <section class="section-card">
-
-        <div class="step-header">
-
-            <div class="step-num">
-                1
+    <!-- Purchase History Modal -->
+    <div class="modal" id="historyModal">
+        <div class="modal-content">
+            <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:15px;">
+                <h3 style="color:var(--accent-glow); font-size: 16px;">Purchase History</h3>
+                <button class="close-btn" onclick="document.getElementById('historyModal').style.display='none'">✕</button>
             </div>
-
-            <h2>
-                Select Coin Package
-            </h2>
-
+            <div id="historyListContainer">Loading History...</div>
         </div>
-
-        <div
-            class="coin-grid"
-            id="coinGrid"
-        >
-
-            <p
-                style="
-                    grid-column:1/-1;
-                    color:var(--text-gray);
-                    text-align:center;
-                    font-size:12px;
-                "
-            >
-                Loading Packages...
-            </p>
-
-        </div>
-
-    </section>
-
-
-    <!-- SELECTED PACKAGE -->
-    <div
-        class="selected-summary-card"
-        id="selectedSummary"
-        style="display:none;"
-    >
-
-        <span class="summary-label">
-            Selected Package
-        </span>
-
-        <span
-            class="summary-val"
-            id="selectedProductText"
-        >
-        </span>
-
     </div>
 
-
-    <!-- LOGIN REQUIRED -->
-    <div
-        class="login-required-box"
-        id="loginRequiredBox"
-    >
-
-        <p>
-            Please sign in or create an account before placing an order.
-        </p>
-
-        <a
-            href="auth.html"
-            class="auth-btn signup-btn"
-            style="display:inline-block;"
-        >
-            Sign In / Sign Up
-        </a>
-
-    </div>
-
-
-    <!-- STEP 2 -->
-    <section
-        class="section-card"
-        id="orderSection"
-    >
-
-        <div class="step-header">
-
-            <div class="step-num">
-                2
+    <!-- Checkout Modal -->
+    <div class="modal" id="checkoutModal">
+        <div class="modal-content">
+            <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:10px;">
+                <h3 id="orderModalTitle" style="color:var(--accent-glow); font-size: 16px;">Checkout</h3>
+                <button class="close-btn" onclick="document.getElementById('checkoutModal').style.display='none'">✕</button>
             </div>
-
-            <h2>
-                Payment & Order
-            </h2>
-
-        </div>
-
-
-        <!-- Payment Methods -->
-
-        <div class="payment-methods">
-
-            <div
-                class="pay-box active"
-                data-payment="bKash (Send Money)"
-            >
-
-                <span class="pay-title">
-                    bKash
-                </span>
-
-                <span class="pay-badge">
-                    Send Money
-                </span>
-
-            </div>
-
-            <div
-                class="pay-box"
-                data-payment="Nagad (Send Money)"
-            >
-
-                <span
-                    class="pay-title"
-                    style="color:#f97316;"
-                >
-                    Nagad
-                </span>
-
-                <span class="pay-badge">
-                    Send Money
-                </span>
-
-            </div>
-
-        </div>
-
-
-        <!-- Payment Instruction -->
-
-        <div class="payment-instruction">
-
-            <div class="pay-details">
-
-                <div>
-
-                    <div
-                        style="
-                            font-size:11px;
-                            color:var(--text-gray);
-                            margin-bottom:3px;
-                        "
-                    >
-                        Send Money Number
-                    </div>
-
-                    <div class="number-wrapper">
-
-                        <span
-                            class="copy-num"
-                            id="paymentNumber"
-                        >
-                            01603785413
-                        </span>
-
-                        <button
-                            class="copy-btn"
-                            id="copyPaymentNumber"
-                            type="button"
-                        >
-                            COPY
-                        </button>
-
-                    </div>
-
-                </div>
-
-            </div>
-
-            <div class="pay-note">
-                Send the exact amount and enter your TrxID below.
-            </div>
-
-        </div>
-
-
-        <!-- Order Button -->
-
-        <button
-            class="buy-now-btn"
-            id="buyNowBtn"
-            type="button"
-        >
-            🔐 Sign In to Order
-        </button>
-
-    </section>
-
-
-    <!-- =====================================================
-         RULES
-    ====================================================== -->
-
-    <section class="section-card">
-
-        <div class="step-header">
-
-            <div class="step-num">
-                3
-            </div>
-
-            <h2>
-                Important Rules
-            </h2>
-
-        </div>
-
-        <ul class="rules-list">
-
-            <li>
-                ✅ Always verify the payment number before sending money.
-            </li>
-
-            <li>
-                ✅ Enter the correct Transaction ID.
-            </li>
-
-            <li>
-                ✅ Never share your account information with unknown people.
-            </li>
-
-            <li>
-                ✅ Your order status can be tracked from your Profile.
-            </li>
-
-            <li>
-                ✅ For any problem, contact us through WhatsApp.
-            </li>
-
-        </ul>
-
-    </section>
-
-</main>
-
-
-<!-- =========================================================
-     PROFILE DRAWER
-========================================================= -->
-
-<div
-    class="profile-overlay"
-    id="profileOverlay"
->
-
-    <div class="profile-drawer">
-
-        <div class="profile-head">
-
-            <h3>
-                👤 My Profile
-            </h3>
-
-            <button
-                class="close-profile"
-                id="closeProfileBtn"
-            >
-                ✕
-            </button>
-
-        </div>
-
-
-        <div class="profile-info-card">
-
-            <div class="profile-row">
-
-                <span class="profile-label">
-                    User ID
-                </span>
-
-                <span
-                    class="profile-value"
-                    id="profileUserId"
-                >
-                    Loading...
-                </span>
-
-            </div>
-
-
-            <div class="profile-row">
-
-                <span class="profile-label">
-                    Name
-                </span>
-
-                <span
-                    class="profile-value"
-                    id="profileName"
-                >
-                    Loading...
-                </span>
-
-            </div>
-
-
-            <div class="profile-row">
-
-                <span class="profile-label">
-                    Email
-                </span>
-
-                <span
-                    class="profile-value"
-                    id="profileEmail"
-                >
-                    Loading...
-                </span>
-
-            </div>
-
-
-            <div class="profile-row">
-
-                <span class="profile-label">
-                    Phone
-                </span>
-
-                <span
-                    class="profile-value"
-                    id="profilePhone"
-                >
-                    Loading...
-                </span>
-
-            </div>
-
-
-            <div class="profile-row">
-
-                <span class="profile-label">
-                    WhatsApp
-                </span>
-
-                <span
-                    class="profile-value"
-                    id="profileWhatsapp"
-                >
-                    Loading...
-                </span>
-
-            </div>
-
-        </div>
-
-
-        <button
-            class="profile-menu-item"
-            id="myOrdersBtn"
-        >
-            📦 My Purchase History
-        </button>
-
-
-        <a
-            href="https://wa.me/8801603785413"
-            target="_blank"
-            class="profile-menu-item"
-            style="display:block;text-decoration:none;"
-        >
-            💬 Contact on WhatsApp
-        </a>
-
-
-        <a
-            href="https://facebook.com"
-            target="_blank"
-            class="profile-menu-item"
-            style="display:block;text-decoration:none;"
-        >
-            🌐 Official Facebook Page
-        </a>
-
-
-        <button
-            class="profile-menu-item logout-item"
-            id="logoutBtn"
-        >
-            🚪 Sign Out
-        </button>
-
-    </div>
-
-</div>
-
-
-<!-- =========================================================
-     CHECKOUT MODAL
-========================================================= -->
-
-<div
-    class="custom-modal"
-    id="checkoutModal"
->
-
-    <div class="custom-modal-card">
-
-        <div class="modal-header">
-
-            <h3 id="checkoutTitle">
-                Checkout
-            </h3>
-
-            <button
-                class="modal-close"
-                id="closeCheckoutBtn"
-                type="button"
-            >
             
+            <form id="orderForm">
+                <label>Account Type</label>
+                <select id="accType" required>
+                    <option value="Konami ID">Konami ID</option>
+                    <option value="Google Play">Google Play</option>
+                </select>
+
+                <label>Game Email / ID</label>
+                <input type="text" id="gameEmail" required placeholder="Game Account Email">
+
+                <label>Game Password</label>
+                <input type="password" id="gamePassword" required placeholder="Game Password">
+
+                <label>Payment Method</label>
+                <select id="paymentMethod" required>
+                    <option value="bKash (Send Money)">bKash (01603785413)</option>
+                    <option value="Nagad (Send Money)">Nagad (01603785413)</option>
+                </select>
+
+                <label>Sender Number</label>
+                <input type="text" id="senderNo" required placeholder="017XXXXXXXX">
+
+                <label>Transaction ID (TrxID)</label>
+                <input type="text" id="trxId" required placeholder="e.g. 9J87X12A">
+
+                <button type="submit" class="btn-main">Confirm Order</button>
+            </form>
+        </div>
+    </div>
+
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
+        import { getFirestore, collection, onSnapshot, doc, addDoc, query, where, updateDoc, arrayUnion, setDoc } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
+
+        const firebaseConfig = {
+            apiKey: "AIzaSyDwhxDxu2DTIvJQ1uBs1Bl14FoL06Ws1KI",
+            authDomain: "tangail-efootball-house.firebaseapp.com",
+            projectId: "tangail-efootball-house",
+            storageBucket: "tangail-efootball-house.firebasestorage.app",
+            messagingSenderId: "774313430680",
+            appId: "1:774313430680:web:07d5af9f2abc31be4fcaed"
+        };
+
+        const app = initializeApp(firebaseConfig);
+        const db = getFirestore(app);
+
+        let currentUser = JSON.parse(localStorage.getItem("eFootballUser_v2")) || null;
+        let selectedProduct = null;
+
+        function initUser() {
+            if (!currentUser) {
+                const uid = "USER-" + Math.floor(100000 + Math.random() * 900000);
+                currentUser = { userId: uid, email: "Not Set", whatsapp: "01603785413" };
+                localStorage.setItem("eFootballUser_v2", JSON.stringify(currentUser));
+                setDoc(doc(db, "users", uid), currentUser);
+            }
+            updateProfileUI();
+        }
+
+        function updateProfileUI() {
+            document.getElementById("profId").innerText = currentUser.userId;
+            document.getElementById("profEmail").innerText = currentUser.email;
+            document.getElementById("profWa").innerText = currentUser.whatsapp;
+        }
+
+        function showToast(text) {
+            const t = document.getElementById("toast");
+            t.innerText = text;
+            t.style.display = "block";
+            setTimeout(() => { t.style.display = "none"; }, 3000);
+        }
+
+        initUser();
+
+        document.getElementById("btnEditProfile").onclick = () => {
+            document.getElementById("drawerOverlay").style.display = "none";
+            document.getElementById("regEmail").value = currentUser.email === "Not Set" ? "" : currentUser.email;
+            document.getElementById("regWa").value = currentUser.whatsapp;
+            document.getElementById("accountModal").style.display = "flex";
+        };
+
+        document.getElementById("accountForm").onsubmit = async (e) => {
+            e.preventDefault();
+            currentUser.email = document.getElementById("regEmail").value.trim();
+            currentUser.whatsapp = document.getElementById("regWa").value.trim();
+            localStorage.setItem("eFootballUser_v2", JSON.stringify(currentUser));
+            await setDoc(doc(db, "users", currentUser.userId), currentUser);
+            updateProfileUI();
+            document.getElementById("accountModal").style.display = "none";
+            showToast("Profile Saved!");
+        };
+
+        document.getElementById("openDrawerBtn").onclick = () => document.getElementById("drawerOverlay").style.display = "flex";
+        document.getElementById("closeDrawerBtn").onclick = () => document.getElementById("drawerOverlay").style.display = "none";
+
+        onSnapshot(doc(db, "settings", "banner"), (d) => {
+            if (d.exists() && d.data().url) {
+                const b = document.getElementById("mainBanner");
+                b.src = d.data().url;
+                b.style.display = "block";
+            }
+        });
+
+        onSnapshot(doc(db, "settings", "notice"), (d) => {
+            if (d.exists() && d.data().text) {
+                const n = document.getElementById("noticeBox");
+                n.innerText = d.data().text;
+                n.style.display = "block";
+            }
+        });
+
+        onSnapshot(collection(db, "products"), (snapshot) => {
+            const grid = document.getElementById("productGrid");
+            grid.innerHTML = "";
+            snapshot.forEach((docSnap) => {
+                const p = docSnap.data();
+                const card = document.createElement("div");
+                card.className = "product-card";
+                card.innerHTML = `
+                    <img src="${p.image || 'starterpack.png'}" alt="Coin">
+                    <div class="product-title">${p.title}</div>
+                    <div class="product-price">৳${p.price}</div>
+                `;
+                card.onclick = () => {
+                    selectedProduct = p;
+                    document.getElementById("orderModalTitle").innerText = `${p.title} (৳${p.price})`;
+                    document.getElementById("checkoutModal").style.display = "flex";
+                };
+                grid.appendChild(card);
+            });
+        });
+
+        document.getElementById("orderForm").onsubmit = async (e) => {
+            e.preventDefault();
+            await addDoc(collection(db, "orders"), {
+                userId: currentUser.userId,
+                userEmail: currentUser.email,
+                product: selectedProduct.title,
+                price: selectedProduct.price,
+                accType: document.getElementById("accType").value,
+                email: document.getElementById("gameEmail").value,
+                password: document.getElementById("gamePassword").value,
+                paymentMethod: document.getElementById("paymentMethod").value,
+                senderNumber: document.getElementById("senderNo").value,
+                trxId: document.getElementById("trxId").value,
+                status: "Pending",
+                createdAt: new Date()
+            });
+
+            document.getElementById("checkoutModal").style.display = "none";
+            document.getElementById("orderForm").reset();
+            showToast("Order Placed Successfully!");
+        };
+
+        document.getElementById("btnMyOrders").onclick = () => {
+            document.getElementById("drawerOverlay").style.display = "none";
+            document.getElementById("historyModal").style.display = "flex";
+
+            const q = query(collection(db, "orders"), where("userId", "==", currentUser.userId));
+            onSnapshot(q, (snapshot) => {
+                const container = document.getElementById("historyListContainer");
+                container.innerHTML = "";
+
+                if (snapshot.empty) {
+                    container.innerHTML = "<p style='color:var(--text-secondary); text-align:center;'>No orders placed yet.</p>";
+                    return;
+                }
+
+                snapshot.forEach((docSnap) => {
+                    const o = docSnap.data();
+                    const div = document.createElement("div");
+                    div.className = "history-card";
+                    div.innerHTML = `
+                        <div style="display:flex; justify-content:space-between; align-items:center;">
+                            <strong>${o.product} (৳${o.price})</strong>
+                            <span class="status-badge sta
