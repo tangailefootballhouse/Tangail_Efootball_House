@@ -28,7 +28,6 @@
             padding: 15px;
         }
 
-        /* Top Header Styling */
         .header { 
             display: flex; 
             justify-content: space-between; 
@@ -76,7 +75,6 @@
             font-size: 14px; 
         }
 
-        /* Notice Bar Styling */
         .notice-bar {
             background: #111e38;
             border-bottom: 1px solid #1e2d4d;
@@ -91,9 +89,6 @@
         .notice-tag {
             color: #facc15;
             font-weight: bold;
-            display: flex;
-            align-items: center;
-            gap: 6px;
         }
 
         .banner { 
@@ -134,7 +129,7 @@
             flex-direction: column;
             align-items: center;
             justify-content: center;
-            min-height: 110px;
+            min-height: 100px;
             box-sizing: border-box;
         }
 
@@ -221,7 +216,6 @@
 </head>
 <body>
 
-    <!-- Header Section -->
     <div class="header">
         <div class="logo">
             <img src="logo.png" alt="Logo" onerror="this.style.display='none'">
@@ -230,9 +224,8 @@
         <a href="auth.html" class="btn-auth">Login / Register</a>
     </div>
 
-    <!-- Notice Bar Section -->
     <div class="notice-bar">
-        <span class="notice-tag">🟡 Notice:</span>
+        <span class="notice-tag">Notice:</span>
         <span>টাকা সেন্ড মানি করে TrxID দিন। ৫-১০ মিনিটে ফাস্ট ডেলিভারি!</span>
     </div>
 
@@ -345,9 +338,10 @@
             snapshot.forEach((docSnap) => {
                 const p = docSnap.data();
                 
+                // Show image ONLY IF provided in Admin Panel
                 const imgHTML = (p.image && p.image.trim() !== "") 
                     ? `<img src="${p.image}" alt="Pack">` 
-                    : `<div style="font-size: 32px; margin-bottom: 6px;">🪙</div>`;
+                    : "";
                 
                 const card = document.createElement("div");
                 card.className = "product-card";
