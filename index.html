@@ -14,19 +14,20 @@
             --text-muted: #94a3b8;
             --border-color: #334155;
             --success-color: #10b981;
+            --danger-color: #ef4444;
         }
 
         * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
         body { background-color: var(--bg-color); color: var(--text-color); padding-bottom: 60px; }
 
-        /* Top Bar & Header */
+        /* Header Bar */
         .header {
             display: flex; justify-content: space-between; align-items: center;
             padding: 15px 20px; background: var(--card-bg); border-bottom: 1px solid var(--border-color);
             position: sticky; top: 0; z-index: 100;
         }
         .brand { font-size: 18px; font-weight: bold; color: var(--accent-color); }
-        .menu-btn { background: none; border: none; color: #fff; font-size: 22px; cursor: pointer; }
+        .menu-btn { background: none; border: none; color: #fff; font-size: 24px; cursor: pointer; }
 
         .container { max-width: 600px; margin: 0 auto; padding: 15px; }
 
@@ -50,7 +51,7 @@
         .product-title { font-size: 13px; font-weight: bold; margin-bottom: 4px; }
         .product-price { color: var(--accent-color); font-size: 14px; font-weight: bold; }
 
-        /* User Profile Navigation Drawer */
+        /* Profile & Menu Drawer Navigation */
         .drawer-overlay {
             position: fixed; inset: 0; background: rgba(0,0,0,0.7); z-index: 200;
             display: none; justify-content: flex-end;
@@ -69,11 +70,11 @@
         .drawer-menu { list-style: none; }
         .drawer-item {
             padding: 12px; border-radius: 6px; margin-bottom: 8px; background: #0f172a;
-            cursor: pointer; font-size: 14px; display: flex; align-items: center; gap: 10px;
+            cursor: pointer; font-size: 14px; display: flex; align-items: center; gap: 10px; border: 1px solid var(--border-color);
         }
         .drawer-item a { color: #fff; text-decoration: none; width: 100%; }
 
-        /* Modal Overlay for Orders & Checkout */
+        /* Modal Screens */
         .modal {
             position: fixed; inset: 0; background: rgba(0,0,0,0.8); z-index: 300;
             display: none; justify-content: center; align-items: center; padding: 15px;
@@ -85,14 +86,14 @@
         
         input, select {
             width: 100%; padding: 10px; margin-top: 6px; margin-bottom: 12px;
-            background: #0f172a; border: 1px solid var(--border-color); border-radius: 6px; color: #fff;
+            background: #0f172a; border: 1px solid var(--border-color); border-radius: 6px; color: #fff; outline: none;
         }
         .btn-main {
             width: 100%; padding: 12px; background: var(--accent-color); border: none;
             border-radius: 6px; color: #000; font-weight: bold; cursor: pointer; margin-top: 10px;
         }
 
-        /* Purchase History Order List */
+        /* Purchase History Section */
         .history-card { background: #0f172a; border-radius: 8px; padding: 12px; margin-bottom: 12px; font-size: 13px; border: 1px solid var(--border-color); }
         .status-badge { padding: 2px 8px; border-radius: 4px; font-size: 11px; font-weight: bold; }
         .status-Pending { background: #eab308; color: #000; }
@@ -106,48 +107,48 @@
 </head>
 <body>
 
-    <!-- Top Header -->
+    <!-- Header Navigation -->
     <header class="header">
         <div class="brand">Tangail Efootball House</div>
         <button class="menu-btn" id="openDrawerBtn">☰</button>
     </header>
 
-    <!-- Main Body Container -->
+    <!-- Main Section -->
     <div class="container">
-        <!-- Banner & Live Notice -->
+        <!-- Live Banner & Notice -->
         <img id="mainBanner" class="banner" src="starterpack.png" alt="Banner" style="display:none;">
         <div class="notice-box" id="noticeBox" style="display:none;"></div>
 
-        <!-- Coin Packages Grid -->
+        <!-- Coin Products Grid -->
         <div class="section-title">Select Coin Package</div>
         <div class="product-grid" id="productGrid">Loading Packages...</div>
     </div>
 
-    <!-- Navigation Drawer / User Menu -->
+    <!-- Drawer Menu -->
     <div class="drawer-overlay" id="drawerOverlay">
         <div class="drawer">
             <div class="drawer-header">
-                <h3 style="color:var(--accent-color);">Menu & Profile</h3>
+                <h3 style="color:var(--accent-color);">Profile & Settings</h3>
                 <button class="close-btn" id="closeDrawerBtn">✕</button>
             </div>
 
-            <!-- Profile Details Card -->
-            <div class="profile-card" id="profileDetails">
+            <!-- Profile Overview -->
+            <div class="profile-card">
                 <div><strong>User ID:</strong> <span id="profId">Loading...</span></div>
                 <div><strong>Email:</strong> <span id="profEmail">Loading...</span></div>
                 <div><strong>WhatsApp:</strong> <span id="profWa">Loading...</span></div>
             </div>
 
-            <!-- Nav Options -->
+            <!-- Navigation Links -->
             <ul class="drawer-menu">
                 <li class="drawer-item" id="btnMyOrders">📦 My Purchase History</li>
                 <li class="drawer-item">
-                    💬 <a href="https://wa.me/8801603785413" target="_blank">WhatsApp Support (01603785413)</a>
+                    💬 <a href="https://wa.me/8801603785413" target="_blank">WhatsApp (01603785413)</a>
                 </li>
                 <li class="drawer-item">
                     🌐 <a href="https://facebook.com" target="_blank">Official Facebook Page</a>
                 </li>
-                <li class="drawer-item" id="btnLogout" style="color: #ef4444; margin-top: 20px;">🚪 Logout</li>
+                <li class="drawer-item" id="btnLogout" style="color: var(--danger-color); margin-top: 20px;">🚪 Logout Account</li>
             </ul>
         </div>
     </div>
@@ -156,14 +157,14 @@
     <div class="modal" id="historyModal">
         <div class="modal-content">
             <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:15px;">
-                <h3 style="color:var(--accent-color);">My Purchase History</h3>
+                <h3 style="color:var(--accent-color);">Purchase History</h3>
                 <button class="close-btn" onclick="document.getElementById('historyModal').style.display='none'">✕</button>
             </div>
-            <div id="historyListContainer">Loading...</div>
+            <div id="historyListContainer">Loading History...</div>
         </div>
     </div>
 
-    <!-- Order / Checkout Modal -->
+    <!-- Checkout Modal -->
     <div class="modal" id="checkoutModal">
         <div class="modal-content">
             <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:10px;">
@@ -179,10 +180,10 @@
                 </select>
 
                 <label>Game Email / ID</label>
-                <input type="text" id="gameEmail" required placeholder="Enter login email">
+                <input type="text" id="gameEmail" required placeholder="Enter game email">
 
                 <label>Game Password</label>
-                <input type="password" id="gamePassword" required placeholder="Enter login password">
+                <input type="password" id="gamePassword" required placeholder="Enter game password">
 
                 <label>Payment Method</label>
                 <select id="paymentMethod" required>
@@ -191,7 +192,7 @@
                 </select>
 
                 <label>Sender Number</label>
-                <input type="text" id="senderNo" required placeholder="Number you paid from">
+                <input type="text" id="senderNo" required placeholder="Your payment number">
 
                 <label>Transaction ID (TrxID)</label>
                 <input type="text" id="trxId" required placeholder="Payment TrxID">
@@ -203,7 +204,7 @@
 
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
-        import { getFirestore, collection, onSnapshot, doc, addDoc, query, where, updateDoc, arrayUnion } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
+        import { getFirestore, collection, onSnapshot, doc, addDoc, query, where, updateDoc, arrayUnion, setDoc } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
 
         const firebaseConfig = {
             apiKey: "AIzaSyDwhxDxu2DTIvJQ1uBs1Bl14FoL06Ws1KI",
@@ -220,21 +221,24 @@
         let currentUser = JSON.parse(localStorage.getItem("eFootballUser")) || null;
         let selectedProduct = null;
 
-        // Auto Profile Setup on First Visit
-        if (!currentUser) {
-            const uid = "USER-" + Math.floor(100000 + Math.random() * 900000);
-            const email = prompt("Enter your Email to create account:") || `${uid}@gmail.com`;
-            const wa = prompt("Enter your WhatsApp number:") || "01603785413";
-            currentUser = { userId: uid, email: email, whatsapp: wa };
-            localStorage.setItem("eFootballUser", JSON.stringify(currentUser));
+        // User Identity Setup
+        async function setupUser() {
+            if (!currentUser) {
+                const uid = "USER-" + Math.floor(100000 + Math.random() * 900000);
+                const email = prompt("Enter your Email to register account:") || `${uid}@gmail.com`;
+                const wa = prompt("Enter your WhatsApp number:") || "01603785413";
+                currentUser = { userId: uid, email: email, whatsapp: wa };
+                localStorage.setItem("eFootballUser", JSON.stringify(currentUser));
+                
+                await setDoc(doc(db, "users", uid), currentUser);
+            }
+            document.getElementById("profId").innerText = currentUser.userId;
+            document.getElementById("profEmail").innerText = currentUser.email;
+            document.getElementById("profWa").innerText = currentUser.whatsapp;
         }
+        setupUser();
 
-        // Display Profile Data
-        document.getElementById("profId").innerText = currentUser.userId;
-        document.getElementById("profEmail").innerText = currentUser.email;
-        document.getElementById("profWa").innerText = currentUser.whatsapp;
-
-        // UI Controls for Menu Drawer
+        // Drawer Controls
         document.getElementById("openDrawerBtn").onclick = () => document.getElementById("drawerOverlay").style.display = "flex";
         document.getElementById("closeDrawerBtn").onclick = () => document.getElementById("drawerOverlay").style.display = "none";
         document.getElementById("btnLogout").onclick = () => {
@@ -242,7 +246,7 @@
             location.reload();
         };
 
-        // Load Banner & Notice
+        // Realtime Banner & Notice
         onSnapshot(doc(db, "settings", "banner"), (d) => {
             if (d.exists() && d.data().url) {
                 const b = document.getElementById("mainBanner");
@@ -259,7 +263,7 @@
             }
         });
 
-        // Load Products Grid
+        // Realtime Products Listing
         onSnapshot(collection(db, "products"), (snapshot) => {
             const grid = document.getElementById("productGrid");
             grid.innerHTML = "";
@@ -272,17 +276,14 @@
                     <div class="product-title">${p.title}</div>
                     <div class="product-price">৳${p.price}</div>
                 `;
-                card.onclick = () => openCheckout(p);
+                card.onclick = () => {
+                    selectedProduct = p;
+                    document.getElementById("orderModalTitle").innerText = `${p.title} (৳${p.price})`;
+                    document.getElementById("checkoutModal").style.display = "flex";
+                };
                 grid.appendChild(card);
             });
         });
-
-        // Checkout Trigger
-        function openCheckout(product) {
-            selectedProduct = product;
-            document.getElementById("orderModalTitle").innerText = `${product.title} (৳${product.price})`;
-            document.getElementById("checkoutModal").style.display = "flex";
-        }
 
         // Submit Order
         document.getElementById("orderForm").onsubmit = async (e) => {
@@ -307,7 +308,7 @@
             document.getElementById("orderForm").reset();
         };
 
-        // Load Purchase History
+        // Purchase History & Chat
         document.getElementById("btnMyOrders").onclick = () => {
             document.getElementById("drawerOverlay").style.display = "none";
             document.getElementById("historyModal").style.display = "flex";
@@ -356,4 +357,5 @@
         };
     </script>
 </body>
-</html>
+    </html>
+    
