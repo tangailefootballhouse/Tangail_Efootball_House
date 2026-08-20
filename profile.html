@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>User Profile — Tangail Efootball House</title>
+  <link rel="stylesheet" href="css/style.css">
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-[#07090e] text-gray-100 font-sans min-h-screen pb-24 antialiased">
+
+  <header class="p-4 border-b border-gray-800/80 bg-[#0f1420]/80 backdrop-blur-md sticky top-0 z-40 flex items-center justify-between">
+    <a href="index.html" class="text-xs text-amber-400 font-bold flex items-center gap-1">← Store</a>
+    <h1 class="text-sm font-black tracking-wider text-white">MY PROFILE</h1>
+    <div class="w-8"></div>
+  </header>
+
+  <main class="max-w-md mx-auto p-4 space-y-6">
+    <div class="glass-card p-6 text-center relative overflow-hidden">
+      <div class="w-20 h-20 mx-auto rounded-full bg-amber-400/10 border-2 border-amber-400/40 flex items-center justify-center text-amber-400 font-black text-2xl mb-3" id="profile-avatar">
+        U
+      </div>
+      <h2 id="profile-name" class="text-lg font-bold text-white">Loading...</h2>
+      <p id="profile-email" class="text-xs text-gray-400">user@example.com</p>
+    </div>
+
+    <div class="glass-card p-5 space-y-4">
+      <h3 class="text-xs font-bold text-amber-400 uppercase tracking-wider">Account Details</h3>
+      <div class="space-y-3 text-xs">
+        <div class="flex justify-between border-b border-gray-800/60 pb-2">
+          <span class="text-gray-400">Phone Number</span>
+          <span id="profile-phone" class="font-bold text-white">N/A</span>
+        </div>
+        <div class="flex justify-between border-b border-gray-800/60 pb-2">
+          <span class="text-gray-400">Wallet Points</span>
+          <span id="profile-points" class="font-bold text-amber-400">0 Points</span>
+        </div>
+      </div>
+    </div>
+
+    <button id="btn-logout" class="w-full py-3 bg-red-500/10 hover:bg-red-500/20 text-red-400 border border-red-500/30 font-bold text-xs rounded-xl transition">
+      LOG OUT ACCOUNT
+    </button>
+  </main>
+
+  <nav class="fixed bottom-0 left-0 right-0 glass-nav py-2.5 px-6 flex justify-around items-center z-50">
+    <a href="index.html" class="flex flex-col items-center text-gray-400 hover:text-white">
+      <span class="text-xs font-bold mt-0.5">Store</span>
+    </a>
+    <a href="order.html" class="flex flex-col items-center text-gray-400 hover:text-white">
+      <span class="text-xs font-bold mt-0.5">Orders</span>
+    </a>
+    <a href="wallet.html" class="flex flex-col items-center text-gray-400 hover:text-white">
+      <span class="text-xs font-bold mt-0.5">Wallet</span>
+    </a>
+    <a href="profile.html" class="flex flex-col items-center text-amber-400 nav-item-active">
+      <span class="text-xs font-bold mt-0.5">Profile</span>
+    </a>
+  </nav>
+
+  <script type="module" src="js/profile.js"></script>
+</body>
+</html>
