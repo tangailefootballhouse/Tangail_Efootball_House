@@ -1,6 +1,5 @@
-
 <!DOCTYPE html>
-<html lang="en">
+<html lang="bn">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
@@ -23,760 +22,80 @@
     rel="stylesheet"
   >
 
-  <!-- Tailwind CSS CDN (Fixes the unstyled broken layout) -->
+  <!-- Tailwind CSS CDN -->
   <script src="https://cdn.tailwindcss.com"></script>
 
   <!-- Main stylesheet -->
   <link rel="stylesheet" href="css/style.css">
 </head>
+<body class="bg-[#07090e] text-gray-100 font-sans min-h-screen pb-24 antialiased">
 
-<body>
-
-  <!-- ================================
-       PAGE LOADER
-  ================================= -->
-  <div id="pageLoader" class="page-loader">
-    <div class="loader-content">
-      <div class="loader-logo">
-        <img src="assets/logo.png" alt="Tangail Efootball House">
+  <!-- Header -->
+  <header class="p-4 border-b border-gray-800/80 bg-[#0f1420]/80 backdrop-blur-md sticky top-0 z-40 flex items-center justify-between">
+    <div class="flex items-center gap-2">
+      <div class="w-8 h-8 rounded-full bg-amber-400/10 border border-amber-400/30 flex items-center justify-center font-black text-amber-400 text-xs">
+        TEH
       </div>
-
-      <div class="loader-spinner"></div>
-
-      <p>Loading...</p>
-    </div>
-  </div>
-
-
-  <!-- ================================
-       HEADER
-  ================================= -->
-  <header class="site-header" id="siteHeader">
-
-    <div class="header-container">
-
-      <!-- Logo -->
-      <a href="index.html" class="brand">
-
-        <div class="brand-logo">
-          <img
-            src="assets/logo.png"
-            alt="Tangail Efootball House Logo"
-          >
-        </div>
-
-        <div class="brand-text">
-          <span class="brand-name">Tangail</span>
-          <span class="brand-subtitle">Efootball House</span>
-        </div>
-
-      </a>
-
-
-      <!-- Desktop Navigation -->
-      <nav class="desktop-nav" aria-label="Main navigation">
-
-        <a href="#home" class="nav-link active">
-          Home
-        </a>
-
-        <a href="#games" class="nav-link">
-          Games
-        </a>
-
-        <a href="#offers" class="nav-link">
-          Offers
-        </a>
-
-        <a href="#support" class="nav-link">
-          Support
-        </a>
-
-      </nav>
-
-
-      <!-- Header Actions -->
-      <div class="header-actions">
-
-        <!-- Wallet -->
-        <button
-          class="header-icon-btn"
-          id="headerWalletBtn"
-          type="button"
-          aria-label="Wallet"
-          title="Wallet"
-        >
-          <span class="icon">🪙</span>
-          <span class="wallet-balance" id="headerWalletBalance">0</span>
-        </button>
-
-
-        <!-- Profile / Login -->
-        <a
-          href="auth.html"
-          class="profile-btn"
-          id="profileButton"
-        >
-          <span class="profile-icon">👤</span>
-          <span class="profile-text" id="profileButtonText">
-            Login
-          </span>
-        </a>
-
-
-        <!-- Mobile menu -->
-        <button
-          class="menu-toggle"
-          id="menuToggle"
-          type="button"
-          aria-label="Open menu"
-          aria-expanded="false"
-        >
-          <span></span>
-          <span></span>
-          <span></span>
-        </button>
-
+      <div>
+        <h1 class="text-xs font-black tracking-wider text-white">TANGAIL EFOOTBALL HOUSE</h1>
+        <p class="text-[9px] text-gray-400 font-semibold">Premium Gaming Service</p>
       </div>
-
     </div>
-
-
-    <!-- Mobile Navigation -->
-    <nav class="mobile-nav" id="mobileNav">
-
-      <a href="#home" class="mobile-nav-link">
-        Home
-      </a>
-
-      <a href="#games" class="mobile-nav-link">
-        Games
-      </a>
-
-      <a href="#offers" class="mobile-nav-link">
-        Offers
-      </a>
-
-      <a href="#support" class="mobile-nav-link">
-        Support
-      </a>
-
-      <a href="auth.html" class="mobile-nav-link">
-        Login / Sign Up
-      </a>
-
-    </nav>
-
+    <div id="header-user-info" class="flex items-center gap-2">
+      <a href="auth.html" class="text-xs font-bold bg-amber-400 text-black px-3 py-1.5 rounded-lg hover:bg-amber-300 transition">Login</a>
+    </div>
   </header>
 
+  <main class="max-w-md mx-auto p-4 space-y-6">
 
-
-  <!-- ================================
-       MAIN
-  ================================= -->
-  <main id="home">
-
-
-    <!-- ================================
-         HERO
-    ================================= -->
-    <section class="hero-section">
-
-      <div class="hero-background"></div>
-
-      <div class="hero-container">
-
-        <div class="hero-content">
-
-          <span class="hero-badge">
-            ⚡ PREMIUM GAMING SERVICE
-          </span>
-
-          <h1>
-            Your Gaming.
-            <span>Our Service.</span>
-          </h1>
-
-          <p class="hero-description">
-            Fast, reliable and professional gaming services
-            from Tangail Efootball House.
-          </p>
-
-          <div class="hero-actions">
-
-            <a href="#games" class="primary-btn">
-              Explore Services
-              <span>→</span>
-            </a>
-
-            <a href="#offers" class="secondary-btn">
-              View Offers
-            </a>
-
-          </div>
-
-          <div class="hero-trust">
-
-            <div class="trust-item">
-              <strong>⚡</strong>
-              <span>Fast Service</span>
-            </div>
-
-            <div class="trust-item">
-              <strong>🔐</strong>
-              <span>Secure Orders</span>
-            </div>
-
-            <div class="trust-item">
-              <strong>💬</strong>
-              <span>Customer Support</span>
-            </div>
-
-          </div>
-
-        </div>
-
-
-        <div class="hero-visual">
-
-          <div class="hero-card">
-
-            <div class="hero-card-glow"></div>
-
-            <img
-              src="assets/banner.jpg"
-              alt="Tangail Efootball House"
-              class="hero-banner"
-            >
-
-          </div>
-
-        </div>
-
+    <!-- Hero Banner -->
+    <section class="glass-card p-5 relative overflow-hidden">
+      <div class="space-y-2">
+        <span class="text-[10px] font-extrabold uppercase px-2.5 py-1 rounded-full bg-amber-400/10 text-amber-400 border border-amber-400/30">
+          ⚡ Fast & Reliable
+        </span>
+        <h2 class="text-xl font-black text-white leading-tight">
+          Your Gaming.<br><span class="text-amber-400">Our Service.</span>
+        </h2>
+        <p class="text-xs text-gray-400">
+          eFootball Coins, Account Buy/Sell, and Top-up Instant Delivery.
+        </p>
       </div>
-
     </section>
 
-
-
-    <!-- ================================
-         ANNOUNCEMENT
-    ================================= -->
-    <section class="announcement-section">
-
-      <div class="announcement-container">
-
-        <div class="announcement-icon">
-          📢
-        </div>
-
-        <div class="announcement-content">
-
-          <span class="announcement-label">
-            NOTICE
-          </span>
-
-          <p id="announcementText">
-            Welcome to Tangail Efootball House.
-          </p>
-
-        </div>
-
+    <!-- Services / Products Grid -->
+    <section class="space-y-3">
+      <div class="flex items-center justify-between">
+        <h3 class="text-xs font-bold text-amber-400 uppercase tracking-wider">eFootball Packages</h3>
+        <span class="text-[10px] text-gray-500">Instant Delivery</span>
       </div>
 
-    </section>
-
-
-
-    <!-- ================================
-         GAMES
-    ================================= -->
-    <section class="games-section section" id="games">
-
-      <div class="section-container">
-
-        <div class="section-heading">
-
-          <div>
-
-            <span class="section-eyebrow">
-              CHOOSE YOUR GAME
-            </span>
-
-            <h2>
-              Gaming Services
-            </h2>
-
-          </div>
-
-          <p>
-            Select a game to explore available services and packages.
-          </p>
-
+      <div id="services-grid" class="grid grid-cols-2 gap-3">
+        <div class="text-center py-8 col-span-2 text-xs text-gray-500 bg-[#0f1420] rounded-2xl border border-gray-800">
+          প্যাকেজ লোড হচ্ছে...
         </div>
-
-
-        <!--
-          IMPORTANT:
-
-          Games will eventually be loaded from Firestore.
-
-          Nothing is hard-coded here as a permanent product.
-          Admin Panel will control:
-          - Game name
-          - Logo
-          - Banner
-          - Description
-          - Active / Coming Soon
-          - Display order
-        -->
-
-        <div
-          class="games-grid"
-          id="gamesGrid"
-        >
-
-          <!-- Loading state -->
-          <div class="games-loading" id="gamesLoading">
-
-            <div class="loading-spinner"></div>
-
-            <p>
-              Loading games...
-            </p>
-
-          </div>
-
-        </div>
-
-
-        <!-- Empty state -->
-        <div
-          class="empty-state hidden"
-          id="gamesEmpty"
-        >
-
-          <div class="empty-icon">
-            🎮
-          </div>
-
-          <h3>
-            No games available
-          </h3>
-
-          <p>
-            Please check again later.
-          </p>
-
-        </div>
-
       </div>
-
-    </section>
-
-
-
-    <!-- ================================
-         OFFERS
-    ================================= -->
-    <section class="offers-section section" id="offers">
-
-      <div class="section-container">
-
-        <div class="section-heading">
-
-          <div>
-
-            <span class="section-eyebrow">
-              SPECIAL DEALS
-            </span>
-
-            <h2>
-              Today's Offers
-            </h2>
-
-          </div>
-
-          <p>
-            Exclusive offers will appear here.
-          </p>
-
-        </div>
-
-
-        <!-- Dynamic Firestore offers -->
-        <div
-          class="offers-grid"
-          id="offersGrid"
-        >
-
-          <div class="offers-loading">
-
-            <div class="loading-spinner"></div>
-
-            <p>
-              Loading offers...
-            </p>
-
-          </div>
-
-        </div>
-
-      </div>
-
-    </section>
-
-
-
-    <!-- ================================
-         WHY US
-    ================================= -->
-    <section class="features-section section">
-
-      <div class="section-container">
-
-        <div class="section-heading centered">
-
-          <span class="section-eyebrow">
-            WHY CHOOSE US
-          </span>
-
-          <h2>
-            Built For Gamers
-          </h2>
-
-          <p>
-            A smoother and smarter way to manage your gaming purchases.
-          </p>
-
-        </div>
-
-
-        <div class="features-grid">
-
-          <article class="feature-card">
-
-            <div class="feature-icon">
-              ⚡
-            </div>
-
-            <h3>
-              Fast Service
-            </h3>
-
-            <p>
-              Designed for a quick and simple purchase experience.
-            </p>
-
-          </article>
-
-
-          <article class="feature-card">
-
-            <div class="feature-icon">
-              🔐
-            </div>
-
-            <h3>
-              Secure System
-            </h3>
-
-            <p>
-              Customer accounts and orders are protected by Firebase.
-            </p>
-
-          </article>
-
-
-          <article class="feature-card">
-
-            <div class="feature-icon">
-              🪙
-            </div>
-
-            <h3>
-              Store Points
-            </h3>
-
-            <p>
-              Add points in advance and use them for future purchases.
-            </p>
-
-          </article>
-
-
-          <article class="feature-card">
-
-            <div class="feature-icon">
-              💬
-            </div>
-
-            <h3>
-              Easy Support
-            </h3>
-
-            <p>
-              Contact us easily about your order whenever you need help.
-            </p>
-
-          </article>
-
-        </div>
-
-      </div>
-
-    </section>
-
-
-
-    <!-- ================================
-         SUPPORT
-    ================================= -->
-    <section class="support-section section" id="support">
-
-      <div class="section-container">
-
-        <div class="support-card">
-
-          <div class="support-content">
-
-            <span class="section-eyebrow">
-              NEED HELP?
-            </span>
-
-            <h2>
-              We're Here For You.
-            </h2>
-
-            <p>
-              Have a question about an order or service?
-              Contact Tangail Efootball House.
-            </p>
-
-          </div>
-
-
-          <div class="support-actions">
-
-            <a
-              href="https://wa.me/8801603785413"
-              target="_blank"
-              rel="noopener noreferrer"
-              class="whatsapp-btn"
-            >
-              WhatsApp
-              <span>→</span>
-            </a>
-
-            <a
-              href="https://www.facebook.com/share/1FDjXPvXX3/"
-              target="_blank"
-              rel="noopener noreferrer"
-              class="messenger-btn"
-            >
-              Messenger
-              <span>→</span>
-            </a>
-
-          </div>
-
-        </div>
-
-      </div>
-
     </section>
 
   </main>
 
+  <!-- Bottom Navigation -->
+  <nav class="fixed bottom-0 left-0 right-0 glass-nav py-2.5 px-6 flex justify-around items-center z-50">
+    <a href="index.html" class="flex flex-col items-center text-amber-400 nav-item-active">
+      <span class="text-xs font-bold mt-0.5">Store</span>
+    </a>
+    <a href="order.html" class="flex flex-col items-center text-gray-400 hover:text-white">
+      <span class="text-xs font-bold mt-0.5">Orders</span>
+    </a>
+    <a href="wallet.html" class="flex flex-col items-center text-gray-400 hover:text-white">
+      <span class="text-xs font-bold mt-0.5">Wallet</span>
+    </a>
+    <a href="profile.html" class="flex flex-col items-center text-gray-400 hover:text-white">
+      <span class="text-xs font-bold mt-0.5">Profile</span>
+    </a>
+  </nav>
 
-
-  <!-- ================================
-       FOOTER
-  ================================= -->
-  <footer class="site-footer">
-
-    <div class="footer-container">
-
-      <div class="footer-brand">
-
-        <img
-          src="assets/logo.png"
-          alt="Tangail Efootball House"
-        >
-
-        <div>
-
-          <h3>
-            Tangail Efootball House
-          </h3>
-
-          <p>
-            Premium gaming services.
-          </p>
-
-        </div>
-
-      </div>
-
-
-      <div class="footer-links">
-
-        <a href="#home">
-          Home
-        </a>
-
-        <a href="#games">
-          Games
-        </a>
-
-        <a href="#offers">
-          Offers
-        </a>
-
-        <a href="#support">
-          Support
-        </a>
-
-      </div>
-
-
-      <div class="footer-social">
-
-        <a
-          href="https://www.facebook.com/share/19Cvu2UcJE/"
-          target="_blank"
-          rel="noopener noreferrer"
-          aria-label="Facebook"
-        >
-          Facebook
-        </a>
-
-        <a
-          href="https://wa.me/8801603785413"
-          target="_blank"
-          rel="noopener noreferrer"
-          aria-label="WhatsApp"
-        >
-          WhatsApp
-        </a>
-
-      </div>
-
-    </div>
-
-
-    <div class="footer-bottom">
-
-      <p>
-        © <span id="currentYear"></span>
-        Tangail Efootball House. All rights reserved.
-      </p>
-
-    </div>
-
-  </footer>
-
-
-
-  <!-- ================================
-       FIREBASE
-  ================================= -->
-
-  <!-- Firebase configuration -->
-  <script type="module" src="js/firebase-config.js"></script>
-
-  <!-- Main application -->
+  <!-- JavaScript Module -->
   <script type="module" src="js/app.js"></script>
-
-
-  <!-- ================================
-       BASIC UI SCRIPT
-  ================================= -->
-  <script>
-
-    // Current year
-    document.getElementById("currentYear").textContent =
-      new Date().getFullYear();
-
-
-    // Mobile navigation
-    const menuToggle =
-      document.getElementById("menuToggle");
-
-    const mobileNav =
-      document.getElementById("mobileNav");
-
-
-    menuToggle?.addEventListener("click", () => {
-
-      const isOpen =
-        mobileNav.classList.toggle("open");
-
-      menuToggle.classList.toggle("active", isOpen);
-
-      menuToggle.setAttribute(
-        "aria-expanded",
-        String(isOpen)
-      );
-
-    });
-
-
-    // Close mobile menu after clicking a link
-    document.querySelectorAll(".mobile-nav-link")
-      .forEach(link => {
-
-        link.addEventListener("click", () => {
-
-          mobileNav.classList.remove("open");
-
-          menuToggle.classList.remove("active");
-
-          menuToggle.setAttribute(
-            "aria-expanded",
-            "false"
-          );
-
-        });
-
-      });
-
-
-    // Header scroll effect
-    const header =
-      document.getElementById("siteHeader");
-
-
-    window.addEventListener("scroll", () => {
-
-      if (window.scrollY > 20) {
-
-        header.classList.add("scrolled");
-
-      } else {
-
-        header.classList.remove("scrolled");
-
-      }
-
-    });
-
-
-    // Page loader
-    window.addEventListener("load", () => {
-
-      setTimeout(() => {
-
-        const loader =
-          document.getElementById("pageLoader");
-
-        loader?.classList.add("hidden");
-
-      }, 500);
-
-    });
-
-  </script>
-
 </body>
 </html>
