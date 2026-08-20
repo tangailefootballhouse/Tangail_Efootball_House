@@ -3,136 +3,209 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Admin Panel - Tangail Efootball House</title>
+    <title>Super Admin Dashboard - Tangail Efootball House</title>
     <style>
         :root {
-            --bg-color: #0f172a;
-            --card-bg: #1e293b;
+            --bg-dark: #090d16;
+            --sidebar-bg: #111827;
+            --card-bg: #1f2937;
             --accent-color: #38bdf8;
-            --text-color: #ffffff;
-            --text-muted: #94a3b8;
-            --border-color: #334155;
+            --accent-hover: #0284c7;
+            --text-main: #f9fafb;
+            --text-muted: #9ca3af;
+            --border-color: #374151;
             --danger-color: #ef4444;
             --success-color: #10b981;
         }
 
-        body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background-color: var(--bg-color);
-            color: var(--text-color);
-            margin: 0; padding: 20px;
-            box-sizing: border-box;
+        * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
+
+        body { background-color: var(--bg-dark); color: var(--text-main); display: flex; min-height: 100vh; }
+
+        /* Login Portal */
+        .login-overlay {
+            position: fixed; inset: 0; background: var(--bg-dark); z-index: 999;
+            display: flex; justify-content: center; align-items: center;
         }
-
-        .container { max-width: 900px; margin: 0 auto; }
-        h2, h3 { color: var(--accent-color); text-align: center; }
-
-        /* Login Modal Screen */
         .login-box {
-            background: var(--card-bg); max-width: 380px; margin: 80px auto; padding: 30px;
-            border-radius: 10px; border: 1px solid var(--border-color); text-align: center;
-            box-shadow: 0 4px 20px rgba(0,0,0,0.6);
+            background: var(--card-bg); padding: 35px; border-radius: 12px;
+            width: 90%; max-width: 380px; border: 1px solid var(--border-color); text-align: center;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.5);
         }
+        .login-box h3 { color: var(--accent-color); margin-bottom: 20px; font-size: 22px; }
         .login-box input {
-            width: 100%; padding: 12px; margin: 15px 0; background: #080d1d;
-            border: 1px solid var(--border-color); border-radius: 6px; color: #fff; box-sizing: border-box;
+            width: 100%; padding: 12px; margin-bottom: 15px; background: #0f172a;
+            border: 1px solid var(--border-color); border-radius: 6px; color: #fff;
         }
         .login-box button {
-            width: 100%; padding: 12px; background: linear-gradient(135deg, #38bdf8, #0284c7);
-            border: none; border-radius: 6px; color: #fff; font-weight: bold; cursor: pointer;
+            width: 100%; padding: 12px; background: var(--accent-color); border: none;
+            border-radius: 6px; color: #000; font-weight: bold; cursor: pointer; transition: 0.3s;
+        }
+        .login-box button:hover { background: var(--accent-hover); color: #fff; }
+
+        /* Sidebar Navigation */
+        .sidebar {
+            width: 250px; background: var(--sidebar-bg); border-right: 1px solid var(--border-color);
+            padding: 20px 0; display: flex; flex-direction: column; position: fixed; height: 100vh;
+        }
+        .brand-logo {
+            padding: 0 20px 20px 20px; border-bottom: 1px solid var(--border-color);
+            color: var(--accent-color); font-size: 18px; font-weight: bold;
+        }
+        .nav-menu { list-style: none; margin-top: 20px; flex: 1; }
+        .nav-item {
+            padding: 14px 20px; cursor: pointer; color: var(--text-muted); font-size: 14px;
+            display: flex; align-items: center; gap: 10px; transition: 0.2s;
+        }
+        .nav-item:hover, .nav-item.active { background: rgba(56, 189, 248, 0.1); color: var(--accent-color); border-left: 4px solid var(--accent-color); }
+        .btn-logout-side {
+            margin: 20px; padding: 10px; background: var(--danger-color); color: #fff;
+            border: none; border-radius: 6px; cursor: pointer; font-weight: bold;
         }
 
-        /* Header */
-        .admin-header {
-            display: flex; justify-content: space-between; align-items: center;
-            border-bottom: 1px solid var(--border-color); padding-bottom: 15px; margin-bottom: 25px;
-        }
-        .btn-logout {
-            background: var(--danger-color); color: #fff; border: none; padding: 8px 16px;
-            border-radius: 6px; cursor: pointer; font-weight: bold;
-        }
+        /* Main Content Workspace */
+        .main-workspace { margin-left: 250px; flex: 1; padding: 30px; }
+        .top-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 25px; }
+        .page-title { font-size: 24px; color: #fff; }
 
-        .section-title {
-            color: var(--accent-color); font-size: 18px; margin: 25px 0 15px 0;
-            border-left: 4px solid var(--accent-color); padding-left: 10px;
-        }
+        /* Tab Content Section */
+        .tab-content { display: none; }
+        .tab-content.active { display: block; }
 
-        .card {
-            background: var(--card-bg); border-radius: 8px; padding: 18px;
-            margin-bottom: 20px; border: 1px solid var(--border-color);
+        /* UI Cards & Controls */
+        .card { background: var(--card-bg); border: 1px solid var(--border-color); border-radius: 10px; padding: 20px; margin-bottom: 20px; }
+        .form-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 12px; margin-bottom: 15px; }
+        input, select, textarea {
+            width: 100%; padding: 10px; background: #0f172a; border: 1px solid var(--border-color);
+            border-radius: 6px; color: #fff; outline: none;
         }
-
-        /* Forms & Inputs */
-        .form-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 10px; margin-bottom: 10px; }
-        input, select {
-            width: 100%; padding: 10px; background: #080d1d; border: 1px solid var(--border-color);
-            border-radius: 6px; color: #fff; box-sizing: border-box;
+        .btn-btn {
+            background: var(--accent-color); color: #000; border: none; padding: 10px 20px;
+            border-radius: 6px; font-weight: bold; cursor: pointer; transition: 0.2s;
         }
-        .btn-action {
-            background: var(--accent-color); color: #000; border: none; padding: 10px 15px;
-            border-radius: 6px; font-weight: bold; cursor: pointer; margin-top: 5px;
-        }
-        .btn-delete { background: var(--danger-color); color: #fff; }
+        .btn-btn:hover { background: var(--accent-hover); color: #fff; }
+        .btn-danger { background: var(--danger-color); color: #fff; }
 
         /* Package Management List */
-        .package-item {
-            display: flex; justify-content: space-between; align-items: center;
-            padding: 10px; border-bottom: 1px solid var(--border-color); gap: 10px;
-        }
-        .package-item img { height: 40px; border-radius: 4px; }
+        .pkg-row { display: flex; justify-content: space-between; align-items: center; padding: 12px; border-bottom: 1px solid var(--border-color); }
+        .pkg-row img { height: 35px; border-radius: 4px; }
 
-        /* Orders & Chat */
-        .grid-info { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 8px; font-size: 13px; color: var(--text-muted); margin: 10px 0; }
-        .grid-info span { color: #fff; }
-        .chat-box { background: #080d1d; height: 100px; overflow-y: auto; padding: 8px; border-radius: 6px; margin-top: 10px; font-size: 12px; }
-        .chat-msg.user { color: var(--accent-color); text-align: left; }
-        .chat-msg.admin { color: var(--success-color); text-align: right; }
-        .chat-input { display: flex; gap: 8px; margin-top: 8px; }
+        /* Order Cards & Tracking */
+        .order-card { background: var(--card-bg); border-radius: 10px; border: 1px solid var(--border-color); padding: 18px; margin-bottom: 20px; }
+        .order-meta { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 10px; font-size: 13px; color: var(--text-muted); margin: 12px 0; }
+        .order-meta span { color: #fff; font-weight: bold; }
+        
+        .chat-container { background: #0f172a; border-radius: 6px; padding: 10px; border: 1px solid var(--border-color); }
+        .chat-messages { height: 110px; overflow-y: auto; font-size: 13px; margin-bottom: 8px; }
+        .chat-msg.user { color: var(--accent-color); text-align: left; margin-bottom: 4px; }
+        .chat-msg.admin { color: var(--success-color); text-align: right; margin-bottom: 4px; }
+        .chat-input-row { display: flex; gap: 8px; }
+
+        /* Users Table */
+        .user-table { width: 100%; border-collapse: collapse; font-size: 14px; text-align: left; }
+        .user-table th, .user-table td { padding: 12px; border-bottom: 1px solid var(--border-color); }
+        .user-table th { background: #0f172a; color: var(--accent-color); }
+
+        @media (max-width: 768px) {
+            body { flex-direction: column; }
+            .sidebar { width: 100%; height: auto; position: relative; }
+            .main-workspace { margin-left: 0; padding: 15px; }
+        }
     </style>
 </head>
 <body>
 
-    <!-- Strict Login Portal -->
-    <div class="login-box" id="adminLoginBox">
-        <h3 style="margin-top:0;">Admin Access Required</h3>
-        <input type="password" id="adminPass" placeholder="Enter Admin Password">
-        <button id="adminLoginBtn">Login</button>
+    <!-- Protected Login Screen -->
+    <div class="login-overlay" id="loginPortal">
+        <div class="login-box">
+            <h3>Admin Portal</h3>
+            <input type="password" id="adminPasswordInput" placeholder="Enter Security Password">
+            <button id="adminLoginBtn">Login Access</button>
+        </div>
     </div>
 
-    <!-- Main Workspace (Hidden by Default) -->
-    <div class="container" id="adminDashboard" style="display: none;">
-        <div class="admin-header">
-            <h2 style="margin: 0;">Admin Control Panel</h2>
-            <button class="btn-logout" id="logoutAdminBtn">Logout</button>
-        </div>
+    <!-- Sidebar Navbar -->
+    <aside class="sidebar">
+        <div class="brand-logo">Tangail Efootball</div>
+        <ul class="nav-menu">
+            <li class="nav-item active" onclick="switchTab('tab-orders', this)">📋 Orders & Tracking</li>
+            <li class="nav-item" onclick="switchTab('tab-packages', this)">💎 Manage Packages</li>
+            <li class="nav-item" onclick="switchTab('tab-banner', this)">🖼️ Banner Control</li>
+            <li class="nav-item" onclick="switchTab('tab-notice', this)">📢 Notice Board</li>
+            <li class="nav-item" onclick="switchTab('tab-users', this)">👥 Registered Users</li>
+        </ul>
+        <button class="btn-logout-side" id="adminLogoutBtn">Logout</button>
+    </aside>
 
-        <!-- 1. Banner Management -->
-        <div class="section-title">Manage Banner</div>
-        <div class="card">
-            <div class="form-grid">
-                <input type="text" id="bannerUrlInput" placeholder="Banner Image URL / File Path (e.g. starterpack.png)">
+    <!-- Dashboard Content Workspace -->
+    <main class="main-workspace">
+        
+        <!-- 1. Orders Management Tab -->
+        <section id="tab-orders" class="tab-content active">
+            <div class="top-header">
+                <h1 class="page-title">Orders Management</h1>
             </div>
-            <button class="btn-action" id="updateBannerBtn">Update Banner Image</button>
-        </div>
+            <div id="ordersContainer">Loading Orders...</div>
+        </section>
 
-        <!-- 2. Add / Manage Coin Packages -->
-        <div class="section-title">Add New Package</div>
-        <div class="card">
-            <div class="form-grid">
-                <input type="text" id="pkgTitle" placeholder="Package Title (e.g. 500 Coins)">
-                <input type="number" id="pkgPrice" placeholder="Price (৳)">
-                <input type="text" id="pkgImage" placeholder="Image URL / File Name (Optional)">
+        <!-- 2. Package Management Tab -->
+        <section id="tab-packages" class="tab-content">
+            <div class="top-header">
+                <h1 class="page-title">Manage Coin Packages</h1>
             </div>
-            <button class="btn-action" id="addPackageBtn">Add Package</button>
-        </div>
+            <div class="card">
+                <h3>Add New Coin Package</h3>
+                <br>
+                <div class="form-grid">
+                    <input type="text" id="newPkgTitle" placeholder="Title (e.g. 1040 Coins)">
+                    <input type="number" id="newPkgPrice" placeholder="Price (৳)">
+                    <input type="text" id="newPkgImage" placeholder="Image File Path / URL (Optional)">
+                </div>
+                <button class="btn-btn" id="addPkgBtn">Save Package</button>
+            </div>
+            <div class="card">
+                <h3>Existing Packages</h3>
+                <br>
+                <div id="packagesContainer">Loading...</div>
+            </div>
+        </section>
 
-        <div class="section-title">Existing Packages</div>
-        <div class="card" id="packageListContainer">Loading Packages...</div>
+        <!-- 3. Banner Management Tab -->
+        <section id="tab-banner" class="tab-content">
+            <div class="top-header">
+                <h1 class="page-title">Homepage Banner Control</h1>
+            </div>
+            <div class="card">
+                <div class="form-grid">
+                    <input type="text" id="bannerUrlInput" placeholder="Image URL / File Name (e.g. starterpack.png)">
+                </div>
+                <button class="btn-btn" id="saveBannerBtn">Update Banner</button>
+            </div>
+        </section>
 
-        <!-- 3. Customer Orders -->
-        <div class="section-title">Customer Orders</div>
-        <div id="adminOrdersContainer">Loading Orders...</div>
-    </div>
+        <!-- 4. Notice Board Tab -->
+        <section id="tab-notice" class="tab-content">
+            <div class="top-header">
+                <h1 class="page-title">Notice Board Control</h1>
+            </div>
+            <div class="card">
+                <textarea id="noticeTextInput" rows="3" placeholder="Enter notice for customers..."></textarea>
+                <br><br>
+                <button class="btn-btn" id="saveNoticeBtn">Publish Notice</button>
+            </div>
+        </section>
+
+        <!-- 5. Registered Users Tab -->
+        <section id="tab-users" class="tab-content">
+            <div class="top-header">
+                <h1 class="page-title">Registered Customer Database</h1>
+            </div>
+            <div class="card" id="usersContainer">
+                Loading Registered Users...
+            </div>
+        </section>
+
+    </main>
 
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
@@ -150,147 +223,81 @@
         const app = initializeApp(firebaseConfig);
         const db = getFirestore(app);
 
-        // Security Lock Config
         const ADMIN_PASSWORD = "admin123";
 
-        // Handle Login
+        // Security Check
         document.getElementById("adminLoginBtn").onclick = () => {
-            const inputPass = document.getElementById("adminPass").value;
-            if (inputPass === ADMIN_PASSWORD) {
-                sessionStorage.setItem("adminLoggedIn", "true");
-                showDashboard();
+            if (document.getElementById("adminPasswordInput").value === ADMIN_PASSWORD) {
+                sessionStorage.setItem("adminAuth", "true");
+                unlockDashboard();
             } else {
                 alert("Incorrect Password!");
             }
         };
 
-        document.getElementById("logoutAdminBtn").onclick = () => {
-            sessionStorage.removeItem("adminLoggedIn");
+        document.getElementById("adminLogoutBtn").onclick = () => {
+            sessionStorage.removeItem("adminAuth");
             location.reload();
         };
 
-        // Check Login Session
-        if (sessionStorage.getItem("adminLoggedIn") === "true") {
-            showDashboard();
+        if (sessionStorage.getItem("adminAuth") === "true") {
+            unlockDashboard();
         }
 
-        function showDashboard() {
-            document.getElementById("adminLoginBox").style.display = "none";
-            document.getElementById("adminDashboard").style.display = "block";
+        function unlockDashboard() {
+            document.getElementById("loginPortal").style.display = "none";
+            loadOrders();
             loadPackages();
-            loadAdminOrders();
+            loadUsers();
         }
 
-        // --- Banner Manager ---
-        document.getElementById("updateBannerBtn").onclick = async () => {
-            const url = document.getElementById("bannerUrlInput").value.trim();
-            if (!url) return alert("Please enter a valid Banner URL or file path!");
-            
-            await setDoc(doc(db, "settings", "banner"), { url: url });
-            alert("Banner updated successfully!");
+        // Tab Switcher
+        window.switchTab = (tabId, element) => {
+            document.querySelectorAll(".tab-content").forEach(t => t.classList.remove("active"));
+            document.querySelectorAll(".nav-item").forEach(i => i.classList.remove("active"));
+            document.getElementById(tabId).classList.add("active");
+            element.classList.add("active");
         };
 
-        // --- Package Manager ---
-        document.getElementById("addPackageBtn").onclick = async () => {
-            const title = document.getElementById("pkgTitle").value.trim();
-            const price = document.getElementById("pkgPrice").value.trim();
-            const image = document.getElementById("pkgImage").value.trim();
-
-            if (!title || !price) return alert("Title and Price are required!");
-
-            await addDoc(collection(db, "products"), {
-                title: title,
-                price: Number(price),
-                image: image || ""
-            });
-
-            alert("Package added!");
-            document.getElementById("pkgTitle").value = "";
-            document.getElementById("pkgPrice").value = "";
-            document.getElementById("pkgImage").value = "";
-        };
-
-        function loadPackages() {
-            onSnapshot(collection(db, "products"), (snapshot) => {
-                const container = document.getElementById("packageListContainer");
-                container.innerHTML = "";
-
-                if (snapshot.empty) {
-                    container.innerHTML = "<p>No packages available.</p>";
-                    return;
-                }
-
-                snapshot.forEach((docSnap) => {
-                    const p = docSnap.data();
-                    const pId = docSnap.id;
-
-                    const div = document.createElement("div");
-                    div.className = "package-item";
-                    div.innerHTML = `
-                        <div style="display:flex; align-items:center; gap:10px;">
-                            ${p.image ? `<img src="${p.image}">` : ''}
-                            <div>
-                                <strong>${p.title}</strong> - ৳${p.price}
-                            </div>
-                        </div>
-                        <button class="btn-action btn-delete" onclick="window.deletePackage('${pId}')">Delete</button>
-                    `;
-                    container.appendChild(div);
-                });
-            });
-        }
-
-        window.deletePackage = async (id) => {
-            if (confirm("Are you sure you want to delete this package?")) {
-                await deleteDoc(doc(db, "products", id));
-            }
-        };
-
-        // --- Order & Tracking Manager ---
-        function loadAdminOrders() {
+        // 1. Orders Engine
+        function loadOrders() {
             onSnapshot(collection(db, "orders"), (snapshot) => {
-                const container = document.getElementById("adminOrdersContainer");
+                const container = document.getElementById("ordersContainer");
                 container.innerHTML = "";
-
                 if (snapshot.empty) {
-                    container.innerHTML = "<p style='color:var(--text-muted);'>No orders placed yet.</p>";
+                    container.innerHTML = "<p style='color:var(--text-muted);'>No orders found.</p>";
                     return;
                 }
-
                 snapshot.forEach((docSnap) => {
                     const o = docSnap.data();
-                    const orderId = docSnap.id;
-
+                    const id = docSnap.id;
                     let chatHTML = (o.messages || []).map(m => `<div class="chat-msg ${m.sender}">${m.sender === 'admin' ? 'You' : 'Customer'}: ${m.text}</div>`).join('');
 
                     const div = document.createElement("div");
-                    div.className = "card";
+                    div.className = "order-card";
                     div.innerHTML = `
                         <div style="display:flex; justify-content:space-between; align-items:center;">
-                            <h3 style="margin:0; color:#38bdf8;">${o.product} (৳${o.price})</h3>
-                            <div>
-                                <label style="font-size:12px;">Status: </label>
-                                <select onchange="window.updateStatus('${orderId}', this.value)">
-                                    <option value="Pending" ${o.status === 'Pending' ? 'selected' : ''}>Pending</option>
-                                    <option value="Processing" ${o.status === 'Processing' ? 'selected' : ''}>Processing</option>
-                                    <option value="Completed" ${o.status === 'Completed' ? 'selected' : ''}>Completed</option>
-                                </select>
-                            </div>
+                            <h3 style="color:var(--accent-color);">${o.product} (৳${o.price})</h3>
+                            <select onchange="window.changeStatus('${id}', this.value)">
+                                <option value="Pending" ${o.status==='Pending'?'selected':''}>Pending</option>
+                                <option value="Processing" ${o.status==='Processing'?'selected':''}>Processing</option>
+                                <option value="Completed" ${o.status==='Completed'?'selected':''}>Completed</option>
+                            </select>
                         </div>
-
-                        <div class="grid-info">
+                        <div class="order-meta">
                             <div>Account: <span>${o.accType}</span></div>
-                            <div>Payment Method: <span>${o.paymentMethod}</span></div>
-                            <div>Game Email/ID: <span>${o.email}</span></div>
-                            <div>Sender Number: <span>${o.senderNumber}</span></div>
-                            <div>Game Password: <span>${o.password}</span></div>
+                            <div>Game ID/Email: <span>${o.email}</span></div>
+                            <div>Password: <span>${o.password}</span></div>
+                            <div>Method: <span>${o.paymentMethod}</span></div>
+                            <div>Sender No: <span>${o.senderNumber}</span></div>
                             <div>TrxID: <span>${o.trxId}</span></div>
                         </div>
-
-                        <div class="chat-box">${chatHTML}</div>
-                        <div class="chat-input">
-                            <input type="text" id="adminChatIn-${orderId}" placeholder="Reply to customer...">
-                            <button class="btn-action" onclick="window.sendAdminChat('${orderId}')">Reply</button>
+                        <div class="chat-container">
+                            <div class="chat-messages">${chatHTML}</div>
+                            <div class="chat-input-row">
+                                <input type="text" id="msgIn-${id}" placeholder="Type reply...">
+                                <button class="btn-btn" onclick="window.sendReply('${id}')">Send</button>
+                            </div>
                         </div>
                     `;
                     container.appendChild(div);
@@ -298,20 +305,90 @@
             });
         }
 
-        window.updateStatus = async (orderId, newStatus) => {
-            await updateDoc(doc(db, "orders", orderId), { status: newStatus });
-            alert("Order Status Updated!");
+        window.changeStatus = async (id, status) => {
+            await updateDoc(doc(db, "orders", id), { status: status });
+            alert("Status updated!");
         };
 
-        window.sendAdminChat = async (orderId) => {
-            const input = document.getElementById(`adminChatIn-${orderId}`);
+        window.sendReply = async (id) => {
+            const input = document.getElementById(`msgIn-${id}`);
             if (!input.value.trim()) return;
-
-            await updateDoc(doc(db, "orders", orderId), {
+            await updateDoc(doc(db, "orders", id), {
                 messages: arrayUnion({ sender: "admin", text: input.value.trim(), time: new Date() })
             });
             input.value = "";
         };
+
+        // 2. Package Engine
+        document.getElementById("addPkgBtn").onclick = async () => {
+            const title = document.getElementById("newPkgTitle").value.trim();
+            const price = document.getElementById("newPkgPrice").value.trim();
+            const image = document.getElementById("newPkgImage").value.trim();
+            if (!title || !price) return alert("Title and Price required!");
+
+            await addDoc(collection(db, "products"), { title: title, price: Number(price), image: image || "" });
+            alert("Package Added!");
+            document.getElementById("newPkgTitle").value = "";
+            document.getElementById("newPkgPrice").value = "";
+            document.getElementById("newPkgImage").value = "";
+        };
+
+        function loadPackages() {
+            onSnapshot(collection(db, "products"), (snapshot) => {
+                const container = document.getElementById("packagesContainer");
+                container.innerHTML = "";
+                snapshot.forEach((docSnap) => {
+                    const p = docSnap.data();
+                    const div = document.createElement("div");
+                    div.className = "pkg-row";
+                    div.innerHTML = `
+                        <div style="display:flex; align-items:center; gap:10px;">
+                            ${p.image ? `<img src="${p.image}">` : ''}
+                            <span><strong>${p.title}</strong> - ৳${p.price}</span>
+                        </div>
+                        <button class="btn-btn btn-danger" onclick="window.deletePkg('${docSnap.id}')">Delete</button>
+                    `;
+                    container.appendChild(div);
+                });
+            });
+        }
+
+        window.deletePkg = async (id) => {
+            if (confirm("Delete this package?")) await deleteDoc(doc(db, "products", id));
+        };
+
+        // 3. Banner Engine
+        document.getElementById("saveBannerBtn").onclick = async () => {
+            const url = document.getElementById("bannerUrlInput").value.trim();
+            if (!url) return alert("Enter URL/Path!");
+            await setDoc(doc(db, "settings", "banner"), { url: url });
+            alert("Banner updated!");
+        };
+
+        // 4. Notice Engine
+        document.getElementById("saveNoticeBtn").onclick = async () => {
+            const text = document.getElementById("noticeTextInput").value.trim();
+            await setDoc(doc(db, "settings", "notice"), { text: text });
+            alert("Notice published!");
+        };
+
+        // 5. Users Database Engine
+        function loadUsers() {
+            onSnapshot(collection(db, "users"), (snapshot) => {
+                const container = document.getElementById("usersContainer");
+                if (snapshot.empty) {
+                    container.innerHTML = "<p>No users registered yet.</p>";
+                    return;
+                }
+                let html = `<table class="user-table"><thead><tr><th>User ID</th><th>Email</th><th>WhatsApp</th></tr></thead><tbody>`;
+                snapshot.forEach((docSnap) => {
+                    const u = docSnap.data();
+                    html += `<tr><td><strong>${u.userId || 'N/A'}</strong></td><td>${u.email || 'N/A'}</td><td><a href="https://wa.me/${u.whatsapp}" target="_blank" style="color:var(--accent-color);">${u.whatsapp || 'N/A'}</a></td></tr>`;
+                });
+                html += `</tbody></table>`;
+                container.innerHTML = html;
+            });
+        }
     </script>
 </body>
 </html>
