@@ -3,40 +3,16 @@ import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebas
 import { getAuth } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
 import { getFirestore } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
 
-// ⚠️ আপনার Firebase Web Config তথ্য দিয়ে এগুলো পরিবর্তন করুন
 const firebaseConfig = {
-  apiKey: "YOUR_API_KEY",
-  authDomain: "tangail-efootball-house.firebaseapp.com",
-  projectId: "tangail-efootball-house",
-  storageBucket: "tangail-efootball-house.appspot.com",
-  messagingSenderId: "YOUR_SENDER_ID",
-  appId: "YOUR_APP_ID"
+  apiKey: "AIzaSyALRuLT_7ZLUdjxnMakl5sVbYtV3LFsFnI",
+  authDomain: "tangail-efootball-house-dd4c9.firebaseapp.com",
+  projectId: "tangail-efootball-house-dd4c9",
+  storageBucket: "tangail-efootball-house-dd4c9.firebasestorage.app",
+  messagingSenderId: "188200689515",
+  appId: "1:188200689515:web:3ac13972a56ac55ebcf62e"
 };
 
-// Firebase সার্ভিস চালু করা হচ্ছে
+// Initialize Firebase Services
 const app = initializeApp(firebaseConfig);
 export const auth = getAuth(app);
 export const db = getFirestore(app);
-
-// 🔒 UPDATED SYSTEM CONFIGURATION & BUSINESS RULES
-export const SYSTEM_CONFIG = {
-  ADMIN_EMAIL: "hackbyjh@gmail.com", // ✅ Corrected Admin Email
-  WALLET_RULES: {
-    EXPIRY: false,
-    ALLOW_CASH_OUT: true,
-    CASH_OUT_FEE_POINTS: 10,
-    REFUND_POLICY: "ADMIN_DISCRETION"
-  },
-  DEFAULT_REQUIREMENTS: {
-    konamiId: true,
-    konamiPass: true,
-    trxId: true,
-    lastNumber: true,
-    walletPayment: true,
-    whatsappContact: true
-  },
-  ID_PREFIX: {
-    ORDER: "TEH-",
-    WALLET: "WAL-"
-  }
-};
