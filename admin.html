@@ -3,390 +3,989 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Super Admin Dashboard - Tangail Efootball House</title>
+    <title>Admin | Tangail eFootball House</title>
+
     <style>
         :root {
             --bg-dark: #090d16;
             --sidebar-bg: #111827;
             --card-bg: #1f2937;
-            --accent-color: #38bdf8;
-            --accent-hover: #0284c7;
-            --text-main: #f9fafb;
-            --text-muted: #9ca3af;
-            --border-color: #374151;
-            --danger-color: #ef4444;
-            --success-color: #10b981;
+            --accent: #00f2fe;
+            --blue: #4facfe;
+            --text: #f8fafc;
+            --muted: #94a3b8;
+            --border: #374151;
+            --danger: #ef4444;
+            --success: #10b981;
+            --warning: #f59e0b;
         }
 
-        * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: "Segoe UI", Tahoma, sans-serif;
+        }
 
-        body { background-color: var(--bg-dark); color: var(--text-main); display: flex; min-height: 100vh; }
+        body {
+            background: var(--bg-dark);
+            color: var(--text);
+            min-height: 100vh;
+        }
 
-        /* Login Portal Overlay */
+        /* ================= LOGIN ================= */
+
         .login-overlay {
-            position: fixed; inset: 0; background: var(--bg-dark); z-index: 999;
-            display: flex; justify-content: center; align-items: center;
+            position: fixed;
+            inset: 0;
+            background: #090d16;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 9999;
+            padding: 20px;
         }
+
         .login-box {
-            background: var(--card-bg); padding: 35px; border-radius: 12px;
-            width: 90%; max-width: 380px; border: 1px solid var(--border-color); text-align: center;
-            box-shadow: 0 10px 25px rgba(0,0,0,0.5);
+            width: 100%;
+            max-width: 380px;
+            background: var(--card-bg);
+            border: 1px solid var(--border);
+            border-radius: 16px;
+            padding: 30px;
+            text-align: center;
+            box-shadow: 0 20px 50px rgba(0,0,0,.5);
         }
-        .login-box h3 { color: var(--accent-color); margin-bottom: 20px; font-size: 22px; }
+
+        .login-box h2 {
+            color: var(--accent);
+            margin-bottom: 8px;
+        }
+
+        .login-box p {
+            color: var(--muted);
+            font-size: 13px;
+            margin-bottom: 20px;
+        }
+
         .login-box input {
-            width: 100%; padding: 12px; margin-bottom: 15px; background: #0f172a;
-            border: 1px solid var(--border-color); border-radius: 6px; color: #fff; outline: none;
+            width: 100%;
+            padding: 12px;
+            background: #0f172a;
+            color: white;
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            outline: none;
+            margin-bottom: 12px;
         }
+
         .login-box button {
-            width: 100%; padding: 12px; background: var(--accent-color); border: none;
-            border-radius: 6px; color: #000; font-weight: bold; cursor: pointer; transition: 0.3s;
+            width: 100%;
+            padding: 12px;
+            border: none;
+            border-radius: 8px;
+            background: linear-gradient(135deg, var(--accent), var(--blue));
+            color: #000;
+            font-weight: 800;
+            cursor: pointer;
         }
-        .login-box button:hover { background: var(--accent-hover); color: #fff; }
 
-        /* Sidebar Navigation */
+        /* ================= LAYOUT ================= */
+
         .sidebar {
-            width: 250px; background: var(--sidebar-bg); border-right: 1px solid var(--border-color);
-            padding: 20px 0; display: flex; flex-direction: column; position: fixed; height: 100vh;
-        }
-        .brand-logo {
-            padding: 0 20px 20px 20px; border-bottom: 1px solid var(--border-color);
-            color: var(--accent-color); font-size: 18px; font-weight: bold;
-        }
-        .nav-menu { list-style: none; margin-top: 20px; flex: 1; }
-        .nav-item {
-            padding: 14px 20px; cursor: pointer; color: var(--text-muted); font-size: 14px;
-            display: flex; align-items: center; gap: 10px; transition: 0.2s;
-        }
-        .nav-item:hover, .nav-item.active { background: rgba(56, 189, 248, 0.1); color: var(--accent-color); border-left: 4px solid var(--accent-color); }
-        .btn-logout-side {
-            margin: 20px; padding: 10px; background: var(--danger-color); color: #fff;
-            border: none; border-radius: 6px; cursor: pointer; font-weight: bold;
+            width: 250px;
+            position: fixed;
+            left: 0;
+            top: 0;
+            bottom: 0;
+            background: var(--sidebar-bg);
+            border-right: 1px solid var(--border);
+            display: flex;
+            flex-direction: column;
+            z-index: 100;
         }
 
-        /* Main Workspace */
-        .main-workspace { margin-left: 250px; flex: 1; padding: 30px; }
-        .top-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 25px; }
-        .page-title { font-size: 24px; color: #fff; }
-
-        /* Tabs */
-        .tab-content { display: none; }
-        .tab-content.active { display: block; }
-
-        /* Cards & Forms */
-        .card { background: var(--card-bg); border: 1px solid var(--border-color); border-radius: 10px; padding: 20px; margin-bottom: 20px; }
-        .form-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 12px; margin-bottom: 15px; }
-        input, select, textarea {
-            width: 100%; padding: 10px; background: #0f172a; border: 1px solid var(--border-color);
-            border-radius: 6px; color: #fff; outline: none; box-sizing: border-box;
+        .brand {
+            padding: 22px 18px;
+            border-bottom: 1px solid var(--border);
+            color: var(--accent);
+            font-weight: 800;
+            font-size: 17px;
         }
-        .btn-btn {
-            background: var(--accent-color); color: #000; border: none; padding: 10px 20px;
-            border-radius: 6px; font-weight: bold; cursor: pointer; transition: 0.2s;
+
+        .nav {
+            list-style: none;
+            padding: 15px 10px;
+            flex: 1;
         }
-        .btn-btn:hover { background: var(--accent-hover); color: #fff; }
-        .btn-danger { background: var(--danger-color); color: #fff; }
 
-        /* List Items */
-        .pkg-row { display: flex; justify-content: space-between; align-items: center; padding: 12px; border-bottom: 1px solid var(--border-color); }
-        .pkg-row img { height: 35px; border-radius: 4px; }
+        .nav li {
+            padding: 13px;
+            margin-bottom: 7px;
+            border-radius: 8px;
+            cursor: pointer;
+            color: var(--muted);
+            font-size: 14px;
+            transition: .2s;
+        }
 
-        /* Orders & Chat */
-        .order-card { background: var(--card-bg); border-radius: 10px; border: 1px solid var(--border-color); padding: 18px; margin-bottom: 20px; }
-        .order-meta { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 10px; font-size: 13px; color: var(--text-muted); margin: 12px 0; }
-        .order-meta span { color: #fff; font-weight: bold; }
-        
-        .chat-container { background: #0f172a; border-radius: 6px; padding: 10px; border: 1px solid var(--border-color); }
-        .chat-messages { height: 110px; overflow-y: auto; font-size: 13px; margin-bottom: 8px; }
-        .chat-msg.user { color: var(--accent-color); text-align: left; margin-bottom: 4px; }
-        .chat-msg.admin { color: var(--success-color); text-align: right; margin-bottom: 4px; }
-        .chat-input-row { display: flex; gap: 8px; }
+        .nav li:hover,
+        .nav li.active {
+            background: rgba(0,242,254,.1);
+            color: var(--accent);
+        }
 
-        /* User List Table */
-        .user-table { width: 100%; border-collapse: collapse; font-size: 14px; text-align: left; }
-        .user-table th, .user-table td { padding: 12px; border-bottom: 1px solid var(--border-color); }
-        .user-table th { background: #0f172a; color: var(--accent-color); }
+        .logout {
+            margin: 15px;
+            padding: 11px;
+            border: none;
+            border-radius: 8px;
+            background: var(--danger);
+            color: white;
+            font-weight: bold;
+            cursor: pointer;
+        }
 
-        @media (max-width: 768px) {
-            body { flex-direction: column; }
-            .sidebar { width: 100%; height: auto; position: relative; }
-            .main-workspace { margin-left: 0; padding: 15px; }
+        .main {
+            margin-left: 250px;
+            padding: 25px;
+        }
+
+        .mobile-header {
+            display: none;
+        }
+
+        /* ================= TABS ================= */
+
+        .tab {
+            display: none;
+        }
+
+        .tab.active {
+            display: block;
+        }
+
+        .page-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .page-header h1 {
+            font-size: 24px;
+        }
+
+        /* ================= CARDS ================= */
+
+        .card {
+            background: var(--card-bg);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 18px;
+            margin-bottom: 18px;
+        }
+
+        .card h3 {
+            margin-bottom: 15px;
+            color: var(--accent);
+        }
+
+        .form-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit,minmax(180px,1fr));
+            gap: 10px;
+            margin-bottom: 12px;
+        }
+
+        input,
+        textarea,
+        select {
+            width: 100%;
+            padding: 10px;
+            background: #0f172a;
+            color: white;
+            border: 1px solid var(--border);
+            border-radius: 7px;
+            outline: none;
+        }
+
+        textarea {
+            resize: vertical;
+        }
+
+        .btn {
+            padding: 10px 17px;
+            border: none;
+            border-radius: 7px;
+            background: linear-gradient(135deg,var(--accent),var(--blue));
+            color: #000;
+            font-weight: 800;
+            cursor: pointer;
+        }
+
+        .btn-danger {
+            background: var(--danger);
+            color: white;
+        }
+
+        /* ================= ORDERS ================= */
+
+        .order-card {
+            background: var(--card-bg);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 17px;
+            margin-bottom: 18px;
+        }
+
+        .order-top {
+            display: flex;
+            justify-content: space-between;
+            gap: 10px;
+            align-items: center;
+        }
+
+        .order-title {
+            color: var(--accent);
+            font-size: 17px;
+        }
+
+        .order-meta {
+            display: grid;
+            grid-template-columns: repeat(auto-fit,minmax(180px,1fr));
+            gap: 8px;
+            margin: 15px 0;
+            font-size: 13px;
+        }
+
+        .meta-box {
+            background: #0f172a;
+            padding: 9px;
+            border-radius: 7px;
+            color: var(--muted);
+            overflow-wrap: anywhere;
+        }
+
+        .meta-box strong {
+            color: white;
+        }
+
+        .status-select {
+            min-width: 120px;
+        }
+
+        /* ================= CHAT ================= */
+
+        .chat {
+            background: #0f172a;
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            padding: 10px;
+        }
+
+        .messages {
+            height: 120px;
+            overflow-y: auto;
+            margin-bottom: 8px;
+            font-size: 13px;
+        }
+
+        .message {
+            margin-bottom: 6px;
+        }
+
+        .message.user {
+            color: var(--accent);
+        }
+
+        .message.admin {
+            color: var(--success);
+            text-align: right;
+        }
+
+        .chat-row {
+            display: flex;
+            gap: 7px;
+        }
+
+        /* ================= PACKAGES ================= */
+
+        .package-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 10px;
+            padding: 12px;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .package-info {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .package-info img {
+            width: 45px;
+            height: 45px;
+            object-fit: contain;
+            border-radius: 7px;
+        }
+
+        /* ================= USERS ================= */
+
+        .table-wrapper {
+            overflow-x: auto;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            min-width: 600px;
+        }
+
+        th,
+        td {
+            padding: 11px;
+            border-bottom: 1px solid var(--border);
+            text-align: left;
+            font-size: 13px;
+        }
+
+        th {
+            color: var(--accent);
+            background: #0f172a;
+        }
+
+        /* ================= MOBILE ================= */
+
+        @media(max-width:768px) {
+
+            .sidebar {
+                display: none;
+            }
+
+            .mobile-header {
+                display: flex;
+                position: sticky;
+                top: 0;
+                z-index: 200;
+                background: #111827;
+                padding: 13px 15px;
+                justify-content: space-between;
+                align-items: center;
+                border-bottom: 1px solid var(--border);
+            }
+
+            .mobile-header strong {
+                color: var(--accent);
+            }
+
+            .menu-btn {
+                border: none;
+                background: none;
+                color: white;
+                font-size: 25px;
+                cursor: pointer;
+            }
+
+            .mobile-menu {
+                display: none;
+                background: #111827;
+                padding: 10px;
+            }
+
+            .mobile-menu.show {
+                display: block;
+            }
+
+            .mobile-menu div {
+                padding: 12px;
+                border-bottom: 1px solid var(--border);
+                color: var(--muted);
+            }
+
+            .main {
+                margin-left: 0;
+                padding: 14px;
+            }
+
+            .page-header h1 {
+                font-size: 20px;
+            }
+
+            .order-top {
+                flex-direction: column;
+                align-items: stretch;
+            }
+
+            .status-select {
+                width: 100%;
+            }
+
+            .chat-row {
+                flex-direction: column;
+            }
         }
     </style>
 </head>
+
 <body>
 
-    <!-- Protected Password Portal -->
-    <div class="login-overlay" id="loginPortal">
-        <div class="login-box">
-            <h3>Admin Portal</h3>
-            <input type="password" id="adminPasswordInput" placeholder="Enter Security Password">
-            <button id="adminLoginBtn">Login Access</button>
-        </div>
+<!-- ================= ADMIN LOGIN ================= -->
+
+<div class="login-overlay" id="loginOverlay">
+
+    <div class="login-box">
+
+        <h2>Admin Portal</h2>
+
+        <p>Tangail eFootball House</p>
+
+        <input
+            type="password"
+            id="adminPassword"
+            placeholder="Enter Admin Password"
+        >
+
+        <button id="loginBtn">
+            Login to Dashboard
+        </button>
+
+        <p id="loginError"
+           style="display:none;color:#ef4444;margin-top:12px;">
+            Incorrect password!
+        </p>
+
     </div>
 
-    <!-- Sidebar Navbar -->
-    <aside class="sidebar">
-        <div class="brand-logo">Tangail Efootball</div>
-        <ul class="nav-menu">
-            <li class="nav-item active" onclick="switchTab('tab-orders', this)">📋 Orders & Tracking</li>
-            <li class="nav-item" onclick="switchTab('tab-packages', this)">💎 Manage Packages</li>
-            <li class="nav-item" onclick="switchTab('tab-banner', this)">🖼️ Banner Control</li>
-            <li class="nav-item" onclick="switchTab('tab-notice', this)">📢 Notice Board</li>
-            <li class="nav-item" onclick="switchTab('tab-users', this)">👥 Registered Users</li>
-        </ul>
-        <button class="btn-logout-side" id="adminLogoutBtn">Logout</button>
-    </aside>
+</div>
 
-    <!-- Main Workspace -->
-    <main class="main-workspace">
-        
-        <!-- 1. Orders Management -->
-        <section id="tab-orders" class="tab-content active">
-            <div class="top-header">
-                <h1 class="page-title">Orders Management</h1>
-            </div>
-            <div id="ordersContainer">Loading Orders...</div>
-        </section>
 
-        <!-- 2. Package Management -->
-        <section id="tab-packages" class="tab-content">
-            <div class="top-header">
-                <h1 class="page-title">Manage Coin Packages</h1>
-            </div>
-            <div class="card">
-                <h3 style="margin-bottom: 12px;">Add New Coin Package</h3>
-                <div class="form-grid">
-                    <input type="text" id="newPkgTitle" placeholder="Title (e.g. 1040 Coins)">
-                    <input type="number" id="newPkgPrice" placeholder="Price (৳)">
-                    <input type="text" id="newPkgImage" placeholder="Image File Path / URL (Optional)">
-                </div>
-                <button class="btn-btn" id="addPkgBtn">Save Package</button>
-            </div>
-            <div class="card">
-                <h3 style="margin-bottom: 12px;">Existing Packages</h3>
-                <div id="packagesContainer">Loading...</div>
-            </div>
-        </section>
+<!-- ================= MOBILE HEADER ================= -->
 
-        <!-- 3. Banner Management -->
-        <section id="tab-banner" class="tab-content">
-            <div class="top-header">
-                <h1 class="page-title">Homepage Banner Control</h1>
-            </div>
-            <div class="card">
-                <div class="form-grid">
-                    <input type="text" id="bannerUrlInput" placeholder="Image URL / File Name (e.g. starterpack.png)">
-                </div>
-                <button class="btn-btn" id="saveBannerBtn">Update Banner</button>
-            </div>
-        </section>
+<header class="mobile-header">
 
-        <!-- 4. Notice Board -->
-        <section id="tab-notice" class="tab-content">
-            <div class="top-header">
-                <h1 class="page-title">Notice Board Control</h1>
-            </div>
-            <div class="card">
-                <textarea id="noticeTextInput" rows="3" placeholder="Enter notice for customers..."></textarea>
-                <br><br>
-                <button class="btn-btn" id="saveNoticeBtn">Publish Notice</button>
-            </div>
-        </section>
+    <strong>Tangail eFootball House</strong>
 
-        <!-- 5. Registered Users -->
-        <section id="tab-users" class="tab-content">
-            <div class="top-header">
-                <h1 class="page-title">Registered Customer Database</h1>
-            </div>
-            <div class="card" id="usersContainer">
-                Loading Registered Users...
-            </div>
-        </section>
+    <button class="menu-btn" onclick="toggleMobileMenu()">
+        ☰
+    </button>
 
-    </main>
+</header>
 
-    <script type="module">
-        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
-        import { getFirestore, collection, onSnapshot, doc, setDoc, addDoc, updateDoc, deleteDoc, arrayUnion } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
+<div class="mobile-menu" id="mobileMenu">
 
-        const firebaseConfig = {
-            apiKey: "AIzaSyDwhxDxu2DTIvJQ1uBs1Bl14FoL06Ws1KI",
-            authDomain: "tangail-efootball-house.firebaseapp.com",
-            projectId: "tangail-efootball-house",
-            storageBucket: "tangail-efootball-house.firebasestorage.app",
-            messagingSenderId: "774313430680",
-            appId: "1:774313430680:web:07d5af9f2abc31be4fcaed"
-        };
+    <div onclick="switchTab('orders')">📋 Orders</div>
 
-        const app = initializeApp(firebaseConfig);
-        const db = getFirestore(app);
+    <div onclick="switchTab('packages')">💎 Packages</div>
 
-        const ADMIN_PASSWORD = "admin123";
+    <div onclick="switchTab('banner')">🖼️ Banner</div>
 
-        // Security Authentication
-        document.getElementById("adminLoginBtn").onclick = () => {
-            if (document.getElementById("adminPasswordInput").value === ADMIN_PASSWORD) {
-                sessionStorage.setItem("adminAuth", "true");
-                unlockDashboard();
-            } else {
-                alert("Incorrect Password!");
+    <div onclick="switchTab('notice')">📢 Notice</div>
+
+    <div onclick="switchTab('users')">👥 Users</div>
+
+    <div onclick="logoutAdmin()" style="color:#ef4444;">
+        🚪 Logout
+    </div>
+
+</div>
+
+
+<!-- ================= SIDEBAR ================= -->
+
+<aside class="sidebar">
+
+    <div class="brand">
+        Tangail eFootball House
+    </div>
+
+    <ul class="nav">
+
+        <li class="active"
+            onclick="switchTab('orders',this)">
+            📋 Orders & Tracking
+        </li>
+
+        <li onclick="switchTab('packages',this)">
+            💎 Manage Packages
+        </li>
+
+        <li onclick="switchTab('banner',this)">
+            🖼️ Banner Control
+        </li>
+
+        <li onclick="switchTab('notice',this)">
+            📢 Notice Board
+        </li>
+
+        <li onclick="switchTab('users',this)">
+            👥 Registered Users
+        </li>
+
+    </ul>
+
+    <button class="logout" onclick="logoutAdmin()">
+        Logout
+    </button>
+
+</aside>
+
+
+<!-- ================= MAIN ================= -->
+
+<main class="main">
+
+
+<!-- ================= ORDERS ================= -->
+
+<section id="orders" class="tab active">
+
+    <div class="page-header">
+        <h1>Orders Management</h1>
+    </div>
+
+    <div id="ordersContainer">
+        Loading orders...
+    </div>
+
+</section>
+
+
+<!-- ================= PACKAGES ================= -->
+
+<section id="packages" class="tab">
+
+    <div class="page-header">
+        <h1>Coin Packages</h1>
+    </div>
+
+    <div class="card">
+
+        <h3>Add New Package</h3>
+
+        <div class="form-grid">
+
+            <input
+                type="text"
+                id="packageTitle"
+                placeholder="Example: 1040 Coins"
+            >
+
+            <input
+                type="number"
+                id="packagePrice"
+                placeholder="Price ৳"
+            >
+
+            <input
+                type="text"
+                id="packageImage"
+                placeholder="Image URL / starterpack.png"
+            >
+
+        </div>
+
+        <button class="btn" onclick="addPackage()">
+            Add Package
+        </button>
+
+    </div>
+
+
+    <div class="card">
+
+        <h3>Existing Packages</h3>
+
+        <div id="packagesContainer">
+            Loading...
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- ================= BANNER ================= -->
+
+<section id="banner" class="tab">
+
+    <div class="page-header">
+        <h1>Homepage Banner</h1>
+    </div>
+
+    <div class="card">
+
+        <h3>Update Banner</h3>
+
+        <input
+            type="text"
+            id="bannerInput"
+            placeholder="Example: starterpack.png"
+        >
+
+        <br><br>
+
+        <button class="btn" onclick="updateBanner()">
+            Update Banner
+        </button>
+
+    </div>
+
+</section>
+
+
+<!-- ================= NOTICE ================= -->
+
+<section id="notice" class="tab">
+
+    <div class="page-header">
+        <h1>Notice Board</h1>
+    </div>
+
+    <div class="card">
+
+        <h3>Customer Notice</h3>
+
+        <textarea
+            id="noticeInput"
+            rows="5"
+            placeholder="Write notice for customers..."
+        ></textarea>
+
+        <br><br>
+
+        <button class="btn" onclick="updateNotice()">
+            Publish Notice
+        </button>
+
+    </div>
+
+</section>
+
+
+<!-- ================= USERS ================= -->
+
+<section id="users" class="tab">
+
+    <div class="page-header">
+        <h1>Registered Users</h1>
+    </div>
+
+    <div class="card">
+
+        <div class="table-wrapper">
+
+            <table>
+
+                <thead>
+
+                    <tr>
+                        <th>User ID</th>
+                        <th>Name</th>
+                        <th>Email</th>
+                        <th>Phone</th>
+                        <th>WhatsApp</th>
+                    </tr>
+
+                </thead>
+
+                <tbody id="usersTable">
+
+                </tbody>
+
+            </table>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+</main>
+
+
+<!-- ================= FIREBASE ================= -->
+
+<script type="module">
+
+import {
+    initializeApp
+} from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
+
+import {
+    getAuth,
+    onAuthStateChanged
+} from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
+
+import {
+    getFirestore,
+    collection,
+    onSnapshot,
+    doc,
+    addDoc,
+    updateDoc,
+    deleteDoc,
+    setDoc,
+    arrayUnion
+} from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
+
+
+/* ================= FIREBASE CONFIG ================= */
+
+const firebaseConfig = {
+
+    apiKey:
+        "AIzaSyDwhxDxu2DTIvJQ1uBs1Bl14FoL06Ws1KI",
+
+    authDomain:
+        "tangail-efootball-house.firebaseapp.com",
+
+    projectId:
+        "tangail-efootball-house",
+
+    storageBucket:
+        "tangail-efootball-house.firebasestorage.app",
+
+    messagingSenderId:
+        "774313430680",
+
+    appId:
+        "1:774313430680:web:07d5af9f2abc31be4fcaed"
+
+};
+
+
+const app = initializeApp(firebaseConfig);
+
+const auth = getAuth(app);
+
+const db = getFirestore(app);
+
+
+/* ================= ADMIN PASSWORD ================= */
+
+/*
+   IMPORTANT:
+   Change this password.
+*/
+
+const ADMIN_PASSWORD = "admin123";
+
+
+const loginOverlay =
+    document.getElementById("loginOverlay");
+
+
+document
+    .getElementById("loginBtn")
+    .addEventListener("click", loginAdmin);
+
+
+document
+    .getElementById("adminPassword")
+    .addEventListener("keydown", e => {
+
+        if (e.key === "Enter") {
+            loginAdmin();
+        }
+
+    });
+
+
+function loginAdmin() {
+
+    const password =
+        document.getElementById("adminPassword").value;
+
+    if (password === ADMIN_PASSWORD) {
+
+        sessionStorage.setItem(
+            "adminAccess",
+            "true"
+        );
+
+        loginOverlay.style.display = "none";
+
+        loadDashboard();
+
+    } else {
+
+        document.getElementById(
+            "loginError"
+        ).style.display = "block";
+
+    }
+
+}
+
+
+window.logoutAdmin = function() {
+
+    sessionStorage.removeItem(
+        "adminAccess"
+    );
+
+    location.reload();
+
+};
+
+
+/* ================= SESSION CHECK ================= */
+
+if (
+    sessionStorage.getItem("adminAccess")
+    === "true"
+) {
+
+    loginOverlay.style.display = "none";
+
+    loadDashboard();
+
+}
+
+
+/* ================= NAVIGATION ================= */
+
+window.switchTab = function(
+    tabName,
+    element
+) {
+
+    document
+        .querySelectorAll(".tab")
+        .forEach(tab => {
+            tab.classList.remove("active");
+        });
+
+    const target =
+        document.getElementById(tabName);
+
+    if (target) {
+        target.classList.add("active");
+    }
+
+
+    document
+        .querySelectorAll(".nav li")
+        .forEach(item => {
+            item.classList.remove("active");
+        });
+
+
+    if (element) {
+        element.classList.add("active");
+    }
+
+
+    document
+        .getElementById("mobileMenu")
+        .classList.remove("show");
+
+};
+
+
+window.toggleMobileMenu = function() {
+
+    document
+        .getElementById("mobileMenu")
+        .classList.toggle("show");
+
+};
+
+
+/* ================= DASHBOARD ================= */
+
+let dashboardLoaded = false;
+
+
+function loadDashboard() {
+
+    if (dashboardLoaded) return;
+
+    dashboardLoaded = true;
+
+    loadOrders();
+
+    loadPackages();
+
+    loadUsers();
+
+}
+
+
+/* ================= ORDERS ================= */
+
+function loadOrders() {
+
+    onSnapshot(
+        collection(db, "orders"),
+        snapshot => {
+
+            const container =
+                document.getElementById(
+                    "ordersContainer"
+                );
+
+            container.innerHTML = "";
+
+
+            if (snapshot.empty) {
+
+                container.innerHTML =
+                    `<div class="card">
+                        No orders found.
+                    </div>`;
+
+                return;
+
             }
-        };
 
-        document.getElementById("adminLogoutBtn").onclick = () => {
-            sessionStorage.removeItem("adminAuth");
-            location.reload();
-        };
 
-        if (sessionStorage.getItem("adminAuth") === "true") {
-            unlockDashboard();
-        }
+            snapshot.forEach(orderDoc => {
 
-        function unlockDashboard() {
-            document.getElementById("loginPortal").style.display = "none";
-            loadOrders();
-            loadPackages();
-            loadUsers();
-        }
+                const order =
+                    orderDoc.data();
 
-        // Sidebar Navigation Switcher
-        window.switchTab = (tabId, element) => {
-            document.querySelectorAll(".tab-content").forEach(t => t.classList.remove("active"));
-            document.querySelectorAll(".nav-item").forEach(i => i.classList.remove("active"));
-            document.getElementById(tabId).classList.add("active");
-            element.classList.add("active");
-        };
+                const id =
+                    orderDoc.id;
 
-        // 1. Orders Management
-        function loadOrders() {
-            onSnapshot(collection(db, "orders"), (snapshot) => {
-                const container = document.getElementById("ordersContainer");
-                container.innerHTML = "";
-                if (snapshot.empty) {
-                    container.innerHTML = "<p style='color:var(--text-muted);'>No orders found.</p>";
-                    return;
-                }
-                snapshot.forEach((docSnap) => {
-                    const o = docSnap.data();
-                    const id = docSnap.id;
-                    let chatHTML = (o.messages || []).map(m => `<div class="chat-msg ${m.sender}">${m.sender === 'admin' ? 'You' : 'Customer'}: ${m.text}</div>`).join('');
 
-                    const div = document.createElement("div");
-                    div.className = "order-card";
-                    div.innerHTML = `
-                        <div style="display:flex; justify-content:space-between; align-items:center;">
-                            <h3 style="color:var(--accent-color);">${o.product} (৳${o.price})</h3>
-                            <select onchange="window.changeStatus('${id}', this.value)">
-                                <option value="Pending" ${o.status==='Pending'?'selected':''}>Pending</option>
-                                <option value="Processing" ${o.status==='Processing'?'selected':''}>Processing</option>
-                                <option value="Completed" ${o.status==='Completed'?'selected':''}>Completed</option>
-                            </select>
-                        </div>
-                        <div class="order-meta">
-                            <div>Account: <span>${o.accType}</span></div>
-                            <div>Game ID/Email: <span>${o.email}</span></div>
-                            <div>Password: <span>${o.password}</span></div>
-                            <div>Method: <span>${o.paymentMethod}</span></div>
-                            <div>Sender No: <span>${o.senderNumber}</span></div>
-                            <div>TrxID: <span>${o.trxId}</span></div>
-                        </div>
-                        <div class="chat-container">
-                            <div class="chat-messages">${chatHTML}</div>
-                            <div class="chat-input-row">
-                                <input type="text" id="msgIn-${id}" placeholder="Type reply...">
-                                <button class="btn-btn" onclick="window.sendReply('${id}')">Send</button>
+                let messages = "";
+
+
+                (order.messages || [])
+                    .forEach(message => {
+
+                        messages += `
+                            <div class="message ${message.sender}">
+                                <strong>
+                                    ${
+                                        message.sender === "admin"
+                                        ? "Admin"
+                                        : "Customer"
+                                    }:
+                                </strong>
+                                ${escapeHTML(message.text)}
                             </div>
-                        </div>
-                    `;
-                    container.appendChild(div);
-                });
-            });
-        }
+                        `;
 
-        window.changeStatus = async (id, status) => {
-            await updateDoc(doc(db, "orders", id), { status: status });
-            alert("Status updated!");
-        };
+                    });
 
-        window.sendReply = async (id) => {
-            const input = document.getElementById(`msgIn-${id}`);
-            if (!input.value.trim()) return;
-            await updateDoc(doc(db, "orders", id), {
-                messages: arrayUnion({ sender: "admin", text: input.value.trim(), time: new Date() })
-            });
-            input.value = "";
-        };
 
-        // 2. Package Management
-        document.getElementById("addPkgBtn").onclick = async () => {
-            const title = document.getElementById("newPkgTitle").value.trim();
-            const price = document.getElementById("newPkgPrice").value.trim();
-            const image = document.getElementById("newPkgImage").value.trim();
-            if (!title || !price) return alert("Title and Price required!");
+                const card =
+                    document.createElement("div");
 
-            await addDoc(collection(db, "products"), { title: title, price: Number(price), image: image || "" });
-            alert("Package Added!");
-            document.getElementById("newPkgTitle").value = "";
-            document.getElementById("newPkgPrice").value = "";
-            document.getElementById("newPkgImage").value = "";
-        };
+                card.className =
+                    "order-card";
 
-        function loadPackages() {
-            onSnapshot(collection(db, "products"), (snapshot) => {
-                const container = document.getElementById("packagesContainer");
-                container.innerHTML = "";
-                snapshot.forEach((docSnap) => {
-                    const p = docSnap.data();
-                    const div = document.createElement("div");
-                    div.className = "pkg-row";
-                    div.innerHTML = `
-                        <div style="display:flex; align-items:center; gap:10px;">
-                            ${p.image ? `<img src="${p.image}">` : ''}
-                            <span><strong>${p.title}</strong> - ৳${p.price}</span>
-                        </div>
-                        <button class="btn-btn btn-danger" onclick="window.deletePkg('${docSnap.id}')">Delete</button>
-                    `;
-                    container.appendChild(div);
-                });
-            });
-        }
 
-        window.deletePkg = async (id) => {
-            if (confirm("Delete this package?")) await deleteDoc(doc(db, "products", id));
-        };
+                card.innerHTML = `
 
-        // 3. Banner Management
-        document.getElementById("saveBannerBtn").onclick = async () => {
-            const url = document.getElementById("bannerUrlInput").value.trim();
-            if (!url) return alert("Enter URL/Path!");
-            await setDoc(doc(db, "settings", "banner"), { url: url });
-            alert("Banner updated!");
-        };
+                    <div class="order-top">
 
-        // 4. Notice Board Management
-        document.getElementById("saveNoticeBtn").onclick = async () => {
-            const text = document.getElementById("noticeTextInput").value.trim();
-            await setDoc(doc(db, "settings", "notice"), { text: text });
-            alert("Notice published!");
-        };
-
-        // 5. Registered User Database
-        function loadUsers() {
-            onSnapshot(collection(db, "users"), (snapshot) => {
-                const container = document.getElementById("usersContainer");
-                if (snapshot.empty) {
-                    container.innerHTML = "<p>No users registered yet.</p>";
-                    return;
-                }
-                let html = `<table class="user-table"><thead><tr><th>User ID</th><th>Email</th><th>WhatsApp</th></tr></thead><tbody>`;
-                snapshot.forEach((docSnap) => {
-                    const u = docSnap.data();
-                    html += `<tr><td><strong>${u.userId || 'N/A'}</strong></td><td>${u.email || 'N/A'}</td><td><a href="https://wa.me/${u.whatsapp}" target="_blank" style="color:var(--accent-color);">${u.whatsapp || 'N/A'}</a></td></tr>`;
-                });
-                html += `</tbody></table>`;
-                container.innerHTML = html;
-            });
-        }
-    </script>
-</body>
-</html>
+                        <div>
+   
