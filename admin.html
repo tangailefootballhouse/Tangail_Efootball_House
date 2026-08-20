@@ -22,7 +22,7 @@
 
         body { background-color: var(--bg-dark); color: var(--text-main); display: flex; min-height: 100vh; }
 
-        /* Login Portal */
+        /* Login Portal Overlay */
         .login-overlay {
             position: fixed; inset: 0; background: var(--bg-dark); z-index: 999;
             display: flex; justify-content: center; align-items: center;
@@ -35,7 +35,7 @@
         .login-box h3 { color: var(--accent-color); margin-bottom: 20px; font-size: 22px; }
         .login-box input {
             width: 100%; padding: 12px; margin-bottom: 15px; background: #0f172a;
-            border: 1px solid var(--border-color); border-radius: 6px; color: #fff;
+            border: 1px solid var(--border-color); border-radius: 6px; color: #fff; outline: none;
         }
         .login-box button {
             width: 100%; padding: 12px; background: var(--accent-color); border: none;
@@ -63,21 +63,21 @@
             border: none; border-radius: 6px; cursor: pointer; font-weight: bold;
         }
 
-        /* Main Content Workspace */
+        /* Main Workspace */
         .main-workspace { margin-left: 250px; flex: 1; padding: 30px; }
         .top-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 25px; }
         .page-title { font-size: 24px; color: #fff; }
 
-        /* Tab Content Section */
+        /* Tabs */
         .tab-content { display: none; }
         .tab-content.active { display: block; }
 
-        /* UI Cards & Controls */
+        /* Cards & Forms */
         .card { background: var(--card-bg); border: 1px solid var(--border-color); border-radius: 10px; padding: 20px; margin-bottom: 20px; }
         .form-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 12px; margin-bottom: 15px; }
         input, select, textarea {
             width: 100%; padding: 10px; background: #0f172a; border: 1px solid var(--border-color);
-            border-radius: 6px; color: #fff; outline: none;
+            border-radius: 6px; color: #fff; outline: none; box-sizing: border-box;
         }
         .btn-btn {
             background: var(--accent-color); color: #000; border: none; padding: 10px 20px;
@@ -86,11 +86,11 @@
         .btn-btn:hover { background: var(--accent-hover); color: #fff; }
         .btn-danger { background: var(--danger-color); color: #fff; }
 
-        /* Package Management List */
+        /* List Items */
         .pkg-row { display: flex; justify-content: space-between; align-items: center; padding: 12px; border-bottom: 1px solid var(--border-color); }
         .pkg-row img { height: 35px; border-radius: 4px; }
 
-        /* Order Cards & Tracking */
+        /* Orders & Chat */
         .order-card { background: var(--card-bg); border-radius: 10px; border: 1px solid var(--border-color); padding: 18px; margin-bottom: 20px; }
         .order-meta { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 10px; font-size: 13px; color: var(--text-muted); margin: 12px 0; }
         .order-meta span { color: #fff; font-weight: bold; }
@@ -101,7 +101,7 @@
         .chat-msg.admin { color: var(--success-color); text-align: right; margin-bottom: 4px; }
         .chat-input-row { display: flex; gap: 8px; }
 
-        /* Users Table */
+        /* User List Table */
         .user-table { width: 100%; border-collapse: collapse; font-size: 14px; text-align: left; }
         .user-table th, .user-table td { padding: 12px; border-bottom: 1px solid var(--border-color); }
         .user-table th { background: #0f172a; color: var(--accent-color); }
@@ -115,7 +115,7 @@
 </head>
 <body>
 
-    <!-- Protected Login Screen -->
+    <!-- Protected Password Portal -->
     <div class="login-overlay" id="loginPortal">
         <div class="login-box">
             <h3>Admin Portal</h3>
@@ -137,10 +137,10 @@
         <button class="btn-logout-side" id="adminLogoutBtn">Logout</button>
     </aside>
 
-    <!-- Dashboard Content Workspace -->
+    <!-- Main Workspace -->
     <main class="main-workspace">
         
-        <!-- 1. Orders Management Tab -->
+        <!-- 1. Orders Management -->
         <section id="tab-orders" class="tab-content active">
             <div class="top-header">
                 <h1 class="page-title">Orders Management</h1>
@@ -148,14 +148,13 @@
             <div id="ordersContainer">Loading Orders...</div>
         </section>
 
-        <!-- 2. Package Management Tab -->
+        <!-- 2. Package Management -->
         <section id="tab-packages" class="tab-content">
             <div class="top-header">
                 <h1 class="page-title">Manage Coin Packages</h1>
             </div>
             <div class="card">
-                <h3>Add New Coin Package</h3>
-                <br>
+                <h3 style="margin-bottom: 12px;">Add New Coin Package</h3>
                 <div class="form-grid">
                     <input type="text" id="newPkgTitle" placeholder="Title (e.g. 1040 Coins)">
                     <input type="number" id="newPkgPrice" placeholder="Price (৳)">
@@ -164,13 +163,12 @@
                 <button class="btn-btn" id="addPkgBtn">Save Package</button>
             </div>
             <div class="card">
-                <h3>Existing Packages</h3>
-                <br>
+                <h3 style="margin-bottom: 12px;">Existing Packages</h3>
                 <div id="packagesContainer">Loading...</div>
             </div>
         </section>
 
-        <!-- 3. Banner Management Tab -->
+        <!-- 3. Banner Management -->
         <section id="tab-banner" class="tab-content">
             <div class="top-header">
                 <h1 class="page-title">Homepage Banner Control</h1>
@@ -183,7 +181,7 @@
             </div>
         </section>
 
-        <!-- 4. Notice Board Tab -->
+        <!-- 4. Notice Board -->
         <section id="tab-notice" class="tab-content">
             <div class="top-header">
                 <h1 class="page-title">Notice Board Control</h1>
@@ -195,7 +193,7 @@
             </div>
         </section>
 
-        <!-- 5. Registered Users Tab -->
+        <!-- 5. Registered Users -->
         <section id="tab-users" class="tab-content">
             <div class="top-header">
                 <h1 class="page-title">Registered Customer Database</h1>
@@ -225,7 +223,7 @@
 
         const ADMIN_PASSWORD = "admin123";
 
-        // Security Check
+        // Security Authentication
         document.getElementById("adminLoginBtn").onclick = () => {
             if (document.getElementById("adminPasswordInput").value === ADMIN_PASSWORD) {
                 sessionStorage.setItem("adminAuth", "true");
@@ -251,7 +249,7 @@
             loadUsers();
         }
 
-        // Tab Switcher
+        // Sidebar Navigation Switcher
         window.switchTab = (tabId, element) => {
             document.querySelectorAll(".tab-content").forEach(t => t.classList.remove("active"));
             document.querySelectorAll(".nav-item").forEach(i => i.classList.remove("active"));
@@ -259,7 +257,7 @@
             element.classList.add("active");
         };
 
-        // 1. Orders Engine
+        // 1. Orders Management
         function loadOrders() {
             onSnapshot(collection(db, "orders"), (snapshot) => {
                 const container = document.getElementById("ordersContainer");
@@ -319,7 +317,7 @@
             input.value = "";
         };
 
-        // 2. Package Engine
+        // 2. Package Management
         document.getElementById("addPkgBtn").onclick = async () => {
             const title = document.getElementById("newPkgTitle").value.trim();
             const price = document.getElementById("newPkgPrice").value.trim();
@@ -357,7 +355,7 @@
             if (confirm("Delete this package?")) await deleteDoc(doc(db, "products", id));
         };
 
-        // 3. Banner Engine
+        // 3. Banner Management
         document.getElementById("saveBannerBtn").onclick = async () => {
             const url = document.getElementById("bannerUrlInput").value.trim();
             if (!url) return alert("Enter URL/Path!");
@@ -365,14 +363,14 @@
             alert("Banner updated!");
         };
 
-        // 4. Notice Engine
+        // 4. Notice Board Management
         document.getElementById("saveNoticeBtn").onclick = async () => {
             const text = document.getElementById("noticeTextInput").value.trim();
             await setDoc(doc(db, "settings", "notice"), { text: text });
             alert("Notice published!");
         };
 
-        // 5. Users Database Engine
+        // 5. Registered User Database
         function loadUsers() {
             onSnapshot(collection(db, "users"), (snapshot) => {
                 const container = document.getElementById("usersContainer");
