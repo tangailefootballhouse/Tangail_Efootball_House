@@ -3,357 +3,112 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Tangail Efootball House</title>
+
+    <title>Tangail eFootball House</title>
+
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Hind+Siliguri:wght@400;500;600;700&family=Orbitron:wght@500;700;800&display=swap" rel="stylesheet">
+
+    <!-- Your Main CSS -->
+    <link rel="stylesheet" href="style.css">
 
     <style>
-        :root {
-            --bg-color: #0f172a;
-            --card-bg: #1e293b;
-            --accent-color: #38bdf8;
-            --accent-hover: #0284c7;
-            --text-color: #ffffff;
-            --text-muted: #94a3b8;
-            --border-color: #334155;
-            --success-color: #10b981;
-            --danger-color: #ef4444;
-            --warning-color: #eab308;
-        }
+        /* =====================================================
+           AUTH / PROFILE NAVIGATION
+        ===================================================== */
 
-        * {
-            box-sizing: border-box;
-            margin: 0;
-            padding: 0;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-        }
-
-        body {
-            background: var(--bg-color);
-            color: var(--text-color);
-            padding-bottom: 60px;
-        }
-
-        button,
-        input,
-        select {
-            font-family: inherit;
-        }
-
-        .header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 15px 20px;
-            background: var(--card-bg);
-            border-bottom: 1px solid var(--border-color);
-            position: sticky;
-            top: 0;
-            z-index: 100;
-        }
-
-        .brand {
-            font-size: 18px;
-            font-weight: bold;
-            color: var(--accent-color);
-        }
-
-        .header-right {
+        .auth-nav {
             display: flex;
             align-items: center;
             gap: 8px;
         }
 
-        .login-header-btn {
-            background: var(--accent-color);
-            color: #000;
-            border: none;
+        .auth-btn {
+            border: 1px solid var(--primary-cyan);
+            background: rgba(0, 242, 254, 0.08);
+            color: var(--primary-cyan);
             padding: 7px 12px;
-            border-radius: 6px;
-            font-weight: bold;
+            border-radius: 20px;
+            font-size: 11px;
+            font-weight: 700;
             cursor: pointer;
-            font-size: 12px;
-        }
-
-        .menu-btn {
-            background: none;
-            border: none;
-            color: #fff;
-            font-size: 27px;
-            cursor: pointer;
-            display: none;
-        }
-
-        .container {
-            max-width: 600px;
-            margin: 0 auto;
-            padding: 15px;
-        }
-
-        .banner {
-            width: 100%;
-            border-radius: 10px;
-            margin-bottom: 15px;
-            display: block;
-            border: 1px solid var(--border-color);
-        }
-
-        .notice-box {
-            background: rgba(56, 189, 248, 0.1);
-            border: 1px solid var(--accent-color);
-            color: var(--accent-color);
-            padding: 10px;
-            border-radius: 8px;
-            font-size: 13px;
-            margin-bottom: 20px;
-            text-align: center;
-        }
-
-        .section-title {
-            font-size: 16px;
-            margin-bottom: 12px;
-            color: var(--accent-color);
-        }
-
-        .product-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(130px, 1fr));
-            gap: 12px;
-        }
-
-        .product-card {
-            background: var(--card-bg);
-            border: 1px solid var(--border-color);
-            border-radius: 8px;
-            padding: 12px;
-            text-align: center;
-            cursor: pointer;
+            text-decoration: none;
             transition: 0.2s;
         }
 
-        .product-card:hover {
-            border-color: var(--accent-color);
-            transform: translateY(-2px);
+        .auth-btn:hover {
+            background: var(--primary-cyan);
+            color: #000;
         }
 
-        .product-card img {
-            width: 50px;
-            height: 50px;
-            object-fit: contain;
-            margin-bottom: 8px;
+        .signup-btn {
+            background: linear-gradient(
+                135deg,
+                var(--primary-cyan),
+                var(--primary-blue)
+            );
+            color: #000;
+            border: none;
         }
 
-        .product-title {
-            font-size: 13px;
-            font-weight: bold;
-            margin-bottom: 4px;
-        }
-
-        .product-price {
-            color: var(--accent-color);
-            font-size: 14px;
-            font-weight: bold;
-        }
-
-        .loading,
-        .empty-text {
-            color: var(--text-muted);
-            padding: 20px 5px;
-            text-align: center;
-        }
-
-        .error-message {
-            color: var(--danger-color);
-            padding: 15px 5px;
-            text-align: center;
-            font-size: 13px;
-        }
-
-        /* AUTH SCREEN */
-
-        .auth-modal {
-            position: fixed;
-            inset: 0;
-            background: rgba(0, 0, 0, 0.88);
-            z-index: 500;
+        /* Profile button */
+        .profile-btn {
+            width: 38px;
+            height: 38px;
+            border-radius: 50%;
+            border: 1px solid var(--primary-cyan);
+            background: rgba(0, 242, 254, 0.08);
+            color: var(--primary-cyan);
             display: none;
-            justify-content: center;
             align-items: center;
-            padding: 15px;
+            justify-content: center;
+            font-size: 18px;
+            cursor: pointer;
         }
 
-        .auth-content {
-            background: var(--card-bg);
-            width: 100%;
-            max-width: 430px;
-            border-radius: 12px;
-            border: 1px solid var(--border-color);
-            padding: 22px;
-            max-height: 92vh;
-            overflow-y: auto;
-        }
-
-        .auth-logo {
-            text-align: center;
-            font-size: 23px;
-            font-weight: bold;
-            color: var(--accent-color);
-            margin-bottom: 5px;
-        }
-
-        .auth-subtitle {
-            text-align: center;
-            color: var(--text-muted);
-            font-size: 13px;
-            margin-bottom: 20px;
-        }
-
-        .auth-tabs {
+        .profile-btn.active {
             display: flex;
-            gap: 5px;
-            margin-bottom: 20px;
-            background: #0f172a;
-            padding: 4px;
-            border-radius: 7px;
         }
 
-        .auth-tab {
-            flex: 1;
-            border: none;
-            background: transparent;
-            color: var(--text-muted);
-            padding: 9px;
-            border-radius: 5px;
-            cursor: pointer;
-            font-weight: bold;
-        }
-
-        .auth-tab.active {
-            background: var(--accent-color);
-            color: #000;
-        }
-
-        .auth-form label,
-        .checkout-form label {
-            display: block;
-            font-size: 13px;
-            margin-top: 8px;
-        }
-
-        input,
-        select {
-            width: 100%;
-            padding: 11px;
-            margin-top: 6px;
-            margin-bottom: 10px;
-            background: #0f172a;
-            border: 1px solid var(--border-color);
-            border-radius: 6px;
-            color: #fff;
-            outline: none;
-        }
-
-        input:focus,
-        select:focus {
-            border-color: var(--accent-color);
-        }
-
-        .btn-main {
-            width: 100%;
-            padding: 12px;
-            background: var(--accent-color);
-            border: none;
-            border-radius: 6px;
-            color: #000;
-            font-weight: bold;
-            cursor: pointer;
-            margin-top: 8px;
-        }
-
-        .btn-main:hover {
-            background: var(--accent-hover);
-        }
-
-        .btn-main:disabled {
-            opacity: 0.6;
-            cursor: not-allowed;
-        }
-
-        .secondary-btn {
-            width: 100%;
-            padding: 10px;
-            background: transparent;
-            border: 1px solid var(--border-color);
-            border-radius: 6px;
-            color: #fff;
-            cursor: pointer;
-            margin-top: 8px;
-        }
-
-        .forgot-btn {
-            display: block;
-            width: 100%;
-            text-align: right;
-            background: none;
-            border: none;
-            color: var(--accent-color);
-            cursor: pointer;
-            font-size: 12px;
-            margin-top: 2px;
-        }
-
-        .auth-message {
-            display: none;
-            padding: 9px;
-            border-radius: 6px;
-            margin-bottom: 10px;
-            font-size: 12px;
-            text-align: center;
-        }
-
-        .auth-message.error {
-            display: block;
-            background: rgba(239, 68, 68, 0.12);
-            border: 1px solid var(--danger-color);
-            color: #fca5a5;
-        }
-
-        .auth-message.success {
-            display: block;
-            background: rgba(16, 185, 129, 0.12);
-            border: 1px solid var(--success-color);
-            color: #6ee7b7;
-        }
-
-        .password-note {
-            color: var(--text-muted);
-            font-size: 11px;
-            margin-top: -4px;
-            margin-bottom: 8px;
-        }
-
-        /* DRAWER */
-
-        .drawer-overlay {
+        /* Profile Drawer */
+        .profile-overlay {
             position: fixed;
             inset: 0;
-            background: rgba(0, 0, 0, 0.7);
-            z-index: 400;
+            background: rgba(0, 0, 0, 0.65);
+            z-index: 999;
             display: none;
-            justify-content: flex-end;
         }
 
-        .drawer {
-            width: 80%;
-            max-width: 320px;
-            background: var(--card-bg);
+        .profile-overlay.show {
+            display: block;
+        }
+
+        .profile-drawer {
+            position: absolute;
+            right: 0;
+            top: 0;
             height: 100%;
-            padding: 20px;
-            display: flex;
-            flex-direction: column;
-            overflow-y: auto;
+            width: 86%;
+            max-width: 360px;
+            background: #111827;
             border-left: 1px solid var(--border-color);
+            padding: 20px;
+            overflow-y: auto;
+            animation: slideProfile 0.25s ease;
         }
 
-        .drawer-header {
+        @keyframes slideProfile {
+            from {
+                transform: translateX(100%);
+            }
+            to {
+                transform: translateX(0);
+            }
+        }
+
+        .profile-head {
             display: flex;
             justify-content: space-between;
             align-items: center;
@@ -362,95 +117,194 @@
             margin-bottom: 15px;
         }
 
-        .close-btn {
-            background: none;
+        .profile-head h3 {
+            color: var(--primary-cyan);
+            font-size: 17px;
+        }
+
+        .close-profile {
             border: none;
-            color: var(--text-muted);
-            font-size: 20px;
+            background: none;
+            color: #94a3b8;
+            font-size: 22px;
             cursor: pointer;
         }
 
-        .profile-card {
-            background: #0f172a;
-            padding: 12px;
-            border-radius: 8px;
-            margin-bottom: 15px;
-            font-size: 13px;
+        .profile-info-card {
+            background: rgba(10, 15, 29, 0.8);
             border: 1px solid var(--border-color);
+            border-radius: 12px;
+            padding: 14px;
+            margin-bottom: 15px;
         }
 
-        .profile-card div {
-            margin-bottom: 7px;
+        .profile-row {
+            margin-bottom: 9px;
+            font-size: 12px;
             word-break: break-word;
         }
 
-        .drawer-menu {
-            list-style: none;
+        .profile-row:last-child {
+            margin-bottom: 0;
         }
 
-        .drawer-item {
-            padding: 12px;
-            border-radius: 6px;
-            margin-bottom: 8px;
-            background: #0f172a;
-            cursor: pointer;
-            font-size: 14px;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            border: 1px solid var(--border-color);
+        .profile-label {
+            color: var(--text-gray);
+            display: block;
+            margin-bottom: 2px;
         }
 
-        .drawer-item a {
+        .profile-value {
             color: #fff;
-            text-decoration: none;
-            width: 100%;
+            font-weight: 600;
         }
 
-        /* GENERAL MODAL */
+        .profile-menu-item {
+            width: 100%;
+            background: rgba(255,255,255,0.03);
+            border: 1px solid var(--border-color);
+            border-radius: 10px;
+            padding: 13px;
+            margin-bottom: 9px;
+            color: #fff;
+            text-align: left;
+            cursor: pointer;
+            font-family: inherit;
+            font-size: 13px;
+        }
 
-        .modal {
+        .profile-menu-item:hover {
+            border-color: var(--primary-cyan);
+            background: rgba(0,242,254,0.06);
+        }
+
+        .logout-item {
+            color: #ef4444;
+        }
+
+        /* =====================================================
+           AUTH REQUIRED MESSAGE
+        ===================================================== */
+
+        .login-required-box {
+            display: none;
+            background: rgba(251, 191, 36, 0.08);
+            border: 1px solid rgba(251, 191, 36, 0.35);
+            border-radius: 12px;
+            padding: 14px;
+            margin-top: 15px;
+            text-align: center;
+        }
+
+        .login-required-box.show {
+            display: block;
+        }
+
+        .login-required-box p {
+            color: var(--text-gray);
+            font-size: 12px;
+            margin-bottom: 10px;
+        }
+
+        /* =====================================================
+           CHECKOUT MODAL
+        ===================================================== */
+
+        .custom-modal {
             position: fixed;
             inset: 0;
-            background: rgba(0, 0, 0, 0.8);
-            z-index: 300;
+            background: rgba(0,0,0,0.78);
+            z-index: 1000;
             display: none;
-            justify-content: center;
             align-items: center;
+            justify-content: center;
             padding: 15px;
         }
 
-        .modal-content {
-            background: var(--card-bg);
-            border-radius: 10px;
+        .custom-modal.show {
+            display: flex;
+        }
+
+        .custom-modal-card {
             width: 100%;
             max-width: 450px;
-            padding: 20px;
-            max-height: 90vh;
+            max-height: 92vh;
             overflow-y: auto;
+            background: #111827;
             border: 1px solid var(--border-color);
+            border-radius: 15px;
+            padding: 18px;
         }
 
-        /* HISTORY */
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+
+        .modal-header h3 {
+            color: var(--primary-cyan);
+            font-size: 17px;
+        }
+
+        .modal-close {
+            background: none;
+            border: none;
+            color: #94a3b8;
+            font-size: 22px;
+            cursor: pointer;
+        }
+
+        .submit-order-btn {
+            width: 100%;
+            padding: 13px;
+            border: none;
+            border-radius: 9px;
+            background: linear-gradient(
+                135deg,
+                var(--primary-cyan),
+                var(--primary-blue)
+            );
+            color: #000;
+            font-size: 14px;
+            font-weight: 800;
+            cursor: pointer;
+        }
+
+        /* =====================================================
+           HISTORY
+        ===================================================== */
 
         .history-card {
-            background: #0f172a;
-            border-radius: 8px;
-            padding: 12px;
-            margin-bottom: 12px;
-            font-size: 13px;
+            background: rgba(10,15,29,0.8);
             border: 1px solid var(--border-color);
+            border-radius: 12px;
+            padding: 13px;
+            margin-bottom: 12px;
         }
 
-        .status-badge {
-            padding: 2px 8px;
-            border-radius: 4px;
-            font-size: 11px;
-            font-weight: bold;
+        .history-top {
+            display: flex;
+            justify-content: space-between;
+            gap: 8px;
+            align-items: center;
+        }
+
+        .history-product {
+            font-size: 13px;
+            font-weight: 700;
+        }
+
+        .status {
+            padding: 3px 8px;
+            border-radius: 5px;
+            font-size: 10px;
+            font-weight: 700;
         }
 
         .status-Pending {
-            background: var(--warning-color);
+            background: #eab308;
             color: #000;
         }
 
@@ -460,51 +314,77 @@
         }
 
         .status-Completed {
-            background: var(--success-color);
+            background: #10b981;
             color: #fff;
         }
 
-        .status-Cancelled {
-            background: var(--danger-color);
-            color: #fff;
+        .history-small {
+            color: var(--text-gray);
+            font-size: 10px;
+            margin-top: 5px;
         }
 
         .chat-box {
-            background: #1e293b;
-            min-height: 60px;
-            max-height: 90px;
-            overflow-y: auto;
+            background: #090d16;
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            margin-top: 10px;
             padding: 8px;
-            border-radius: 6px;
-            margin-top: 8px;
+        }
+
+        .chat-messages {
+            height: 100px;
+            overflow-y: auto;
+            font-size: 11px;
+            margin-bottom: 7px;
         }
 
         .chat-msg {
-            margin-bottom: 4px;
+            margin-bottom: 5px;
         }
 
         .chat-msg.user {
-            color: var(--accent-color);
+            color: var(--primary-cyan);
             text-align: right;
         }
 
         .chat-msg.admin {
-            color: var(--success-color);
+            color: #10b981;
             text-align: left;
         }
 
-        .hidden {
-            display: none !important;
+        .chat-send-row {
+            display: flex;
+            gap: 6px;
         }
 
-        @media (max-width: 450px) {
-            .brand {
-                font-size: 15px;
+        .chat-send-row input {
+            margin: 0;
+        }
+
+        .chat-send-row button {
+            width: auto;
+            padding: 8px 12px;
+            border: none;
+            border-radius: 7px;
+            background: var(--primary-cyan);
+            color: #000;
+            font-weight: 700;
+            cursor: pointer;
+        }
+
+        /* =====================================================
+           MOBILE
+        ===================================================== */
+
+        @media (max-width: 420px) {
+            .brand-title {
+                font-size: 12px;
             }
 
-            .login-header-btn {
+            .auth-btn {
                 padding: 6px 9px;
-                font-size: 11px;
+                font-size: 10px;
             }
         }
     </style>
@@ -512,306 +392,363 @@
 
 <body>
 
-<!-- =========================
-     HEADER
-========================= -->
+<!-- =========================================================
+     TOP NAVIGATION
+========================================================= -->
 
-<header class="header">
+<header class="top-nav">
 
-    <div class="brand">
-        Tangail Efootball House
+    <div class="logo-box">
+
+        <img
+            src="logo.png"
+            class="nav-logo"
+            alt="Tangail eFootball House"
+            onerror="this.style.display='none'"
+        >
+
+        <div class="brand-title">
+            TANGAIL <span>eFOOTBALL</span> HOUSE
+        </div>
+
     </div>
 
-    <div class="header-right">
+    <!-- NOT LOGGED IN -->
+    <div class="auth-nav" id="guestNav">
 
-        <!-- Shows only when logged out -->
-        <button
-            id="headerLoginBtn"
-            class="login-header-btn"
-        >
-            Login / Sign Up
-        </button>
+        <a href="auth.html" class="auth-btn">
+            Sign In
+        </a>
 
-        <!-- Shows only after login -->
-        <button
-            id="openDrawerBtn"
-            class="menu-btn"
-        >
-            ☰
-        </button>
+        <a href="auth.html" class="auth-btn signup-btn">
+            Sign Up
+        </a>
 
     </div>
+
+    <!-- LOGGED IN -->
+    <button
+        class="profile-btn"
+        id="profileBtn"
+        title="Profile"
+    >
+        👤
+    </button>
 
 </header>
 
 
-<!-- =========================
-     MAIN WEBSITE
-========================= -->
+<!-- =========================================================
+     NOTICE
+========================================================= -->
 
-<div class="container">
+<div
+    class="notice-bar"
+    id="noticeBar"
+    style="display:none;"
+>
 
-    <img
-        id="mainBanner"
-        class="banner"
-        src="starterpack.png"
-        alt="Banner"
-        style="display:none;"
-    >
+    <span class="pulse-icon"></span>
 
-    <div
-        class="notice-box"
-        id="noticeBox"
-        style="display:none;"
-    ></div>
+    <span id="noticeText"></span>
 
-    <div class="section-title">
-        Select Coin Package
-    </div>
+</div>
 
-    <div
-        class="product-grid"
-        id="productGrid"
-    >
-        <div class="loading">
-            Loading Packages...
-        </div>
+
+<!-- =========================================================
+     BANNER
+========================================================= -->
+
+<div
+    class="banner-container"
+    id="bannerContainer"
+    style="display:none;"
+>
+
+    <div class="banner-card">
+
+        <img
+            id="mainBanner"
+            class="banner-img"
+            src=""
+            alt="Tangail eFootball House Banner"
+        >
+
     </div>
 
 </div>
 
 
-<!-- =========================
-     AUTH MODAL
-========================= -->
+<!-- =========================================================
+     MAIN CONTENT
+========================================================= -->
 
-<div
-    class="auth-modal"
-    id="authModal"
->
+<main class="container">
 
-    <div class="auth-content">
+    <!-- STEP 1 -->
+    <section class="section-card">
 
-        <div class="auth-logo">
-            Tangail Efootball House
-        </div>
+        <div class="step-header">
 
-        <div class="auth-subtitle">
-            Secure Customer Account
-        </div>
+            <div class="step-num">
+                1
+            </div>
 
-
-        <!-- Tabs -->
-
-        <div class="auth-tabs">
-
-            <button
-                class="auth-tab active"
-                id="loginTab"
-            >
-                Login
-            </button>
-
-            <button
-                class="auth-tab"
-                id="signupTab"
-            >
-                Sign Up
-            </button>
+            <h2>
+                Select Coin Package
+            </h2>
 
         </div>
-
 
         <div
-            id="authMessage"
-            class="auth-message"
-        ></div>
-
-
-        <!-- =================
-             LOGIN FORM
-        ================= -->
-
-        <form
-            id="loginForm"
-            class="auth-form"
+            class="coin-grid"
+            id="coinGrid"
         >
 
-            <label>
-                User ID
-            </label>
-
-            <input
-                type="text"
-                id="loginUserId"
-                placeholder="Enter your User ID"
-                required
-                autocomplete="username"
+            <p
+                style="
+                    grid-column:1/-1;
+                    color:var(--text-gray);
+                    text-align:center;
+                    font-size:12px;
+                "
             >
+                Loading Packages...
+            </p>
+
+        </div>
+
+    </section>
 
 
-            <label>
-                Password
-            </label>
+    <!-- SELECTED PACKAGE -->
+    <div
+        class="selected-summary-card"
+        id="selectedSummary"
+        style="display:none;"
+    >
 
-            <input
-                type="password"
-                id="loginPassword"
-                placeholder="Enter your password"
-                required
-                autocomplete="current-password"
-            >
+        <span class="summary-label">
+            Selected Package
+        </span>
 
-
-            <button
-                type="button"
-                class="forgot-btn"
-                id="forgotPasswordBtn"
-            >
-                Forgot Password?
-            </button>
-
-
-            <button
-                type="submit"
-                class="btn-main"
-                id="loginSubmitBtn"
-            >
-                Login
-            </button>
-
-        </form>
-
-
-        <!-- =================
-             SIGNUP FORM
-        ================= -->
-
-        <form
-            id="signupForm"
-            class="auth-form hidden"
+        <span
+            class="summary-val"
+            id="selectedProductText"
         >
-
-            <label>
-                User ID
-            </label>
-
-            <input
-                type="text"
-                id="signupUserId"
-                placeholder="Choose a User ID"
-                required
-                minlength="4"
-                maxlength="20"
-                pattern="[A-Za-z0-9]+"
-                autocomplete="username"
-            >
-
-            <div class="password-note">
-                4–20 characters. Only English letters and numbers.
-            </div>
-
-
-            <label>
-                Email Address
-            </label>
-
-            <input
-                type="email"
-                id="signupEmail"
-                placeholder="example@gmail.com"
-                required
-                autocomplete="email"
-            >
-
-
-            <label>
-                WhatsApp Number
-            </label>
-
-            <input
-                type="tel"
-                id="signupWhatsapp"
-                placeholder="01603785413"
-                required
-                autocomplete="tel"
-            >
-
-
-            <label>
-                Password
-            </label>
-
-            <input
-                type="password"
-                id="signupPassword"
-                placeholder="Create a password"
-                required
-                minlength="6"
-                autocomplete="new-password"
-            >
-
-            <div class="password-note">
-                Password must contain at least 6 characters.
-            </div>
-
-
-            <label>
-                Confirm Password
-            </label>
-
-            <input
-                type="password"
-                id="signupConfirmPassword"
-                placeholder="Confirm your password"
-                required
-                autocomplete="new-password"
-            >
-
-
-            <button
-                type="submit"
-                class="btn-main"
-                id="signupSubmitBtn"
-            >
-                Create Account
-            </button>
-
-        </form>
-
-
-        <button
-            class="secondary-btn"
-            id="closeAuthBtn"
-        >
-            Close
-        </button>
+        </span>
 
     </div>
 
-</div>
+
+    <!-- LOGIN REQUIRED -->
+    <div
+        class="login-required-box"
+        id="loginRequiredBox"
+    >
+
+        <p>
+            Please sign in or create an account before placing an order.
+        </p>
+
+        <a
+            href="auth.html"
+            class="auth-btn signup-btn"
+            style="display:inline-block;"
+        >
+            Sign In / Sign Up
+        </a>
+
+    </div>
 
 
-<!-- =========================
+    <!-- STEP 2 -->
+    <section
+        class="section-card"
+        id="orderSection"
+    >
+
+        <div class="step-header">
+
+            <div class="step-num">
+                2
+            </div>
+
+            <h2>
+                Payment & Order
+            </h2>
+
+        </div>
+
+
+        <!-- Payment Methods -->
+
+        <div class="payment-methods">
+
+            <div
+                class="pay-box active"
+                data-payment="bKash (Send Money)"
+            >
+
+                <span class="pay-title">
+                    bKash
+                </span>
+
+                <span class="pay-badge">
+                    Send Money
+                </span>
+
+            </div>
+
+            <div
+                class="pay-box"
+                data-payment="Nagad (Send Money)"
+            >
+
+                <span
+                    class="pay-title"
+                    style="color:#f97316;"
+                >
+                    Nagad
+                </span>
+
+                <span class="pay-badge">
+                    Send Money
+                </span>
+
+            </div>
+
+        </div>
+
+
+        <!-- Payment Instruction -->
+
+        <div class="payment-instruction">
+
+            <div class="pay-details">
+
+                <div>
+
+                    <div
+                        style="
+                            font-size:11px;
+                            color:var(--text-gray);
+                            margin-bottom:3px;
+                        "
+                    >
+                        Send Money Number
+                    </div>
+
+                    <div class="number-wrapper">
+
+                        <span
+                            class="copy-num"
+                            id="paymentNumber"
+                        >
+                            01603785413
+                        </span>
+
+                        <button
+                            class="copy-btn"
+                            id="copyPaymentNumber"
+                            type="button"
+                        >
+                            COPY
+                        </button>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+            <div class="pay-note">
+                Send the exact amount and enter your TrxID below.
+            </div>
+
+        </div>
+
+
+        <!-- Order Button -->
+
+        <button
+            class="buy-now-btn"
+            id="buyNowBtn"
+            type="button"
+        >
+            🔐 Sign In to Order
+        </button>
+
+    </section>
+
+
+    <!-- =====================================================
+         RULES
+    ====================================================== -->
+
+    <section class="section-card">
+
+        <div class="step-header">
+
+            <div class="step-num">
+                3
+            </div>
+
+            <h2>
+                Important Rules
+            </h2>
+
+        </div>
+
+        <ul class="rules-list">
+
+            <li>
+                ✅ Always verify the payment number before sending money.
+            </li>
+
+            <li>
+                ✅ Enter the correct Transaction ID.
+            </li>
+
+            <li>
+                ✅ Never share your account information with unknown people.
+            </li>
+
+            <li>
+                ✅ Your order status can be tracked from your Profile.
+            </li>
+
+            <li>
+                ✅ For any problem, contact us through WhatsApp.
+            </li>
+
+        </ul>
+
+    </section>
+
+</main>
+
+
+<!-- =========================================================
      PROFILE DRAWER
-========================= -->
+========================================================= -->
 
 <div
-    class="drawer-overlay"
-    id="drawerOverlay"
+    class="profile-overlay"
+    id="profileOverlay"
 >
 
-    <div class="drawer">
+    <div class="profile-drawer">
 
-        <div class="drawer-header">
+        <div class="profile-head">
 
-            <h3 style="color:var(--accent-color);">
-                Profile & Settings
+            <h3>
+                👤 My Profile
             </h3>
 
             <button
-                class="close-btn"
-                id="closeDrawerBtn"
+                class="close-profile"
+                id="closeProfileBtn"
             >
                 ✕
             </button>
@@ -819,86 +756,150 @@
         </div>
 
 
-        <div class="profile-card">
+        <div class="profile-info-card">
 
-            <div>
-                <strong>User ID:</strong>
-                <span id="profId">
+            <div class="profile-row">
+
+                <span class="profile-label">
+                    User ID
+                </span>
+
+                <span
+                    class="profile-value"
+                    id="profileUserId"
+                >
                     Loading...
                 </span>
-            </div>
 
-            <div>
-                <strong>Email:</strong>
-                <span id="profEmail">
-                    Loading...
-                </span>
-            </div>
-
-            <div>
-                <strong>WhatsApp:</strong>
-                <span id="profWa">
-                    Loading...
-                </span>
             </div>
 
 
-            <button
-                id="btnEditProfile"
-                style="
-                    background:none;
-                    border:none;
-                    color:var(--accent-color);
-                    cursor:pointer;
-                    font-size:12px;
-                    margin-top:5px;
-                    text-decoration:underline;
-                "
-            >
-                Edit Details
-            </button>
+            <div class="profile-row">
+
+                <span class="profile-label">
+                    Name
+                </span>
+
+                <span
+                    class="profile-value"
+                    id="profileName"
+                >
+                    Loading...
+                </span>
+
+            </div>
+
+
+            <div class="profile-row">
+
+                <span class="profile-label">
+                    Email
+                </span>
+
+                <span
+                    class="profile-value"
+                    id="profileEmail"
+                >
+                    Loading...
+                </span>
+
+            </div>
+
+
+            <div class="profile-row">
+
+                <span class="profile-label">
+                    Phone
+                </span>
+
+                <span
+                    class="profile-value"
+                    id="profilePhone"
+                >
+                    Loading...
+                </span>
+
+            </div>
+
+
+            <div class="profile-row">
+
+                <span class="profile-label">
+                    WhatsApp
+                </span>
+
+                <span
+                    class="profile-value"
+                    id="profileWhatsapp"
+                >
+                    Loading...
+                </span>
+
+            </div>
 
         </div>
 
 
-        <ul class="drawer-menu">
+        <button
+            class="profile-menu-item"
+            id="myOrdersBtn"
+        >
+            📦 My Purchase History
+        </button>
 
-            <li
-                class="drawer-item"
-                id="btnMyOrders"
+
+        <a
+            href="https://wa.me/8801603785413"
+            target="_blank"
+            class="profile-menu-item"
+            style="display:block;text-decoration:none;"
+        >
+            💬 Contact on WhatsApp
+        </a>
+
+
+        <a
+            href="https://facebook.com"
+            target="_blank"
+            class="profile-menu-item"
+            style="display:block;text-decoration:none;"
+        >
+            🌐 Official Facebook Page
+        </a>
+
+
+        <button
+            class="profile-menu-item logout-item"
+            id="logoutBtn"
+        >
+            🚪 Sign Out
+        </button>
+
+    </div>
+
+</div>
+
+
+<!-- =========================================================
+     CHECKOUT MODAL
+========================================================= -->
+
+<div
+    class="custom-modal"
+    id="checkoutModal"
+>
+
+    <div class="custom-modal-card">
+
+        <div class="modal-header">
+
+            <h3 id="checkoutTitle">
+                Checkout
+            </h3>
+
+            <button
+                class="modal-close"
+                id="closeCheckoutBtn"
+                type="button"
             >
-                📦 My Purchase History
-            </li>
-
-
-            <li class="drawer-item">
-
-                💬
-
-                <a
-                    href="https://wa.me/8801603785413"
-                    target="_blank"
-                >
-                    WhatsApp (01603785413)
-                </a>
-
-            </li>
-
-
-            <li class="drawer-item">
-
-                🌐
-
-                <a
-                    href="https://facebook.com"
-                    target="_blank"
-                >
-                    Official Facebook Page
-                </a>
-
-            </li>
-
-
-            <li
-                class="drawer-item"
-              
+            
