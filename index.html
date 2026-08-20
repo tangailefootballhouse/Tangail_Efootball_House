@@ -16,6 +16,7 @@
             --border-color: #334155;
             --success-color: #10b981;
             --danger-color: #ef4444;
+            --warning-color: #eab308;
         }
 
         * {
@@ -26,9 +27,15 @@
         }
 
         body {
-            background-color: var(--bg-color);
+            background: var(--bg-color);
             color: var(--text-color);
             padding-bottom: 60px;
+        }
+
+        button,
+        input,
+        select {
+            font-family: inherit;
         }
 
         .header {
@@ -49,12 +56,30 @@
             color: var(--accent-color);
         }
 
+        .header-right {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .login-header-btn {
+            background: var(--accent-color);
+            color: #000;
+            border: none;
+            padding: 7px 12px;
+            border-radius: 6px;
+            font-weight: bold;
+            cursor: pointer;
+            font-size: 12px;
+        }
+
         .menu-btn {
             background: none;
             border: none;
             color: #fff;
-            font-size: 28px;
+            font-size: 27px;
             cursor: pointer;
+            display: none;
         }
 
         .container {
@@ -128,15 +153,181 @@
             font-weight: bold;
         }
 
-        .loading {
+        .loading,
+        .empty-text {
             color: var(--text-muted);
-            padding: 10px 0;
+            padding: 20px 5px;
+            text-align: center;
         }
 
         .error-message {
             color: var(--danger-color);
-            padding: 10px 0;
+            padding: 15px 5px;
+            text-align: center;
             font-size: 13px;
+        }
+
+        /* AUTH SCREEN */
+
+        .auth-modal {
+            position: fixed;
+            inset: 0;
+            background: rgba(0, 0, 0, 0.88);
+            z-index: 500;
+            display: none;
+            justify-content: center;
+            align-items: center;
+            padding: 15px;
+        }
+
+        .auth-content {
+            background: var(--card-bg);
+            width: 100%;
+            max-width: 430px;
+            border-radius: 12px;
+            border: 1px solid var(--border-color);
+            padding: 22px;
+            max-height: 92vh;
+            overflow-y: auto;
+        }
+
+        .auth-logo {
+            text-align: center;
+            font-size: 23px;
+            font-weight: bold;
+            color: var(--accent-color);
+            margin-bottom: 5px;
+        }
+
+        .auth-subtitle {
+            text-align: center;
+            color: var(--text-muted);
+            font-size: 13px;
+            margin-bottom: 20px;
+        }
+
+        .auth-tabs {
+            display: flex;
+            gap: 5px;
+            margin-bottom: 20px;
+            background: #0f172a;
+            padding: 4px;
+            border-radius: 7px;
+        }
+
+        .auth-tab {
+            flex: 1;
+            border: none;
+            background: transparent;
+            color: var(--text-muted);
+            padding: 9px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-weight: bold;
+        }
+
+        .auth-tab.active {
+            background: var(--accent-color);
+            color: #000;
+        }
+
+        .auth-form label,
+        .checkout-form label {
+            display: block;
+            font-size: 13px;
+            margin-top: 8px;
+        }
+
+        input,
+        select {
+            width: 100%;
+            padding: 11px;
+            margin-top: 6px;
+            margin-bottom: 10px;
+            background: #0f172a;
+            border: 1px solid var(--border-color);
+            border-radius: 6px;
+            color: #fff;
+            outline: none;
+        }
+
+        input:focus,
+        select:focus {
+            border-color: var(--accent-color);
+        }
+
+        .btn-main {
+            width: 100%;
+            padding: 12px;
+            background: var(--accent-color);
+            border: none;
+            border-radius: 6px;
+            color: #000;
+            font-weight: bold;
+            cursor: pointer;
+            margin-top: 8px;
+        }
+
+        .btn-main:hover {
+            background: var(--accent-hover);
+        }
+
+        .btn-main:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+        }
+
+        .secondary-btn {
+            width: 100%;
+            padding: 10px;
+            background: transparent;
+            border: 1px solid var(--border-color);
+            border-radius: 6px;
+            color: #fff;
+            cursor: pointer;
+            margin-top: 8px;
+        }
+
+        .forgot-btn {
+            display: block;
+            width: 100%;
+            text-align: right;
+            background: none;
+            border: none;
+            color: var(--accent-color);
+            cursor: pointer;
+            font-size: 12px;
+            margin-top: 2px;
+        }
+
+        .auth-message {
+            display: none;
+            padding: 9px;
+            border-radius: 6px;
+            margin-bottom: 10px;
+            font-size: 12px;
+            text-align: center;
+        }
+
+        .auth-message.error {
+            display: block;
+            background: rgba(239, 68, 68, 0.12);
+            border: 1px solid var(--danger-color);
+            color: #fca5a5;
+        }
+
+        .auth-message.success {
+            display: block;
+            background: rgba(16, 185, 129, 0.12);
+            border: 1px solid var(--success-color);
+            color: #6ee7b7;
+        }
+
+        .password-note {
+            color: var(--text-muted);
+            font-size: 11px;
+            margin-top: -4px;
+            margin-bottom: 8px;
         }
 
         /* DRAWER */
@@ -144,8 +335,8 @@
         .drawer-overlay {
             position: fixed;
             inset: 0;
-            background: rgba(0,0,0,0.7);
-            z-index: 200;
+            background: rgba(0, 0, 0, 0.7);
+            z-index: 400;
             display: none;
             justify-content: flex-end;
         }
@@ -189,7 +380,7 @@
         }
 
         .profile-card div {
-            margin-bottom: 5px;
+            margin-bottom: 7px;
             word-break: break-word;
         }
 
@@ -216,12 +407,12 @@
             width: 100%;
         }
 
-        /* MODALS */
+        /* GENERAL MODAL */
 
         .modal {
             position: fixed;
             inset: 0;
-            background: rgba(0,0,0,0.8);
+            background: rgba(0, 0, 0, 0.8);
             z-index: 300;
             display: none;
             justify-content: center;
@@ -238,45 +429,6 @@
             max-height: 90vh;
             overflow-y: auto;
             border: 1px solid var(--border-color);
-        }
-
-        input,
-        select {
-            width: 100%;
-            padding: 10px;
-            margin-top: 6px;
-            margin-bottom: 12px;
-            background: #0f172a;
-            border: 1px solid var(--border-color);
-            border-radius: 6px;
-            color: #fff;
-            outline: none;
-        }
-
-        input:focus,
-        select:focus {
-            border-color: var(--accent-color);
-        }
-
-        .btn-main {
-            width: 100%;
-            padding: 12px;
-            background: var(--accent-color);
-            border: none;
-            border-radius: 6px;
-            color: #000;
-            font-weight: bold;
-            cursor: pointer;
-            margin-top: 10px;
-        }
-
-        .btn-main:hover {
-            background: var(--accent-hover);
-        }
-
-        .btn-main:disabled {
-            opacity: 0.6;
-            cursor: not-allowed;
         }
 
         /* HISTORY */
@@ -298,7 +450,7 @@
         }
 
         .status-Pending {
-            background: #eab308;
+            background: var(--warning-color);
             color: #000;
         }
 
@@ -341,490 +493,412 @@
             text-align: left;
         }
 
-        .empty-text {
-            color: var(--text-muted);
-            text-align: center;
-            padding: 20px 5px;
+        .hidden {
+            display: none !important;
+        }
+
+        @media (max-width: 450px) {
+            .brand {
+                font-size: 15px;
+            }
+
+            .login-header-btn {
+                padding: 6px 9px;
+                font-size: 11px;
+            }
         }
     </style>
 </head>
 
 <body>
 
-    <!-- HEADER -->
-    <header class="header">
-        <div class="brand">Tangail Efootball House</div>
+<!-- =========================
+     HEADER
+========================= -->
 
-        <button class="menu-btn" id="openDrawerBtn">
+<header class="header">
+
+    <div class="brand">
+        Tangail Efootball House
+    </div>
+
+    <div class="header-right">
+
+        <!-- Shows only when logged out -->
+        <button
+            id="headerLoginBtn"
+            class="login-header-btn"
+        >
+            Login / Sign Up
+        </button>
+
+        <!-- Shows only after login -->
+        <button
+            id="openDrawerBtn"
+            class="menu-btn"
+        >
             ☰
         </button>
-    </header>
+
+    </div>
+
+</header>
 
 
-    <!-- MAIN -->
-    <div class="container">
+<!-- =========================
+     MAIN WEBSITE
+========================= -->
 
-        <!-- BANNER -->
-        <img
-            id="mainBanner"
-            class="banner"
-            src="starterpack.png"
-            alt="Banner"
-            style="display:none;"
-        >
+<div class="container">
 
-        <!-- NOTICE -->
+    <img
+        id="mainBanner"
+        class="banner"
+        src="starterpack.png"
+        alt="Banner"
+        style="display:none;"
+    >
+
+    <div
+        class="notice-box"
+        id="noticeBox"
+        style="display:none;"
+    ></div>
+
+    <div class="section-title">
+        Select Coin Package
+    </div>
+
+    <div
+        class="product-grid"
+        id="productGrid"
+    >
+        <div class="loading">
+            Loading Packages...
+        </div>
+    </div>
+
+</div>
+
+
+<!-- =========================
+     AUTH MODAL
+========================= -->
+
+<div
+    class="auth-modal"
+    id="authModal"
+>
+
+    <div class="auth-content">
+
+        <div class="auth-logo">
+            Tangail Efootball House
+        </div>
+
+        <div class="auth-subtitle">
+            Secure Customer Account
+        </div>
+
+
+        <!-- Tabs -->
+
+        <div class="auth-tabs">
+
+            <button
+                class="auth-tab active"
+                id="loginTab"
+            >
+                Login
+            </button>
+
+            <button
+                class="auth-tab"
+                id="signupTab"
+            >
+                Sign Up
+            </button>
+
+        </div>
+
+
         <div
-            class="notice-box"
-            id="noticeBox"
-            style="display:none;"
+            id="authMessage"
+            class="auth-message"
         ></div>
 
-        <!-- PRODUCTS -->
-        <div class="section-title">
-            Select Coin Package
-        </div>
 
-        <div class="product-grid" id="productGrid">
-            <div class="loading">
-                Loading Packages...
-            </div>
-        </div>
+        <!-- =================
+             LOGIN FORM
+        ================= -->
 
-    </div>
+        <form
+            id="loginForm"
+            class="auth-form"
+        >
 
+            <label>
+                User ID
+            </label>
 
-    <!-- DRAWER -->
-    <div class="drawer-overlay" id="drawerOverlay">
-
-        <div class="drawer">
-
-            <div class="drawer-header">
-                <h3 style="color:var(--accent-color);">
-                    Profile & Settings
-                </h3>
-
-                <button
-                    class="close-btn"
-                    id="closeDrawerBtn"
-                >
-                    ✕
-                </button>
-            </div>
-
-
-            <!-- PROFILE -->
-            <div class="profile-card">
-
-                <div>
-                    <strong>User ID:</strong>
-                    <span id="profId">Loading...</span>
-                </div>
-
-                <div>
-                    <strong>Email:</strong>
-                    <span id="profEmail">Not registered</span>
-                </div>
-
-                <div>
-                    <strong>WhatsApp:</strong>
-                    <span id="profWa">Not added</span>
-                </div>
-
-                <button
-                    id="btnEditProfile"
-                    style="
-                        background:none;
-                        border:none;
-                        color:var(--accent-color);
-                        cursor:pointer;
-                        font-size:12px;
-                        margin-top:5px;
-                        text-decoration:underline;
-                    "
-                >
-                    Edit Details
-                </button>
-
-            </div>
-
-
-            <!-- MENU -->
-            <ul class="drawer-menu">
-
-                <li
-                    class="drawer-item"
-                    id="btnMyOrders"
-                >
-                    📦 My Purchase History
-                </li>
-
-                <li class="drawer-item">
-                    💬
-                    <a
-                        href="https://wa.me/8801603785413"
-                        target="_blank"
-                    >
-                        WhatsApp (01603785413)
-                    </a>
-                </li>
-
-                <li class="drawer-item">
-                    🌐
-                    <a
-                        href="https://facebook.com"
-                        target="_blank"
-                    >
-                        Official Facebook Page
-                    </a>
-                </li>
-
-                <li
-                    class="drawer-item"
-                    id="btnLogout"
-                    style="
-                        color:var(--danger-color);
-                        margin-top:20px;
-                    "
-                >
-                    🚪 Reset Account
-                </li>
-
-            </ul>
-
-        </div>
-
-    </div>
-
-
-    <!-- ACCOUNT REGISTRATION MODAL -->
-    <div
-        class="modal"
-        id="accountModal"
-    >
-
-        <div class="modal-content">
-
-            <div
-                style="
-                    display:flex;
-                    justify-content:space-between;
-                    align-items:center;
-                    margin-bottom:12px;
-                "
+            <input
+                type="text"
+                id="loginUserId"
+                placeholder="Enter your User ID"
+                required
+                autocomplete="username"
             >
 
-                <h3 style="color:var(--accent-color);">
-                    Account Registration
-                </h3>
 
-                <button
-                    class="close-btn"
-                    id="closeAccountModal"
-                >
-                    ✕
-                </button>
+            <label>
+                Password
+            </label>
 
+            <input
+                type="password"
+                id="loginPassword"
+                placeholder="Enter your password"
+                required
+                autocomplete="current-password"
+            >
+
+
+            <button
+                type="button"
+                class="forgot-btn"
+                id="forgotPasswordBtn"
+            >
+                Forgot Password?
+            </button>
+
+
+            <button
+                type="submit"
+                class="btn-main"
+                id="loginSubmitBtn"
+            >
+                Login
+            </button>
+
+        </form>
+
+
+        <!-- =================
+             SIGNUP FORM
+        ================= -->
+
+        <form
+            id="signupForm"
+            class="auth-form hidden"
+        >
+
+            <label>
+                User ID
+            </label>
+
+            <input
+                type="text"
+                id="signupUserId"
+                placeholder="Choose a User ID"
+                required
+                minlength="4"
+                maxlength="20"
+                pattern="[A-Za-z0-9]+"
+                autocomplete="username"
+            >
+
+            <div class="password-note">
+                4–20 characters. Only English letters and numbers.
             </div>
 
-            <p
-                style="
-                    font-size:13px;
-                    color:var(--text-muted);
-                    margin-bottom:15px;
-                "
+
+            <label>
+                Email Address
+            </label>
+
+            <input
+                type="email"
+                id="signupEmail"
+                placeholder="example@gmail.com"
+                required
+                autocomplete="email"
             >
-                Enter your contact details to complete orders and track your purchase history.
-            </p>
 
-            <form id="accountForm">
 
-                <label>Email Address</label>
+            <label>
+                WhatsApp Number
+            </label>
 
-                <input
-                    type="email"
-                    id="regEmail"
-                    required
-                    placeholder="e.g. user@gmail.com"
-                >
+            <input
+                type="tel"
+                id="signupWhatsapp"
+                placeholder="01603785413"
+                required
+                autocomplete="tel"
+            >
 
-                <label>WhatsApp Number</label>
 
-                <input
-                    type="tel"
-                    id="regWa"
-                    required
-                    placeholder="e.g. 01603785413"
-                >
+            <label>
+                Password
+            </label>
 
-                <button
-                    type="submit"
-                    class="btn-main"
-                    id="saveProfileBtn"
-                >
-                    Save Profile
-                </button>
+            <input
+                type="password"
+                id="signupPassword"
+                placeholder="Create a password"
+                required
+                minlength="6"
+                autocomplete="new-password"
+            >
 
-            </form>
+            <div class="password-note">
+                Password must contain at least 6 characters.
+            </div>
 
-        </div>
+
+            <label>
+                Confirm Password
+            </label>
+
+            <input
+                type="password"
+                id="signupConfirmPassword"
+                placeholder="Confirm your password"
+                required
+                autocomplete="new-password"
+            >
+
+
+            <button
+                type="submit"
+                class="btn-main"
+                id="signupSubmitBtn"
+            >
+                Create Account
+            </button>
+
+        </form>
+
+
+        <button
+            class="secondary-btn"
+            id="closeAuthBtn"
+        >
+            Close
+        </button>
 
     </div>
 
+</div>
 
-    <!-- PURCHASE HISTORY MODAL -->
-    <div
-        class="modal"
-        id="historyModal"
-    >
 
-        <div class="modal-content">
+<!-- =========================
+     PROFILE DRAWER
+========================= -->
 
-            <div
-                style="
-                    display:flex;
-                    justify-content:space-between;
-                    align-items:center;
-                    margin-bottom:15px;
-                "
+<div
+    class="drawer-overlay"
+    id="drawerOverlay"
+>
+
+    <div class="drawer">
+
+        <div class="drawer-header">
+
+            <h3 style="color:var(--accent-color);">
+                Profile & Settings
+            </h3>
+
+            <button
+                class="close-btn"
+                id="closeDrawerBtn"
             >
-
-                <h3 style="color:var(--accent-color);">
-                    Purchase History
-                </h3>
-
-                <button
-                    class="close-btn"
-                    id="closeHistoryModal"
-                >
-                    ✕
-                </button>
-
-            </div>
-
-            <div id="historyListContainer">
-                Loading History...
-            </div>
+                ✕
+            </button>
 
         </div>
 
-    </div>
 
+        <div class="profile-card">
 
-    <!-- CHECKOUT MODAL -->
-    <div
-        class="modal"
-        id="checkoutModal"
-    >
-
-        <div class="modal-content">
-
-            <div
-                style="
-                    display:flex;
-                    justify-content:space-between;
-                    align-items:center;
-                    margin-bottom:10px;
-                "
-            >
-
-                <h3
-                    id="orderModalTitle"
-                    style="color:var(--accent-color);"
-                >
-                    Checkout
-                </h3>
-
-                <button
-                    class="close-btn"
-                    id="closeCheckoutModal"
-                >
-                    ✕
-                </button>
-
+            <div>
+                <strong>User ID:</strong>
+                <span id="profId">
+                    Loading...
+                </span>
             </div>
 
-            <form id="orderForm">
+            <div>
+                <strong>Email:</strong>
+                <span id="profEmail">
+                    Loading...
+                </span>
+            </div>
 
-                <label>Account Type</label>
-
-                <select id="accType" required>
-                    <option value="Konami ID">
-                        Konami ID
-                    </option>
-
-                    <option value="Google Play">
-                        Google Play
-                    </option>
-                </select>
-
-
-                <label>Game Email / ID</label>
-
-                <input
-                    type="text"
-                    id="gameEmail"
-                    required
-                    placeholder="Enter game email"
-                >
+            <div>
+                <strong>WhatsApp:</strong>
+                <span id="profWa">
+                    Loading...
+                </span>
+            </div>
 
 
-                <label>Game Password</label>
-
-                <input
-                    type="password"
-                    id="gamePassword"
-                    required
-                    placeholder="Enter game password"
-                >
-
-
-                <label>Payment Method</label>
-
-                <select
-                    id="paymentMethod"
-                    required
-                >
-                    <option value="bKash (Send Money)">
-                        bKash (01603785413)
-                    </option>
-
-                    <option value="Nagad (Send Money)">
-                        Nagad (01603785413)
-                    </option>
-                </select>
-
-
-                <label>Sender Number</label>
-
-                <input
-                    type="text"
-                    id="senderNo"
-                    required
-                    placeholder="Your payment number"
-                >
-
-
-                <label>Transaction ID (TrxID)</label>
-
-                <input
-                    type="text"
-                    id="trxId"
-                    required
-                    placeholder="Payment TrxID"
-                >
-
-
-                <button
-                    type="submit"
-                    class="btn-main"
-                    id="submitOrderBtn"
-                >
-                    Submit Order
-                </button>
-
-            </form>
+            <button
+                id="btnEditProfile"
+                style="
+                    background:none;
+                    border:none;
+                    color:var(--accent-color);
+                    cursor:pointer;
+                    font-size:12px;
+                    margin-top:5px;
+                    text-decoration:underline;
+                "
+            >
+                Edit Details
+            </button>
 
         </div>
 
-    </div>
+
+        <ul class="drawer-menu">
+
+            <li
+                class="drawer-item"
+                id="btnMyOrders"
+            >
+                📦 My Purchase History
+            </li>
 
 
-    <!-- FIREBASE -->
-    <script type="module">
+            <li class="drawer-item">
 
-        import {
-            initializeApp
-        } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
+                💬
 
-        import {
-            getFirestore,
-            collection,
-            onSnapshot,
-            doc,
-            addDoc,
-            query,
-            where,
-            updateDoc,
-            arrayUnion,
-            setDoc
-        } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
+                <a
+                    href="https://wa.me/8801603785413"
+                    target="_blank"
+                >
+                    WhatsApp (01603785413)
+                </a>
+
+            </li>
 
 
-        /* ================================
-           FIREBASE CONFIG
-        ================================= */
+            <li class="drawer-item">
 
-        const firebaseConfig = {
-            apiKey: "AIzaSyDwhxDxu2DTIvJQ1uBs1Bl14FoL06Ws1KI",
-            authDomain: "tangail-efootball-house.firebaseapp.com",
-            projectId: "tangail-efootball-house",
-            storageBucket: "tangail-efootball-house.firebasestorage.app",
-            messagingSenderId: "774313430680",
-            appId: "1:774313430680:web:07d5af9f2abc31be4fcaed"
-        };
+                🌐
 
+                <a
+                    href="https://facebook.com"
+                    target="_blank"
+                >
+                    Official Facebook Page
+                </a>
 
-        const app = initializeApp(firebaseConfig);
-        const db = getFirestore(app);
+            </li>
 
 
-        /* ================================
-           VARIABLES
-        ================================= */
-
-        let currentUser =
-            JSON.parse(
-                localStorage.getItem("eFootballUser")
-            ) || null;
-
-        let selectedProduct = null;
-
-        let historyUnsubscribe = null;
-
-
-        /* ================================
-           SILENT USER CREATION
-           
-           IMPORTANT:
-           NOTHING OPENS HERE.
-           NO prompt().
-           NO alert().
-           NO registration modal.
-        ================================= */
-
-        function initUser() {
-
-            if (!currentUser) {
-
-                const uid =
-                    "USER-" +
-                    Math.floor(
-                        100000 +
-                        Math.random() * 900000
-                    );
-
-                currentUser = {
-                    userId: uid,
-                    email: `${uid}@guest.com`,
-                    whatsapp: ""
-                };
-
-                localStorage.setItem(
-                    "eFootballUser",
-                    JSON.stringify(currentUser)
-                );
-
-                setDoc(
-                    doc(
-                        db,
-                        "users",
-                        uid
-                    ),
-                    currentUser
-                ).catch((error) => {
-                    console.error(
-                        "Silent user creation error:",
-                        error
-                    );
-             
+            <li
+                class="drawer-item"
+              
