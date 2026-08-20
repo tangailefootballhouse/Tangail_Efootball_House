@@ -3,17 +3,17 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
     <title>Account | Tangail eFootball House</title>
 
     <style>
         :root {
-            --bg: #0a0f1d;
-            --card: #171f33;
-            --accent: #00f2fe;
-            --blue: #4facfe;
+            --bg: #0f172a;
+            --card: #1e293b;
+            --accent: #38bdf8;
             --text: #f8fafc;
             --muted: #94a3b8;
-            --border: rgba(255,255,255,0.1);
+            --border: #334155;
             --danger: #ef4444;
             --success: #10b981;
         }
@@ -25,11 +25,8 @@
         }
 
         body {
-            font-family: 'Segoe UI', Tahoma, sans-serif;
-            background:
-                radial-gradient(circle at top right, rgba(0,242,254,.10), transparent 40%),
-                radial-gradient(circle at bottom left, rgba(79,172,254,.10), transparent 40%),
-                var(--bg);
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: var(--bg);
             color: var(--text);
             min-height: 100vh;
             display: flex;
@@ -40,33 +37,20 @@
 
         .auth-card {
             width: 100%;
-            max-width: 410px;
-            background: rgba(23,31,51,.92);
+            max-width: 420px;
+            background: var(--card);
             border: 1px solid var(--border);
-            border-radius: 18px;
+            border-radius: 14px;
             padding: 28px;
-            box-shadow: 0 15px 50px rgba(0,0,0,.45);
-            backdrop-filter: blur(15px);
+            box-shadow: 0 15px 40px rgba(0,0,0,.45);
         }
 
-        .logo {
-            width: 55px;
-            height: 55px;
-            border-radius: 50%;
-            margin: 0 auto 12px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            background: linear-gradient(135deg,var(--accent),var(--blue));
-            color: #000;
-            font-size: 25px;
-            font-weight: 900;
-        }
-
-        h2 {
+        .logo-title {
             text-align: center;
             color: var(--accent);
-            margin-bottom: 6px;
+            font-size: 22px;
+            font-weight: 800;
+            margin-bottom: 5px;
         }
 
         .subtitle {
@@ -76,6 +60,12 @@
             margin-bottom: 22px;
         }
 
+        h2 {
+            text-align: center;
+            font-size: 20px;
+            margin-bottom: 20px;
+        }
+
         .form-group {
             margin-bottom: 14px;
         }
@@ -83,44 +73,24 @@
         label {
             display: block;
             color: var(--muted);
-            font-size: 12px;
+            font-size: 13px;
             margin-bottom: 6px;
         }
 
         input {
             width: 100%;
-            padding: 12px;
-            border-radius: 8px;
+            padding: 11px;
+            background: #0f172a;
             border: 1px solid var(--border);
-            background: #0a0f1d;
-            color: #fff;
+            border-radius: 7px;
+            color: white;
             outline: none;
             font-size: 14px;
         }
 
         input:focus {
             border-color: var(--accent);
-            box-shadow: 0 0 8px rgba(0,242,254,.15);
-        }
-
-        .password-wrapper {
-            position: relative;
-        }
-
-        .password-wrapper input {
-            padding-right: 75px;
-        }
-
-        .show-pass {
-            position: absolute;
-            right: 10px;
-            top: 50%;
-            transform: translateY(-50%);
-            background: none;
-            border: none;
-            color: var(--accent);
-            font-size: 11px;
-            cursor: pointer;
+            box-shadow: 0 0 8px rgba(56,189,248,.15);
         }
 
         .forgot {
@@ -128,66 +98,74 @@
             text-align: right;
             margin-top: 6px;
             color: var(--accent);
-            font-size: 11px;
+            font-size: 12px;
             cursor: pointer;
-            text-decoration: none;
         }
 
-        .main-btn {
+        button {
             width: 100%;
-            padding: 13px;
-            border: none;
-            border-radius: 9px;
-            background: linear-gradient(135deg,var(--accent),var(--blue));
+            padding: 12px;
+            margin-top: 8px;
+            background: var(--accent);
             color: #000;
-            font-size: 15px;
+            border: none;
+            border-radius: 7px;
             font-weight: 800;
             cursor: pointer;
-            margin-top: 7px;
+            font-size: 14px;
         }
 
-        .main-btn:disabled {
+        button:disabled {
             opacity: .6;
             cursor: not-allowed;
         }
 
-        .switch-text {
+        .toggle {
             text-align: center;
-            margin-top: 18px;
+            margin-top: 17px;
             color: var(--muted);
             font-size: 13px;
         }
 
-        .switch-btn {
+        .toggle span {
             color: var(--accent);
-            font-weight: bold;
+            font-weight: 700;
             cursor: pointer;
-            margin-left: 4px;
         }
 
         .message {
             display: none;
             padding: 10px;
-            border-radius: 8px;
+            border-radius: 7px;
             margin-bottom: 14px;
             font-size: 12px;
-            text-align: center;
+            line-height: 1.5;
         }
 
-        .error {
+        .message.error {
+            display: block;
             background: rgba(239,68,68,.12);
-            border: 1px solid rgba(239,68,68,.3);
-            color: #f87171;
+            border: 1px solid rgba(239,68,68,.4);
+            color: #fca5a5;
         }
 
-        .success {
+        .message.success {
+            display: block;
             background: rgba(16,185,129,.12);
-            border: 1px solid rgba(16,185,129,.3);
-            color: #34d399;
+            border: 1px solid rgba(16,185,129,.4);
+            color: #6ee7b7;
         }
 
-        .hidden {
-            display: none !important;
+        .back-btn {
+            background: transparent;
+            border: 1px solid var(--border);
+            color: var(--muted);
+            margin-top: 10px;
+        }
+
+        .back-btn:hover {
+            border-color: var(--accent);
+            color: var(--accent);
         }
     </style>
 </head>
@@ -196,25 +174,27 @@
 
 <div class="auth-card">
 
-    <div class="logo">⚽</div>
-
-    <h2 id="formTitle">Sign In</h2>
-
-    <div class="subtitle">
+    <div class="logo-title">
         Tangail eFootball House
     </div>
+
+    <div class="subtitle">
+        Secure Customer Account
+    </div>
+
+    <h2 id="formTitle">Sign In</h2>
 
     <div id="messageBox" class="message"></div>
 
     <form id="authForm">
 
-        <!-- USERNAME / ID -->
-        <div class="form-group hidden" id="usernameGroup">
-            <label>Username / User ID *</label>
+        <!-- USER ID -->
+        <div class="form-group" id="userIdGroup" style="display:none;">
+            <label>User ID / Username *</label>
             <input
                 type="text"
-                id="username"
-                placeholder="Enter your username"
+                id="userId"
+                placeholder="Enter your User ID"
                 autocomplete="username"
             >
         </div>
@@ -224,10 +204,21 @@
             <label>Email Address *</label>
             <input
                 type="email"
-                id="email"
+                id="authEmail"
                 placeholder="example@gmail.com"
                 required
                 autocomplete="email"
+            >
+        </div>
+
+        <!-- WHATSAPP -->
+        <div class="form-group" id="whatsappGroup" style="display:none;">
+            <label>WhatsApp Number *</label>
+            <input
+                type="tel"
+                id="whatsapp"
+                placeholder="016XXXXXXXX"
+                autocomplete="tel"
             >
         </div>
 
@@ -235,45 +226,24 @@
         <div class="form-group">
             <label>Password *</label>
 
-            <div class="password-wrapper">
-                <input
-                    type="password"
-                    id="password"
-                    placeholder="Minimum 6 characters"
-                    required
-                    minlength="6"
-                    autocomplete="current-password"
-                >
-
-                <button
-                    type="button"
-                    class="show-pass"
-                    id="showPasswordBtn"
-                >
-                    Show
-                </button>
-            </div>
-
-            <a class="forgot" id="forgotBtn">
-                Forgot Password?
-            </a>
-        </div>
-
-        <!-- WHATSAPP -->
-        <div class="form-group hidden" id="whatsappGroup">
-            <label>WhatsApp Number *</label>
-
             <input
-                type="tel"
-                id="whatsapp"
-                placeholder="01603785413"
-                inputmode="tel"
+                type="password"
+                id="authPassword"
+                placeholder="Minimum 6 characters"
+                required
+                autocomplete="current-password"
             >
+
+            <span
+                class="forgot"
+                id="forgotBtn"
+            >
+                Forgot Password?
+            </span>
         </div>
 
         <button
             type="submit"
-            class="main-btn"
             id="submitBtn"
         >
             Sign In
@@ -281,23 +251,32 @@
 
     </form>
 
-    <div class="switch-text">
-        <span id="switchQuestion">
+    <div class="toggle">
+        <span id="toggleQuestion">
             Don't have an account?
         </span>
 
-        <span
-            class="switch-btn"
-            id="switchBtn"
-        >
-            Sign Up
+        <span id="toggleBtn">
+            Register
         </span>
     </div>
+
+    <button
+        class="back-btn"
+        id="backBtn"
+        type="button"
+    >
+        ← Back to Website
+    </button>
 
 </div>
 
 
 <script type="module">
+
+    /* ==========================================
+       FIREBASE IMPORTS
+    ========================================== */
 
     import {
         initializeApp
@@ -307,47 +286,34 @@
         getAuth,
         signInWithEmailAndPassword,
         createUserWithEmailAndPassword,
-        sendPasswordResetEmail,
-        onAuthStateChanged,
-        updateProfile
+        sendPasswordResetEmail
     } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
 
     import {
         getFirestore,
         doc,
         setDoc,
-        getDoc
+        serverTimestamp
     } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
 
 
-    /* =========================
+    /* ==========================================
        FIREBASE CONFIG
-    ========================= */
+    ========================================== */
 
     const firebaseConfig = {
-
         apiKey: "AIzaSyDwhxDxu2DTIvJQ1uBs1Bl14FoL06Ws1KI",
-
-        authDomain:
-            "tangail-efootball-house.firebaseapp.com",
-
-        projectId:
-            "tangail-efootball-house",
-
-        storageBucket:
-            "tangail-efootball-house.firebasestorage.app",
-
-        messagingSenderId:
-            "774313430680",
-
-        appId:
-            "1:774313430680:web:07d5af9f2abc31be4fcaed"
+        authDomain: "tangail-efootball-house.firebaseapp.com",
+        projectId: "tangail-efootball-house",
+        storageBucket: "tangail-efootball-house.firebasestorage.app",
+        messagingSenderId: "774313430680",
+        appId: "1:774313430680:web:07d5af9f2abc31be4fcaed"
     };
 
 
-    /* =========================
+    /* ==========================================
        INITIALIZE FIREBASE
-    ========================= */
+    ========================================== */
 
     const app = initializeApp(firebaseConfig);
 
@@ -356,9 +322,9 @@
     const db = getFirestore(app);
 
 
-    /* =========================
+    /* ==========================================
        ELEMENTS
-    ========================= */
+    ========================================== */
 
     const authForm =
         document.getElementById("authForm");
@@ -369,14 +335,14 @@
     const submitBtn =
         document.getElementById("submitBtn");
 
-    const switchBtn =
-        document.getElementById("switchBtn");
+    const toggleBtn =
+        document.getElementById("toggleBtn");
 
-    const switchQuestion =
-        document.getElementById("switchQuestion");
+    const toggleQuestion =
+        document.getElementById("toggleQuestion");
 
-    const usernameGroup =
-        document.getElementById("usernameGroup");
+    const userIdGroup =
+        document.getElementById("userIdGroup");
 
     const whatsappGroup =
         document.getElementById("whatsappGroup");
@@ -384,19 +350,19 @@
     const forgotBtn =
         document.getElementById("forgotBtn");
 
-    const showPasswordBtn =
-        document.getElementById("showPasswordBtn");
-
     const messageBox =
         document.getElementById("messageBox");
+
+    const backBtn =
+        document.getElementById("backBtn");
 
 
     let registerMode = false;
 
 
-    /* =========================
+    /* ==========================================
        MESSAGE FUNCTION
-    ========================= */
+    ========================================== */
 
     function showMessage(message, type = "error") {
 
@@ -405,27 +371,28 @@
         messageBox.className =
             "message " + type;
 
-        messageBox.style.display = "block";
     }
 
 
-    function hideMessage() {
+    function clearMessage() {
 
-        messageBox.style.display = "none";
+        messageBox.textContent = "";
+
+        messageBox.className =
+            "message";
+
     }
 
 
-    /* =========================
-       SWITCH LOGIN / SIGNUP
-    ========================= */
+    /* ==========================================
+       SWITCH LOGIN / REGISTER
+    ========================================== */
 
-    switchBtn.addEventListener("click", function () {
+    toggleBtn.addEventListener("click", () => {
 
         registerMode = !registerMode;
 
-        hideMessage();
-
-        authForm.reset();
+        clearMessage();
 
         if (registerMode) {
 
@@ -433,28 +400,28 @@
                 "Create Account";
 
             submitBtn.textContent =
-                "Create Account";
+                "Register";
 
-            switchQuestion.textContent =
+            toggleQuestion.textContent =
                 "Already have an account?";
 
-            switchBtn.textContent =
+            toggleBtn.textContent =
                 "Sign In";
 
-            usernameGroup.classList.remove("hidden");
+            userIdGroup.style.display =
+                "block";
 
-            whatsappGroup.classList.remove("hidden");
+            whatsappGroup.style.display =
+                "block";
 
             forgotBtn.style.display =
                 "none";
 
-            document
-                .getElementById("username")
-                .required = true;
+            document.getElementById("userId").required =
+                true;
 
-            document
-                .getElementById("whatsapp")
-                .required = true;
+            document.getElementById("whatsapp").required =
+                true;
 
         } else {
 
@@ -464,145 +431,70 @@
             submitBtn.textContent =
                 "Sign In";
 
-            switchQuestion.textContent =
+            toggleQuestion.textContent =
                 "Don't have an account?";
 
-            switchBtn.textContent =
-                "Sign Up";
+            toggleBtn.textContent =
+                "Register";
 
-            usernameGroup.classList.add("hidden");
+            userIdGroup.style.display =
+                "none";
 
-            whatsappGroup.classList.add("hidden");
+            whatsappGroup.style.display =
+                "none";
 
             forgotBtn.style.display =
                 "block";
 
-            document
-                .getElementById("username")
-                .required = false;
+            document.getElementById("userId").required =
+                false;
 
-            document
-                .getElementById("whatsapp")
-                .required = false;
+            document.getElementById("whatsapp").required =
+                false;
         }
 
     });
 
 
-    /* =========================
-       SHOW / HIDE PASSWORD
-    ========================= */
+    /* ==========================================
+       REGISTER / LOGIN
+    ========================================== */
 
-    showPasswordBtn.addEventListener(
-        "click",
-        function () {
+    authForm.addEventListener("submit", async (event) => {
 
-            const password =
-                document.getElementById("password");
+        event.preventDefault();
 
-            if (password.type === "password") {
+        clearMessage();
 
-                password.type = "text";
+        submitBtn.disabled = true;
 
-                showPasswordBtn.textContent =
-                    "Hide";
+        submitBtn.textContent =
+            registerMode
+                ? "Creating Account..."
+                : "Signing In...";
 
-            } else {
-
-                password.type = "password";
-
-                showPasswordBtn.textContent =
-                    "Show";
-            }
-
-        }
-    );
-
-
-    /* =========================
-       FORGOT PASSWORD
-    ========================= */
-
-    forgotBtn.addEventListener(
-        "click",
-        async function () {
+        try {
 
             const email =
                 document
-                    .getElementById("email")
-                    .value
-                    .trim();
-
-            if (!email) {
-
-                showMessage(
-                    "Please enter your email address first."
-                );
-
-                document
-                    .getElementById("email")
-                    .focus();
-
-                return;
-            }
-
-            try {
-
-                await sendPasswordResetEmail(
-                    auth,
-                    email
-                );
-
-                showMessage(
-                    "Password reset link has been sent to your email. Please check Inbox/Spam.",
-                    "success"
-                );
-
-            } catch (error) {
-
-                showMessage(
-                    firebaseError(error)
-                );
-
-            }
-
-        }
-    );
-
-
-    /* =========================
-       AUTH FORM SUBMIT
-    ========================= */
-
-    authForm.addEventListener(
-        "submit",
-        async function (event) {
-
-            event.preventDefault();
-
-            hideMessage();
-
-            const email =
-                document
-                    .getElementById("email")
+                    .getElementById("authEmail")
                     .value
                     .trim();
 
             const password =
                 document
-                    .getElementById("password")
+                    .getElementById("authPassword")
                     .value;
 
-
-            /* =====================
-               SIGN UP
-            ===================== */
+            /* ==============================
+               REGISTER
+            ============================== */
 
             if (registerMode) {
 
-                const username =
+                const userId =
                     document
-                        .getElementById("username")
+                        .getElementById("userId")
                         .value
                         .trim();
 
@@ -613,231 +505,303 @@
                         .trim();
 
 
-                if (!username) {
+                if (!userId) {
 
-                    showMessage(
-                        "Please enter your User ID / Username."
+                    throw new Error(
+                        "User ID is required."
                     );
 
-                    return;
-                }
-
-
-                if (!email) {
-
-                    showMessage(
-                        "Please enter your email."
-                    );
-
-                    return;
-                }
-
-
-                if (password.length < 6) {
-
-                    showMessage(
-                        "Password must be at least 6 characters."
-                    );
-
-                    return;
                 }
 
 
                 if (!whatsapp) {
 
-                    showMessage(
-                        "Please enter your WhatsApp number."
+                    throw new Error(
+                        "WhatsApp number is required."
                     );
 
-                    return;
                 }
 
 
-                try {
+                if (password.length < 6) {
 
-                    submitBtn.disabled = true;
+                    throw new Error(
+                        "Password must contain at least 6 characters."
+                    );
 
-                    submitBtn.textContent =
-                        "Creating Account...";
-
-
-                    const result =
-                        await createUserWithEmailAndPassword(
-                            auth,
-                            email,
-                            password
-                        );
+                }
 
 
-                    const user =
-                        result.user;
+                /* CREATE FIREBASE ACCOUNT */
 
-
-                    /* SAVE USER PROFILE */
-
-                    await setDoc(
-                        doc(
-                            db,
-                            "users",
-                            user.uid
-                        ),
-                        {
-                            uid: user.uid,
-                            userId: username,
-                            email: email,
-                            whatsapp: whatsapp,
-                            createdAt: new Date()
-                        }
+                const result =
+                    await createUserWithEmailAndPassword(
+                        auth,
+                        email,
+                        password
                     );
 
 
-                    /* UPDATE FIREBASE PROFILE */
+                const firebaseUser =
+                    result.user;
 
-                    try {
 
-                        await updateProfile(
-                            user,
-                            {
-                                displayName:
-                                    username
-                            }
-                        );
+                /* SAVE CUSTOMER PROFILE */
 
-                    } catch (e) {
-                        console.log(
-                            "Profile update skipped"
-                        );
+                await setDoc(
+                    doc(
+                        db,
+                        "users",
+                        firebaseUser.uid
+                    ),
+                    {
+                        uid: firebaseUser.uid,
+
+                        userId: userId,
+
+                        email: email,
+
+                        whatsapp: whatsapp,
+
+                        createdAt:
+                            serverTimestamp()
                     }
+                );
 
 
-                    showMessage(
-                        "Account created successfully! Redirecting...",
-                        "success"
-                    );
+                /* SAVE LOCAL USER INFO */
+
+                localStorage.setItem(
+                    "eFootballUser",
+                    JSON.stringify({
+                        uid: firebaseUser.uid,
+                        userId: userId,
+                        email: email,
+                        whatsapp: whatsapp
+                    })
+                );
 
 
-                    setTimeout(
-                        () => {
-
-                            window.location.href =
-                                "index.html";
-
-                        },
-                        1000
-                    );
+                showMessage(
+                    "Account created successfully! Redirecting...",
+                    "success"
+                );
 
 
-                } catch (error) {
+                setTimeout(() => {
 
-                    submitBtn.disabled = false;
+                    window.location.href =
+                        "index.html";
 
-                    submitBtn.textContent =
-                        "Create Account";
-
-                    showMessage(
-                        firebaseError(error)
-                    );
-
-                }
+                }, 800);
 
 
             }
 
-            /* =====================
-               SIGN IN
-            ===================== */
+            /* ==============================
+               LOGIN
+            ============================== */
 
             else {
 
-                if (!email || !password) {
-
-                    showMessage(
-                        "Please enter email and password."
-                    );
-
-                    return;
-                }
-
-
-                try {
-
-                    submitBtn.disabled = true;
-
-                    submitBtn.textContent =
-                        "Signing In...";
-
-
-                    const result =
-                        await signInWithEmailAndPassword(
-                            auth,
-                            email,
-                            password
-                        );
-
-
-                    /* Make sure profile exists */
-
-                    const user =
-                        result.user;
-
-                    const userRef =
-                        doc(
-                            db,
-                            "users",
-                            user.uid
-                        );
-
-                    const userSnap =
-                        await getDoc(userRef);
-
-
-                    if (!userSnap.exists()) {
-
-                        await setDoc(
-                            userRef,
-                            {
-                                uid: user.uid,
-                                email: user.email,
-                                userId:
-                                    user.displayName ||
-                                    "User",
-                                whatsapp: "",
-                                createdAt: new Date()
-                            }
-                        );
-
-                    }
-
-
-                    showMessage(
-                        "Login successful! Redirecting...",
-                        "success"
+                const result =
+                    await signInWithEmailAndPassword(
+                        auth,
+                        email,
+                        password
                     );
 
 
-                    setTimeout(
-                        () => {
-
-                            window.location.href =
-                                "index.html";
-
-                        },
-                        700
-                    );
+                const firebaseUser =
+                    result.user;
 
 
-                } catch (error) {
+                localStorage.setItem(
+                    "eFootballUser",
+                    JSON.stringify({
+                        uid: firebaseUser.uid,
+                        email: firebaseUser.email
+                    })
+                );
 
-                    submitBtn.disabled = false;
 
-                    submitBtn.textContent =
-                        "Sign In";
+                showMessage(
+                    "Login successful! Redirecting...",
+                    "success"
+                );
 
-                    showMessage(
-                        firebaseError(error)
-                    );
 
-                }
+                setTimeout(() => {
+
+                    window.location.href =
+                        "index.html";
+
+                }, 600);
+
+            }
+
+        }
+
+        catch (error) {
+
+            console.error(
+                "Authentication error:",
+                error
+            );
+
+
+            let message =
+                error.message || "Something went wrong.";
+
+
+            /* Firebase-friendly messages */
+
+            if (
+                error.code ===
+                "auth/email-already-in-use"
+            ) {
+
+                message =
+                    "এই Email দিয়ে ইতিমধ্যে একটি account আছে। Sign In করুন.";
+
+            }
+
+            else if (
+                error.code ===
+                "auth/invalid-email"
+            ) {
+
+                message =
+                    "সঠিক Email Address দিন.";
+
+            }
+
+            else if (
+                error.code ===
+                "auth/weak-password"
+            ) {
+
+                message =
+                    "Password কমপক্ষে ৬ characters হতে হবে.";
+
+            }
+
+            else if (
+                error.code ===
+                "auth/invalid-credential"
+            ) {
+
+                message =
+                    "Email অথবা Password ভুল.";
+
+            }
+
+            else if (
+                error.code ===
+                "auth/user-not-found"
+            ) {
+
+                message =
+                    "এই Email দিয়ে কোনো account পাওয়া যায়নি.";
+
+            }
+
+            else if (
+                error.code ===
+                "auth/wrong-password"
+            ) {
+
+                message =
+                    "Password ভুল.";
+
+            }
+
+            else if (
+                error.code ===
+                "auth/operation-not-allowed"
+            ) {
+
+                message =
+                    "Firebase Authentication-এ Email/Password sign-in চালু নেই.";
+
+            }
+
+
+            showMessage(message);
+
+        }
+
+        finally {
+
+            submitBtn.disabled =
+                false;
+
+            submitBtn.textContent =
+                registerMode
+                    ? "Register"
+                    : "Sign In";
+
+        }
+
+    });
+
+
+    /* ==========================================
+       FORGOT PASSWORD
+    ========================================== */
+
+    forgotBtn.addEventListener(
+        "click",
+        async () => {
+
+            clearMessage();
+
+            const email =
+                document
+                    .getElementById("authEmail")
+                    .value
+                    .trim();
+
+
+            if (!email) {
+
+                showMessage(
+                    "প্রথমে আপনার registered email লিখুন."
+                );
+
+                document
+                    .getElementById("authEmail")
+                    .focus();
+
+                return;
+
+            }
+
+
+            try {
+
+                await sendPasswordResetEmail(
+                    auth,
+                    email
+                );
+
+
+                showMessage(
+                    "Password reset link আপনার email-এ পাঠানো হয়েছে. Inbox/Spam check করুন.",
+                    "success"
+                );
+
+            }
+
+            catch (error) {
+
+                console.error(
+                    error
+                );
+
+                showMessage(
+                    error.message
+                );
 
             }
 
@@ -845,21 +809,21 @@
     );
 
 
-    /* =========================
-       FIREBASE ERROR HANDLER
-    ========================= */
+    /* ==========================================
+       BACK TO WEBSITE
+    ========================================== */
 
-    function firebaseError(error) {
+    backBtn.addEventListener(
+        "click",
+        () => {
 
-        switch (error.code) {
+            window.location.href =
+                "index.html";
 
-            case "auth/email-already-in-use":
-                return "This email is already registered. Please Sign In.";
+        }
+    );
 
-            case "auth/invalid-email":
-                return "Please enter a valid email address.";
+</script>
 
-            case "auth/weak-password":
-                return "Password must contain at least 6 characters.";
-
-            case "auth/
+</body>
+</html>
