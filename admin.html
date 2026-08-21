@@ -4,90 +4,148 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Super Admin Dashboard — Tangail Efootball House</title>
+  
+  <!-- Tailwind CSS -->
   <script src="https://cdn.tailwindcss.com"></script>
+  
+  <!-- Custom CSS -->
   <link rel="stylesheet" href="css/style.css">
+  
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 </head>
-<body class="bg-[#07090e] text-gray-100 font-['Inter',sans-serif] min-h-screen">
+<body class="bg-[#07090e] text-gray-100 font-['Inter',sans-serif] min-h-screen pb-12">
 
-  <!-- Top Admin Bar -->
-  <header class="bg-[#0f131d] border-b border-gray-800 px-6 py-4 flex justify-between items-center sticky top-0 z-50">
+  <!-- Top Admin Navigation Bar -->
+  <header class="bg-[#0f131d] border-b border-gray-800 px-6 py-4 flex justify-between items-center sticky top-0 z-50 shadow-md">
     <div class="flex items-center gap-3">
-      <img src="logo.png" class="h-8 w-8 object-contain rounded-full border border-amber-400/30">
-      <h1 class="text-sm font-extrabold text-amber-400 tracking-wide">SUPER ADMIN DASHBOARD</h1>
+      <img src="logo.png" alt="Logo" class="h-8 w-8 object-contain rounded-full border border-amber-400/30">
+      <h1 class="text-xs sm:text-sm font-extrabold text-amber-400 tracking-wide uppercase">SUPER ADMIN DASHBOARD</h1>
     </div>
     <div class="flex items-center gap-4">
-      <span id="admin-email" class="text-xs text-gray-400 font-mono">Verifying...</span>
+      <span id="admin-email" class="text-xs text-gray-400 font-mono hidden sm:inline">Verifying...</span>
       <button id="admin-logout-btn" class="bg-red-500/20 text-red-400 border border-red-500/30 hover:bg-red-500 hover:text-white text-xs px-3 py-1.5 rounded-lg transition-all font-bold">
         Logout
       </button>
     </div>
   </header>
 
-  <main class="container mx-auto px-4 py-8 max-w-6xl space-y-8">
+  <main class="container mx-auto px-4 py-8 max-w-5xl space-y-8">
 
     <!-- Section 1: Add New Game -->
-    <section class="glass-card p-6 rounded-2xl border border-gray-800">
-      <h2 class="text-sm font-extrabold text-amber-400 uppercase tracking-wider mb-4">1. Add Game (First Screen)</h2>
+    <section class="glass-card p-6 rounded-2xl border border-gray-800 shadow-lg">
+      <h2 class="text-xs sm:text-sm font-extrabold text-amber-400 uppercase tracking-wider mb-4 border-b border-gray-800 pb-2">1. Add Game (First Screen)</h2>
       <form id="add-game-form" class="grid grid-cols-1 md:grid-cols-2 gap-4">
-        <input type="text" id="game-name" placeholder="Game Name (e.g. eFootball)" class="bg-[#121722] border border-gray-800 rounded-lg p-3 text-xs focus:border-amber-400 outline-none" required>
-        <input type="text" id="game-logo" placeholder="Logo Image URL / Filename (logo.png)" class="bg-[#121722] border border-gray-800 rounded-lg p-3 text-xs focus:border-amber-400 outline-none" required>
-        <input type="text" id="game-banner" placeholder="Banner Image URL / Filename (banner.jpg)" class="bg-[#121722] border border-gray-800 rounded-lg p-3 text-xs focus:border-amber-400 outline-none" required>
-        <input type="number" id="game-order" placeholder="Display Order (1, 2, 3)" class="bg-[#121722] border border-gray-800 rounded-lg p-3 text-xs focus:border-amber-400 outline-none" required>
-        <textarea id="game-desc" placeholder="Short Description" class="bg-[#121722] border border-gray-800 rounded-lg p-3 text-xs focus:border-amber-400 outline-none md:col-span-2" rows="2"></textarea>
-        <div class="flex items-center gap-4 md:col-span-2">
-          <label class="flex items-center gap-2 text-xs text-gray-300">
-            <input type="checkbox" id="game-active" checked class="accent-amber-400"> Active Status
+        <div>
+          <label class="block text-[11px] font-bold text-gray-400 mb-1">Game Name</label>
+          <input type="text" id="game-name" placeholder="e.g. eFootball" class="w-full bg-[#121722] border border-gray-800 rounded-lg p-3 text-xs text-white focus:border-amber-400 outline-none" required>
+        </div>
+        <div>
+          <label class="block text-[11px] font-bold text-gray-400 mb-1">Display Order</label>
+          <input type="number" id="game-order" placeholder="e.g. 1" class="w-full bg-[#121722] border border-gray-800 rounded-lg p-3 text-xs text-white focus:border-amber-400 outline-none" required>
+        </div>
+        <div>
+          <label class="block text-[11px] font-bold text-gray-400 mb-1">Game Logo File / URL</label>
+          <input type="text" id="game-logo" placeholder="e.g. logo.png" class="w-full bg-[#121722] border border-gray-800 rounded-lg p-3 text-xs text-white focus:border-amber-400 outline-none" required>
+        </div>
+        <div>
+          <label class="block text-[11px] font-bold text-gray-400 mb-1">Game Banner File / URL</label>
+          <input type="text" id="game-banner" placeholder="e.g. banner.jpg" class="w-full bg-[#121722] border border-gray-800 rounded-lg p-3 text-xs text-white focus:border-amber-400 outline-none" required>
+        </div>
+        <div class="md:col-span-2">
+          <label class="block text-[11px] font-bold text-gray-400 mb-1">Short Description</label>
+          <textarea id="game-desc" placeholder="Brief details about the game" class="w-full bg-[#121722] border border-gray-800 rounded-lg p-3 text-xs text-white focus:border-amber-400 outline-none" rows="2"></textarea>
+        </div>
+        <div class="flex items-center gap-6 md:col-span-2 py-2">
+          <label class="flex items-center gap-2 text-xs text-gray-300 cursor-pointer">
+            <input type="checkbox" id="game-active" checked class="w-4 h-4 accent-amber-400"> Active Status
           </label>
-          <label class="flex items-center gap-2 text-xs text-gray-300">
-            <input type="checkbox" id="game-coming-soon" class="accent-amber-400"> Coming Soon
+          <label class="flex items-center gap-2 text-xs text-gray-300 cursor-pointer">
+            <input type="checkbox" id="game-coming-soon" class="w-4 h-4 accent-amber-400"> Coming Soon Badge
           </label>
         </div>
-        <button type="submit" class="bg-amber-400 hover:bg-amber-500 text-black font-extrabold text-xs py-3 rounded-lg md:col-span-2 transition-all">
+        <button type="submit" class="bg-amber-400 hover:bg-amber-500 text-black font-extrabold text-xs py-3 rounded-lg md:col-span-2 transition-all shadow-md">
           SAVE GAME
         </button>
       </form>
     </section>
 
     <!-- Section 2: Add New Service -->
-    <section class="glass-card p-6 rounded-2xl border border-gray-800">
-      <h2 class="text-sm font-extrabold text-amber-400 uppercase tracking-wider mb-4">2. Add Service (e.g. Coins, Starter Pack)</h2>
+    <section class="glass-card p-6 rounded-2xl border border-gray-800 shadow-lg">
+      <h2 class="text-xs sm:text-sm font-extrabold text-amber-400 uppercase tracking-wider mb-4 border-b border-gray-800 pb-2">2. Add Service</h2>
       <form id="add-service-form" class="grid grid-cols-1 md:grid-cols-2 gap-4">
-        <select id="service-game-id" class="bg-[#121722] border border-gray-800 rounded-lg p-3 text-xs focus:border-amber-400 outline-none text-gray-300 md:col-span-2" required>
-          <option value="">Select Game...</option>
-        </select>
-        <input type="text" id="service-name" placeholder="Service Name (e.g. eFootball Coins)" class="bg-[#121722] border border-gray-800 rounded-lg p-3 text-xs focus:border-amber-400 outline-none" required>
-        <input type="text" id="service-banner" placeholder="Service Banner Image Name/URL" class="bg-[#121722] border border-gray-800 rounded-lg p-3 text-xs focus:border-amber-400 outline-none">
-        <button type="submit" class="bg-amber-400 hover:bg-amber-500 text-black font-extrabold text-xs py-3 rounded-lg md:col-span-2 transition-all">
+        <div class="md:col-span-2">
+          <label class="block text-[11px] font-bold text-gray-400 mb-1">Select Parent Game</label>
+          <select id="service-game-id" class="w-full bg-[#121722] border border-gray-800 rounded-lg p-3 text-xs text-white focus:border-amber-400 outline-none" required>
+            <option value="">Select Game...</option>
+          </select>
+        </div>
+        <div>
+          <label class="block text-[11px] font-bold text-gray-400 mb-1">Service Name</label>
+          <input type="text" id="service-name" placeholder="e.g. eFootball Coins" class="w-full bg-[#121722] border border-gray-800 rounded-lg p-3 text-xs text-white focus:border-amber-400 outline-none" required>
+        </div>
+        <div>
+          <label class="block text-[11px] font-bold text-gray-400 mb-1">Service Banner File / URL</label>
+          <input type="text" id="service-banner" placeholder="e.g. coins-banner.jpg" class="w-full bg-[#121722] border border-gray-800 rounded-lg p-3 text-xs text-white focus:border-amber-400 outline-none">
+        </div>
+        <button type="submit" class="bg-amber-400 hover:bg-amber-500 text-black font-extrabold text-xs py-3 rounded-lg md:col-span-2 transition-all shadow-md">
           SAVE SERVICE
         </button>
       </form>
     </section>
 
     <!-- Section 3: Add Package -->
-    <section class="glass-card p-6 rounded-2xl border border-gray-800">
-      <h2 class="text-sm font-extrabold text-amber-400 uppercase tracking-wider mb-4">3. Add Package (Product)</h2>
+    <section class="glass-card p-6 rounded-2xl border border-gray-800 shadow-lg">
+      <h2 class="text-xs sm:text-sm font-extrabold text-amber-400 uppercase tracking-wider mb-4 border-b border-gray-800 pb-2">3. Add Package (Product)</h2>
       <form id="add-package-form" class="grid grid-cols-1 md:grid-cols-2 gap-4">
-        <select id="package-service-id" class="bg-[#121722] border border-gray-800 rounded-lg p-3 text-xs focus:border-amber-400 outline-none text-gray-300 md:col-span-2" required>
-          <option value="">Select Service...</option>
-        </select>
-        <input type="text" id="pkg-name" placeholder="Package Name (e.g. 1040 Coins)" class="bg-[#121722] border border-gray-800 rounded-lg p-3 text-xs focus:border-amber-400 outline-none" required>
-        <input type="text" id="pkg-image" placeholder="Package Image (e.g. Casilas.png)" class="bg-[#121722] border border-gray-800 rounded-lg p-3 text-xs focus:border-amber-400 outline-none">
-        <input type="number" id="pkg-price" placeholder="Regular Price (৳)" class="bg-[#121722] border border-gray-800 rounded-lg p-3 text-xs focus:border-amber-400 outline-none" required>
-        <input type="number" id="pkg-offer-price" placeholder="Offer Price (৳)" class="bg-[#121722] border border-gray-800 rounded-lg p-3 text-xs focus:border-amber-400 outline-none">
+        <div class="md:col-span-2">
+          <label class="block text-[11px] font-bold text-gray-400 mb-1">Select Parent Service</label>
+          <select id="package-service-id" class="w-full bg-[#121722] border border-gray-800 rounded-lg p-3 text-xs text-white focus:border-amber-400 outline-none" required>
+            <option value="">Select Service...</option>
+          </select>
+        </div>
+        <div>
+          <label class="block text-[11px] font-bold text-gray-400 mb-1">Package Name</label>
+          <input type="text" id="pkg-name" placeholder="e.g. 1040 Coins" class="w-full bg-[#121722] border border-gray-800 rounded-lg p-3 text-xs text-white focus:border-amber-400 outline-none" required>
+        </div>
+        <div>
+          <label class="block text-[11px] font-bold text-gray-400 mb-1">Package Image File / URL</label>
+          <input type="text" id="pkg-image" placeholder="e.g. Casilas.png" class="w-full bg-[#121722] border border-gray-800 rounded-lg p-3 text-xs text-white focus:border-amber-400 outline-none">
+        </div>
+        <div>
+          <label class="block text-[11px] font-bold text-gray-400 mb-1">Regular Price (৳)</label>
+          <input type="number" id="pkg-price" placeholder="e.g. 850" class="w-full bg-[#121722] border border-gray-800 rounded-lg p-3 text-xs text-white focus:border-amber-400 outline-none" required>
+        </div>
+        <div>
+          <label class="block text-[11px] font-bold text-gray-400 mb-1">Offer Price (৳) [Optional]</label>
+          <input type="number" id="pkg-offer-price" placeholder="e.g. 799" class="w-full bg-[#121722] border border-gray-800 rounded-lg p-3 text-xs text-white focus:border-amber-400 outline-none">
+        </div>
         
+        <!-- Dynamic Requirements Configuration -->
         <div class="md:col-span-2 border-t border-gray-800 pt-4 mt-2">
-          <p class="text-xs font-bold text-gray-400 mb-2">Dynamic Requirements Fields:</p>
-          <div class="flex flex-wrap gap-4 text-xs text-gray-300">
-            <label class="flex items-center gap-1.5"><input type="checkbox" id="req-konami-id" class="accent-amber-400"> Konami ID Required</label>
-            <label class="flex items-center gap-1.5"><input type="checkbox" id="req-konami-pass" class="accent-amber-400"> Konami Password Required</label>
-            <label class="flex items-center gap-1.5"><input type="checkbox" id="req-trx-id" class="accent-amber-400" checked> Transaction ID Required</label>
-            <label class="flex items-center gap-1.5"><input type="checkbox" id="req-wallet" class="accent-amber-400" checked> Allow Wallet Payment</label>
-            <label class="flex items-center gap-1.5"><input type="checkbox" id="req-whatsapp" class="accent-amber-400" checked> Allow WhatsApp Order</label>
+          <p class="text-xs font-bold text-amber-400 mb-3">Dynamic Order Requirements Configuration:</p>
+          <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-3 text-xs text-gray-300">
+            <label class="flex items-center gap-2 cursor-pointer bg-[#121722] p-2.5 rounded-lg border border-gray-800">
+              <input type="checkbox" id="req-konami-id" class="w-4 h-4 accent-amber-400"> Konami ID Required
+            </label>
+            <label class="flex items-center gap-2 cursor-pointer bg-[#121722] p-2.5 rounded-lg border border-gray-800">
+              <input type="checkbox" id="req-konami-pass" class="w-4 h-4 accent-amber-400"> Konami Password Required
+            </label>
+            <label class="flex items-center gap-2 cursor-pointer bg-[#121722] p-2.5 rounded-lg border border-gray-800">
+              <input type="checkbox" id="req-trx-id" class="w-4 h-4 accent-amber-400" checked> Transaction ID Required
+            </label>
+            <label class="flex items-center gap-2 cursor-pointer bg-[#121722] p-2.5 rounded-lg border border-gray-800">
+              <input type="checkbox" id="req-wallet" class="w-4 h-4 accent-amber-400" checked> Allow Wallet Payment
+            </label>
+            <label class="flex items-center gap-2 cursor-pointer bg-[#121722] p-2.5 rounded-lg border border-gray-800">
+              <input type="checkbox" id="req-whatsapp" class="w-4 h-4 accent-amber-400" checked> Allow WhatsApp Order
+            </label>
           </div>
         </div>
 
-        <button type="submit" class="bg-amber-400 hover:bg-amber-500 text-black font-extrabold text-xs py-3 rounded-lg md:col-span-2 transition-all">
+        <button type="submit" class="bg-amber-400 hover:bg-amber-500 text-black font-extrabold text-xs py-3 rounded-lg md:col-span-2 transition-all shadow-md mt-2">
           SAVE PACKAGE
         </button>
       </form>
