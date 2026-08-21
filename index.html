@@ -2,81 +2,76 @@
 <html lang="bn">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-
-  <title>Tangail Efootball House</title>
-  <meta
-    name="description"
-    content="Tangail Efootball House — Premium eFootball and gaming services."
-  >
-  <meta name="theme-color" content="#08090d">
-
-  <!-- Favicon -->
-  <link rel="icon" type="image/png" href="assets/logo.png">
-
-  <!-- Google Font -->
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link
-    href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap"
-    rel="stylesheet"
-  >
-
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Tangail Efootball House — Home</title>
+  
   <!-- Tailwind CSS CDN -->
   <script src="https://cdn.tailwindcss.com"></script>
-
-  <!-- Main stylesheet -->
-  <link rel="stylesheet" href="css/style.css">
-</head>
-  <img src="logo.png" alt="Tangail Efootball House Logo" class="h-10 w-10 object-contain rounded-full border border-amber-400/30">
-  <div class="relative w-full rounded-2xl overflow-hidden my-4 border border-gray-800">
-  <img src="banner.jpg" alt="Tangail Efootball House Banner" class="w-full h-auto max-h-48 object-cover">
-  </div>
   
-<body class="bg-[#07090e] text-gray-100 font-sans min-h-screen pb-24 antialiased">
+  <!-- Custom CSS -->
+  <link rel="stylesheet" href="css/style.css">
+  
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+</head>
+<body class="bg-[#07090e] text-gray-100 font-['Inter',sans-serif] min-h-screen relative pb-20">
 
-  <!-- Header -->
-  <header class="p-4 border-b border-gray-800/80 bg-[#0f1420]/80 backdrop-blur-md sticky top-0 z-40 flex items-center justify-between">
-    <div class="flex items-center gap-2">
-      <div class="w-8 h-8 rounded-full bg-amber-400/10 border border-amber-400/30 flex items-center justify-center font-black text-amber-400 text-xs">
-        TEH
-      </div>
-      <div>
-        <h1 class="text-xs font-black tracking-wider text-white">TANGAIL EFOOTBALL HOUSE</h1>
-        <p class="text-[9px] text-gray-400 font-semibold">Premium Gaming Service</p>
-      </div>
+  <!-- Top Navigation Header -->
+  <nav class="fixed top-0 left-0 right-0 z-50 glass-card mx-2 my-2 px-4 py-3 flex items-center justify-between border border-gray-800">
+    
+    <!-- Top Left: Logo -->
+    <div class="flex items-center">
+      <img src="logo.png" alt="Logo" class="h-9 w-9 object-contain rounded-full border border-amber-400/30">
     </div>
-    <div id="header-user-info" class="flex items-center gap-2">
-      <a href="auth.html" class="text-xs font-bold bg-amber-400 text-black px-3 py-1.5 rounded-lg hover:bg-amber-300 transition">Login</a>
+
+    <!-- Top Middle: Text -->
+    <div class="text-center absolute left-1/2 transform -translate-x-1/2">
+      <h1 class="text-xs sm:text-sm font-extrabold text-amber-400 tracking-wide leading-tight uppercase">TANGAIL EFOOTBALL HOUSE</h1>
+      <p class="text-[9px] text-gray-400">Premium Gaming Service</p>
     </div>
-  </header>
 
-  <main class="max-w-md mx-auto p-4 space-y-6">
+    <!-- Top Right: Login / Sign Up -->
+    <div class="flex items-center">
+      <a href="auth.html" id="auth-btn" class="bg-amber-400 hover:bg-amber-500 text-black font-extrabold text-xs px-3 py-1.5 rounded-lg transition-all shadow-md">
+        Login / Sign Up
+      </a>
+    </div>
 
-    <!-- Hero Banner -->
-    <section class="glass-card p-5 relative overflow-hidden">
-      <div class="space-y-2">
-        <span class="text-[10px] font-extrabold uppercase px-2.5 py-1 rounded-full bg-amber-400/10 text-amber-400 border border-amber-400/30">
-          ⚡ Fast & Reliable
-        </span>
-        <h2 class="text-xl font-black text-white leading-tight">
-          Your Gaming.<br><span class="text-amber-400">Our Service.</span>
-        </h2>
-        <p class="text-xs text-gray-400">
-          eFootball Coins, Account Buy/Sell, and Top-up Instant Delivery.
-        </p>
+  </nav>
+
+  <!-- Main Content Container -->
+  <main class="container mx-auto px-4 pt-20 pb-12">
+    
+    <!-- Promotional Banner -->
+    <div class="relative w-full rounded-2xl overflow-hidden my-3 border border-amber-400/20 shadow-lg">
+      <img src="banner.jpg" alt="Tangail Efootball House Banner" class="w-full h-auto max-h-52 object-cover">
+    </div>
+
+    <!-- Hero Announcement Card -->
+    <section class="glass-card p-5 my-4 rounded-2xl relative overflow-hidden border border-gray-800">
+      <div class="inline-flex items-center gap-1.5 bg-amber-400/10 text-amber-400 text-[10px] font-bold px-2.5 py-1 rounded-full mb-3 border border-amber-400/20">
+        ⚡ FAST & RELIABLE
       </div>
+      <h2 class="text-xl font-black text-white leading-tight">
+        Your Gaming.<br><span class="text-amber-400">Our Service.</span>
+      </h2>
+      <p class="text-xs text-gray-400 mt-2 leading-relaxed">
+        eFootball Coins, Account Buy/Sell, and Top-up Instant Delivery.
+      </p>
     </section>
 
-    <!-- Services / Products Grid -->
-    <section class="space-y-3">
-      <div class="flex items-center justify-between">
-        <h3 class="text-xs font-bold text-amber-400 uppercase tracking-wider">eFootball Packages</h3>
-        <span class="text-[10px] text-gray-500">Instant Delivery</span>
+    <!-- Packages Section -->
+    <section class="mt-6">
+      <div class="flex justify-between items-center mb-3">
+        <h3 class="text-xs font-extrabold text-amber-400 tracking-wider uppercase">EFOOTBALL PACKAGES</h3>
+        <span class="text-[10px] text-gray-400">Instant Delivery</span>
       </div>
 
-      <div id="services-grid" class="grid grid-cols-2 gap-3">
-        <div class="text-center py-8 col-span-2 text-xs text-gray-500 bg-[#0f1420] rounded-2xl border border-gray-800">
+      <!-- Grid Container for Dynamic Firebase Packages -->
+      <div id="services-grid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
+        <div class="col-span-full text-center py-8 glass-card rounded-xl text-gray-400 text-xs">
           প্যাকেজ লোড হচ্ছে...
         </div>
       </div>
@@ -84,23 +79,29 @@
 
   </main>
 
-  <!-- Bottom Navigation -->
-  <nav class="fixed bottom-0 left-0 right-0 glass-nav py-2.5 px-6 flex justify-around items-center z-50">
-    <a href="index.html" class="flex flex-col items-center text-amber-400 nav-item-active">
-      <span class="text-xs font-bold mt-0.5">Store</span>
-    </a>
-    <a href="order.html" class="flex flex-col items-center text-gray-400 hover:text-white">
-      <span class="text-xs font-bold mt-0.5">Orders</span>
-    </a>
-    <a href="wallet.html" class="flex flex-col items-center text-gray-400 hover:text-white">
-      <span class="text-xs font-bold mt-0.5">Wallet</span>
-    </a>
-    <a href="profile.html" class="flex flex-col items-center text-gray-400 hover:text-white">
-      <span class="text-xs font-bold mt-0.5">Profile</span>
-    </a>
-  </nav>
+  <!-- Bottom Floating Navigation Bar -->
+  <footer class="fixed bottom-0 left-0 right-0 z-50 glass-nav border-t border-gray-800 px-6 py-2">
+    <div class="max-w-md mx-auto flex justify-between items-center text-center">
+      <a href="index.html" class="flex flex-col items-center gap-1 text-amber-400 font-bold">
+        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 00-1-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"/></svg>
+        <span class="text-[10px]">Store</span>
+      </a>
+      <a href="order.html" class="flex flex-col items-center gap-1 text-gray-400 hover:text-white transition-colors">
+        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z"/></svg>
+        <span class="text-[10px]">Orders</span>
+      </a>
+      <a href="wallet.html" class="flex flex-col items-center gap-1 text-gray-400 hover:text-white transition-colors">
+        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 10h18M7 15h1m4 0h1m-7 4h12a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v8a2 2 0 002 2z"/></svg>
+        <span class="text-[10px]">Wallet</span>
+      </a>
+      <a href="profile.html" class="flex flex-col items-center gap-1 text-gray-400 hover:text-white transition-colors">
+        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"/></svg>
+        <span class="text-[10px]">Profile</span>
+      </a>
+    </div>
+  </footer>
 
-  <!-- JavaScript Module -->
+  <!-- App Script -->
   <script type="module" src="js/app.js"></script>
 </body>
 </html>
