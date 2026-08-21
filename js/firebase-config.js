@@ -1,18 +1,16 @@
-import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
-import { getAuth } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
-import { getFirestore } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
-
-// Firebase Configuration Object
+// Firebase Configuration
 const firebaseConfig = {
-  apiKey: "YOUR_FIREBASE_API_KEY",
-  authDomain: "YOUR_PROJECT.firebaseapp.com",
-  projectId: "YOUR_PROJECT_ID",
-  storageBucket: "YOUR_PROJECT.appspot.com",
-  messagingSenderId: "YOUR_MESSAGING_SENDER_ID",
-  appId: "YOUR_APP_ID"
+  apiKey: "AIzaSyALRuLT_7ZLUdjxnMakl5sVbYtV3LFsFnI",
+  authDomain: "tangail-efootball-house-dd4c9.firebaseapp.com",
+  projectId: "tangail-efootball-house-dd4c9",
+  storageBucket: "tangail-efootball-house-dd4c9.firebasestorage.app",
+  messagingSenderId: "188200689515",
+  appId: "1:188200689515:web:3ac13972a56ac55ebcf62e"
 };
 
-// Initialize Firebase SDK Instances
-const app = initializeApp(firebaseConfig);
-export const auth = getAuth(app);
-export const db = getFirestore(app);
+// Initialize Firebase
+firebase.initializeApp(firebaseConfig);
+
+// Initialize Services
+const auth = firebase.auth();
+const db = firebase.firestore();
