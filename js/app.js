@@ -1,160 +1,59 @@
-// js/app.js - Main Customer Application Logic
-import { auth, db, SYSTEM_CONFIG } from "./firebase-config.js";
-import { onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
-import { 
-  collection, 
-  getDocs, 
-  doc, 
-  getDoc, 
-  addDoc, 
-  updateDoc, 
-  runTransaction, 
-  serverTimestamp 
-} from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
+import { db } from "./firebase-config.js";
+import { collection, getDocs } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
 
-let currentUser = null;
-let userPoints = 0;
-
-// 1. INITIALIZE APP & AUTH LISTENER
-onAuthStateChanged(auth, async (user) => {
-  currentUser = user;
-  const walletBadge = document.getElementById("user-wallet-badge");
-  const pointsEl = document.getElementById("user-points");
-
-  if (user) {
-    walletBadge?.classList.remove("hidden");
-    walletBadge?.classList.add("flex");
-    await fetchUserWallet(user.uid);
-  } else {
-    walletBadge?.classList.add("hidden");
-  }
-  
-  // Load initial packages
-  loadPackages("efootball");
+document.addEventListener("DOMContentLoaded", () => {
+  loadStorePackages();
 });
 
-// 2. FETCH USER WALLET BALANCE
-async function fetchUserWallet(uid) {
-  try {
-    const userDoc = await getDoc(doc(db, "users", uid));
-    if (userDoc.exists()) {
-      userPoints = userDoc.data().points || 0;
-      const pointsEl = document.getElementById("user-points");
-      if (pointsEl) pointsEl.textContent = `${userPoints} Pts`;
-    }
-  } catch (error) {
-    console.error("Error fetching wallet:", error);
-  }
-}
-
-// 3. LOAD DYNAMIC PACKAGES FROM FIRESTORE
-async function loadPackages(gameCategory) {
-  const container = document.getElementById("dynamic-packages-grid");
+// Fetch and render packages from Firestore Database
+async function loadStorePackages() {
+  const container = document.getElementById("services-grid");
   if (!container) return;
 
   try {
-    const querySnapshot = await getDocs(collection(db, "services"));
-    container.innerHTML = "";
-
-    if (querySnapshot.empty) {
+    const packagesSnap = await getDocs(collection(db, "packages"));
+    
+    if (packagesSnap.empty) {
       container.innerHTML = `
-        <div class="col-span-full py-8 text-center text-gray-400 text-xs bg-[#0f1420] rounded-2xl border border-gray-800">
-          বর্তমানে কোনো প্যাকেজ উপলব্ধ নেই। অ্যাডমিন প্যানেল থেকে প্যাকেজ যুক্ত করুন।
-        </div>`;
+        <div class="col-span-full text-center py-8 glass-card rounded-xl text-gray-400 text-xs border border-gray-800">
+          কোনো প্যাকেজ পাওয়া যায়নি। অ্যাডমিন প্যানেল (admin.html) থেকে নতুন প্যাকেজ যোগ করুন।
+        </div>
+      `;
       return;
     }
 
-    querySnapshot.forEach((docSnap) => {
-      const data = docSnap.data();
-      if (data.game === gameCategory && data.active !== false) {
-        const cardHtml = `
-          <div class="package-card glass-card">
-            ${data.badge ? `<span class="card-badge bg-amber-400/10 text-amber-400 border border-amber-400/30">${data.badge}</span>` : ""}
-            <img src="${data.imageUrl || 'assets/logo.png'}" alt="${data.name}" class="package-img">
-            <div class="space-y-1">
-              <h3 class="font-extrabold text-sm text-white">${data.name}</h3>
-              <p class="text-xs text-amber-400 font-bold">${data.price} BDT / ${data.pointsPrice || data.price} Points</p>
+    container.innerHTML = "";
+    packagesSnap.forEach((docSnap) => {
+      const pkg = docSnap.data();
+      const displayPrice = pkg.offerPrice ? pkg.offerPrice : pkg.regularPrice;
+      const strikePrice = pkg.offerPrice ? `<span class="line-through text-gray-500 text-[10px] ml-1.5">৳${pkg.regularPrice}</span>` : '';
+
+      container.innerHTML += `
+        <div class="glass-card p-4 rounded-xl border border-gray-800 hover:border-amber-400/40 transition-all flex items-center justify-between shadow-md">
+          <div class="flex items-center gap-3">
+            <img src="${pkg.image}" alt="${pkg.name}" class="h-12 w-12 object-contain rounded-lg border border-amber-400/20 bg-black/20" onerror="this.src='logo.png'">
+            <div>
+              <h4 class="text-xs font-extrabold text-white leading-tight">${pkg.name}</h4>
+              <p class="text-xs font-bold text-amber-400 mt-1">৳${displayPrice} ${strikePrice}</p>
             </div>
-            <button onclick="placeOrder('${docSnap.id}', '${data.name}', ${data.price})" class="btn-gold w-full text-xs py-2.5">
-              Buy Now
-            </button>
           </div>
-        `;
-        container.innerHTML += cardHtml;
-      }
+          <button onclick="buyPackage('${docSnap.id}')" class="bg-amber-400 hover:bg-amber-500 text-black font-extrabold text-[11px] px-3.5 py-1.5 rounded-lg shadow-md transition-all">
+            BUY
+          </button>
+        </div>
+      `;
     });
-  } catch (error) {
-    console.error("Error loading packages:", error);
-    container.innerHTML = `<div class="col-span-full py-6 text-center text-red-400 text-xs">প্যাকেজ লোড করতে সমস্যা হয়েছে।</div>`;
+  } catch (err) {
+    console.error("Error fetching store packages:", err);
+    container.innerHTML = `
+      <div class="col-span-full text-center py-8 text-red-400 text-xs glass-card rounded-xl border border-red-500/20">
+        ডাটা লোড করতে সমস্যা হয়েছে: ${err.message}
+      </div>
+    `;
   }
 }
 
-// 4. GENERATE UNIQUE ORDER ID (TEH-YYYYMMDD-XXXX)
-function generateOrderId() {
-  const dateStr = new Date().toISOString().slice(0, 10).replace(/-/g, "");
-  const randomNum = Math.floor(1000 + Math.random() * 9000);
-  return `${SYSTEM_CONFIG.ID_PREFIX.ORDER}${dateStr}-${randomNum}`;
-}
-
-// 5. PLACE ORDER WITH FRAUD PROTECTION & AUTO-DEDUCT
-window.placeOrder = async function(packageId, packageName, price) {
-  if (!currentUser) {
-    alert("অর্ডার করতে প্রথমে লগইন করুন!");
-    window.location.href = "auth.html";
-    return;
-  }
-
-  const confirmBuy = confirm(`আপনি কি ${packageName} প্যাকেজটি ${price} Points দিয়ে কিনতে চান?`);
-  if (!confirmBuy) return;
-
-  try {
-    // Transaction for Negative Balance & Double Spending Protection
-    await runTransaction(db, async (transaction) => {
-      const userRef = doc(db, "users", currentUser.uid);
-      const userSnap = await transaction.get(userRef);
-
-      if (!userSnap.exists()) {
-        throw new Error("ইউজার অ্যাকাউন্ট পাওয়া যায়নি!");
-      }
-
-      const currentBalance = userSnap.data().points || 0;
-      if (currentBalance < price) {
-        throw new Error("পর্যাপ্ত ওয়ালেট ব্যালেন্স নেই! পয়েন্ট টপ-আপ করুন।");
-      }
-
-      // Deduct Points
-      const newBalance = currentBalance - price;
-      transaction.update(userRef, { points: newBalance });
-
-      // Create Order
-      const orderId = generateOrderId();
-      const orderRef = doc(collection(db, "orders"));
-      transaction.set(orderRef, {
-        orderId: orderId,
-        userId: currentUser.uid,
-        userEmail: currentUser.email,
-        packageName: packageName,
-        packageId: packageId,
-        amountPaid: price,
-        status: "Pending",
-        createdAt: serverTimestamp()
-      });
-
-      // Log Audit History
-      const logRef = doc(collection(db, "audit_logs"));
-      transaction.set(logRef, {
-        userId: currentUser.uid,
-        action: "ORDER_DEDUCT",
-        amount: -price,
-        orderId: orderId,
-        reason: `Auto-deducted for order #${orderId}`,
-        timestamp: serverTimestamp()
-      });
-    });
-
-    alert("অর্ডার সফলভাবে সম্পন্ন হয়েছে!");
-    window.location.href = "order.html";
-  } catch (error) {
-    alert(error.message || "অর্ডার প্রসেস করতে ব্যর্থ হয়েছে।");
-  }
+// Global Purchase Function Trigger
+window.buyPackage = function(packageId) {
+  window.location.href = `order.html?packageId=${packageId}`;
 };
