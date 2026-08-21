@@ -1,62 +1,112 @@
-// js/order.js - Fetch & Display Customer Orders
 import { auth, db } from "./firebase-config.js";
 import { onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
-import { collection, query, where, getDocs } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
+import { doc, getDoc, addDoc, collection, serverTimestamp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
+
+let selectedPackage = null;
+let currentUser = null;
+
+const urlParams = new URLSearchParams(window.location.search);
+const packageId = urlParams.get("packageId");
 
 onAuthStateChanged(auth, async (user) => {
-  if (!user) {
+  if (user) {
+    currentUser = user;
+    if (packageId) {
+      loadPackageDetails(packageId);
+    } else {
+      alert("No package selected!");
+      window.location.href = "index.html";
+    }
+  } else {
+    alert("অর্ডার করতে প্রথমে লগইন করুন!");
     window.location.href = "auth.html";
-    return;
   }
-  await loadUserOrders(user.uid);
 });
 
-async function loadUserOrders(uid) {
-  const container = document.getElementById("orders-list-container");
-  if (!container) return;
-
+async function loadPackageDetails(id) {
   try {
-    const q = query(collection(db, "orders"), where("userId", "==", uid));
-    const querySnapshot = await getDocs(q);
-
-    if (querySnapshot.empty) {
-      container.innerHTML = `
-        <div class="text-center py-10 text-xs text-gray-400 bg-[#0f1420] rounded-2xl border border-gray-800 p-6">
-          আপনার কোনো অর্ডার পাওয়া যায়নি।
-        </div>`;
+    const pkgDoc = await getDoc(doc(db, "packages", id));
+    if (!pkgDoc.exists()) {
+      alert("Package not found!");
+      window.location.href = "index.html";
       return;
     }
 
-    container.innerHTML = "";
-    querySnapshot.forEach((docSnap) => {
-      const order = docSnap.data();
-      
-      let statusBadge = "bg-amber-400/10 text-amber-400 border-amber-400/30";
-      if (order.status === "Completed") statusBadge = "bg-green-400/10 text-green-400 border-green-400/30";
-      if (order.status === "Cancelled") statusBadge = "bg-red-400/10 text-red-400 border-red-400/30";
-      if (order.status === "Processing") statusBadge = "bg-cyan-400/10 text-cyan-400 border-cyan-400/30";
-
-      const html = `
-        <div class="glass-card p-4 space-y-3 relative">
-          <div class="flex justify-between items-start border-b border-gray-800/60 pb-2">
-            <div>
-              <span class="text-[10px] text-gray-500 font-bold block">ID: ${order.orderId || docSnap.id}</span>
-              <h3 class="font-extrabold text-sm text-white mt-0.5">${order.packageName}</h3>
-            </div>
-            <span class="text-[10px] font-extrabold uppercase px-2.5 py-1 rounded-full border ${statusBadge}">
-              ${order.status}
-            </span>
-          </div>
-          <div class="flex justify-between items-center text-xs text-gray-400">
-            <span>Price: <strong class="text-amber-400">${order.amountPaid} Points</strong></span>
-            <span class="text-[10px] text-gray-500">${order.createdAt ? new Date(order.createdAt.seconds * 1000).toLocaleDateString("bn-BD") : 'N/A'}</span>
-          </div>
-        </div>
-      `;
-      container.innerHTML += html;
-    });
-  } catch (error) {
-    console.error("Error loading orders:", error);
-    container.innerHTML = `<div class="text-center py-6 text-xs text-red-400">অর্ডার লোড করতে সমস্যা হয়েছে।</div>`;
+    selectedPackage = { id: pkgDoc.id, ...pkgDoc.data() };
+    renderCheckoutUI();
+  } catch (err) {
+    console.error("Error loading package:", err);
   }
 }
+
+function renderCheckoutUI() {
+  const summaryElem = document.getElementById("package-summary");
+  const formElem = document.getElementById("checkout-form");
+  const displayPrice = selectedPackage.offerPrice || selectedPackage.regularPrice;
+
+  summaryElem.innerHTML = `
+    <div class="flex items-center gap-3">
+      <img src="${selectedPackage.image}" class="h-12 w-12 object-contain rounded-lg border border-amber-400/20" onerror="this.src='logo.png'">
+      <div>
+        <h3 class="text-sm font-extrabold text-white">${selectedPackage.name}</h3>
+        <p class="text-xs font-bold text-amber-400 mt-0.5">৳${displayPrice}</p>
+      </div>
+    </div>
+  `;
+
+  // Apply Dynamic Requirements Configuration
+  const req = selectedPackage.requirements || {};
+  if (req.konamiId) document.getElementById("field-konami-id").classList.remove("hidden");
+  if (req.konamiPass) document.getElementById("field-konami-pass").classList.remove("hidden");
+  if (req.allowWallet) document.getElementById("opt-wallet").classList.remove("hidden");
+
+  formElem.classList.remove("hidden");
+}
+
+// Generate Unique Order ID (TEH-YYYYMMDD-XXXX)
+function generateOrderId() {
+  const dateStr = new Date().toISOString().slice(0, 10).replace(/-/g, "");
+  const randomNum = Math.floor(1000 + Math.random() * 9000);
+  return `TEH-${dateStr}-${randomNum}`;
+}
+
+// Submit Order Form Action
+document.getElementById("checkout-form").addEventListener("submit", async (e) => {
+  e.preventDefault();
+
+  const req = selectedPackage.requirements || {};
+  const konamiId = document.getElementById("konami-id").value;
+  const konamiPass = document.getElementById("konami-pass").value;
+  const paymentMethod = document.getElementById("payment-method").value;
+  const trxId = document.getElementById("trx-id").value;
+  const senderNumber = document.getElementById("sender-number").value;
+
+  if (req.konamiId && !konamiId) return alert("Please enter Konami Email!");
+  if (req.konamiPass && !konamiPass) return alert("Please enter Konami Password!");
+
+  const orderId = generateOrderId();
+  const displayPrice = selectedPackage.offerPrice || selectedPackage.regularPrice;
+
+  try {
+    await addDoc(collection(db, "orders"), {
+      orderId: orderId,
+      userId: currentUser.uid,
+      userEmail: currentUser.email,
+      packageId: selectedPackage.id,
+      packageName: selectedPackage.name,
+      amount: displayPrice,
+      konamiId: konamiId || null,
+      konamiPass: konamiPass || null,
+      paymentMethod: paymentMethod,
+      transactionId: trxId || null,
+      senderNumber: senderNumber,
+      status: "Pending Verification",
+      createdAt: serverTimestamp()
+    });
+
+    alert(`অর্ডার সফল হয়েছে! আপনার অর্ডার ID: ${orderId}`);
+    window.location.href = "index.html";
+  } catch (err) {
+    alert("Error placing order: " + err.message);
+  }
+});
