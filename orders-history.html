@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>My Orders — Tangail Efootball House</title>
+  
+  <!-- Tailwind CSS -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  
+  <!-- Custom CSS -->
+  <link rel="stylesheet" href="css/style.css">
+  
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+</head>
+<body class="bg-[#07090e] text-gray-100 font-['Inter',sans-serif] min-h-screen pb-24">
+
+  <!-- Fixed Top Navigation Bar -->
+  <header class="fixed top-0 left-0 right-0 z-50 glass-card mx-2 my-2 px-4 py-3 flex items-center justify-between border border-gray-800">
+    <a href="index.html" class="text-xs text-amber-400 font-bold flex items-center gap-1 hover:underline">
+      ← Store
+    </a>
+    <h1 class="text-xs font-extrabold text-amber-400 tracking-wide uppercase">MY ORDERS</h1>
+    <div class="w-12"></div>
+  </header>
+
+  <!-- Main Container -->
+  <main class="container mx-auto px-4 pt-20 max-w-lg space-y-4" id="user-orders-container">
+    <div class="text-center py-12">
+      <p class="text-xs text-gray-400 animate-pulse">অর্ডার হিস্ট্রি লোড হচ্ছে...</p>
+    </div>
+  </main>
+
+  <!-- Bottom Navigation Bar -->
+  <footer class="fixed bottom-0 left-0 right-0 z-50 glass-nav border-t border-gray-800 px-6 py-2">
+    <div class="max-w-md mx-auto flex justify-between items-center text-center">
+      <a href="index.html" class="flex flex-col items-center gap-1 text-gray-400 hover:text-white">
+        <span class="text-[10px]">Store</span>
+      </a>
+      <a href="orders-history.html" class="flex flex-col items-center gap-1 text-amber-400 font-bold">
+        <span class="text-[10px]">Orders</span>
+      </a>
+      <a href="wallet.html" class="flex flex-col items-center gap-1 text-gray-400 hover:text-white">
+        <span class="text-[10px]">Wallet</span>
+      </a>
+      <a href="profile.html" class="flex flex-col items-center gap-1 text-gray-400 hover:text-white">
+        <span class="text-[10px]">Profile</span>
+      </a>
+    </div>
+  </footer>
+
+  <!-- Real-time Firestore Query Script -->
+  <script type="module">
+    import { auth, db } from "./js/firebase-config.js";
+    import { onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
+    import { collection, query, where, getDocs, orderBy } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
+
+    onAuthStateChanged(auth, async (user) => {
+      const container = document.getElementById("user-orders-container");
+
+      if (!user) {
+        alert("অর্ডার দেখতে প্রথমে লগইন করুন!");
+        window.location.href = "auth.html";
+        return;
+      }
+
+      try {
+        const q = query(
+          collection(db, "orders"),
+          where("userId", "==", user.uid)
+        );
+
+        const querySnapshot = await getDocs(q);
+
+        if (querySnapshot.empty) {
+          container.innerHTML = `
+            <div class="glass-card p-8 rounded-2xl border border-gray-800 text-center space-y-3">
+              <p class="text-xs text-gray-400">আপনি এখনো কোনো অর্ডার করেননি!</p>
+              <a href="index.html" class="inline-block bg-amber-400 text-black text-xs font-extrabold px-4 py-2 rounded-lg shadow">
+                Shop Now
+              </a>
+            </div>
+          `;
+          return;
+        }
+
+        container.innerHTML = "";
+
+        querySnapshot.forEach((docSnap) => {
+          const order = docSnap.data();
+
+          // Dynamic Status Colors
+          let statusBadgeClass = "bg-amber-500/10 text-amber-400 border-amber-500/20";
+          if (order.status === "Completed") {
+            statusBadgeClass = "bg-green-500/10 text-green-400 border-green-500/20";
+          } else if (order.status === "Cancelled") {
+            statusBadgeClass = "bg-red-500/10 text-red-400 border-red-500/20";
+          }
+
+          container.innerHTML += `
+            <div class="glass-card p-5 rounded-2xl border border-gray-800 space-y-3 relative overflow-hidden">
+              <div class="flex justify-between items-center border-b border-gray-800/60 pb-2">
+                <span class="text-xs font-black text-amber-400 font-mono tracking-wider">${order.orderId}</span>
+                <span class="text-[10px] font-bold px-2.5 py-1 rounded-full border ${statusBadgeClass}">
+                  ${order.status}
+                </span>
+              </div>
+
+              <div class="flex justify-between items-center pt-1">
+                <div>
+                  <h3 class="text-xs font-extrabold text-white">${order.packageName}</h3>
+                  <p class="text-[10px] text-gray-400 mt-0.5">Method: ${order.paymentMethod} (${order.senderNumber})</p>
+                  ${order.transactionId ? `<p class="text-[10px] text-gray-400 font-mono">TrxID: ${order.transactionId}</p>` : ''}
+                </div>
+                <div class="text-right">
+                  <span class="text-sm font-black text-amber-400">৳${order.amount}</span>
+                </div>
+              </div>
+            </div>
+          `;
+        });
+
+      } catch (err) {
+        console.error("Error fetching order history:", err);
+        container.innerHTML = `
+          <div class="glass-card p-5 rounded-2xl border border-red-500/20 text-center">
+            <p class="text-xs text-red-400">অর্ডার হিস্ট্রি লোড করতে সমস্যা হয়েছে: ${err.message}</p>
+          </div>
+        `;
+      }
+    });
+  </script>
+</body>
+</html>
